@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum skillId
+public enum SkillId
 { 
     heal = 1,
     attack1,
@@ -16,14 +16,14 @@ public enum skillId
 public class SkillButton : MonoBehaviour
 {
     [SerializeField]
-    skillId skillId = skillId.heal;
+    SkillId skillId = SkillId.heal;
     /// <summary>‰½”Ô–Ú‚ÌƒXƒLƒ‹‚È‚Ì‚©</summary>
     int skillnumber = 0;
     /// <summary>‰ð•ú‚³‚ê‚Ä‚¢‚é‚©</summary>
     bool skillcheck = false;
     public int Skillnumber { get => skillnumber; set => skillnumber = value; }
     public bool Skillcheck { get => skillcheck; set => skillcheck = value; }
-    public skillId SkillId { get => skillId; set => skillId = value; }
+    public SkillId SkillId { get => skillId; set => skillId = value; }
 
     Skilltree skilltree = null;
     Button button = null;

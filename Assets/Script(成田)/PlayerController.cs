@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private float playerhp = 5000f;
     [SerializeField]
     Heal heal = null;
+    Skilltree[] newSkill = null;
     Skilltree skilltree = null;
     Rigidbody _rb = default;
     Animator anim = null;
@@ -56,13 +57,26 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonDown("Space"))
         {
-            if (skilltree.SkillActive[(int)skillId.heal])//‚P
+            if (skilltree.SkillActive[(int)SkillId.heal])//‚P
             {
-                heal.SkillAction();
+                newSkill[(int)SkillId.heal].SkillAction();
             }
         }
     }
-
+    public void AddSkill(int skillId)
+    {
+        {
+            switch ((SkillId)skillId)
+            {
+                case SkillId.heal:
+                    newSkill[skillId] = new Heal();
+                    break;
+                //case SkillId.attack1:
+                //    newSkill = new AreaAttack();
+                //    break;
+            }
+        }
+    }
 
     void LateUpdate()
     {

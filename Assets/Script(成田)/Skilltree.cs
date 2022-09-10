@@ -26,7 +26,7 @@ public class Skilltree : MonoBehaviour
         for (int i = 0; i < skillButton.Length; i++)
         {
             skillButton[i].Skillnumber = i+1;
-            skillButton[i].SkillId = (skillId)i+1;
+            skillButton[i].SkillId = (SkillId)i+1;
             skillActive[i] = false;
         }
     }
