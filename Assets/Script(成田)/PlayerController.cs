@@ -68,12 +68,10 @@ public class PlayerController : MonoBehaviour
         {
             switch ((SkillId)skillId)
             {
-                case SkillId.heal:
+                case SkillId.heal://Listで作り直してAddで追加、enumはあくまでも種類分けなので回復力が違うHealが出てきた場合困る
                     newSkill[skillId] = new Heal();
                     break;
-                //case SkillId.attack1:
-                //    newSkill = new AreaAttack();
-                //    break;
+                    //スキルをつくり終わり次第ここに追加
             }
         }
     }
