@@ -2,12 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum skillId
+{ 
+    heal = 1,
+    attack1,
+    attack2,
+    attack3,
+    attack4,
+    attack5
+}
+
 public class SkillButton : MonoBehaviour
 {
+    [SerializeField]
+    skillId skillId = skillId.heal;
+    /// <summary>‰½”Ô–Ú‚ÌƒXƒLƒ‹‚È‚Ì‚©</summary>
     int skillnumber = 0;
+    /// <summary>‰ð•ú‚³‚ê‚Ä‚¢‚é‚©</summary>
     bool skillcheck = false;
     public int Skillnumber { get => skillnumber; set => skillnumber = value; }
     public bool Skillcheck { get => skillcheck; set => skillcheck = value; }
+    public skillId SkillId { get => skillId; set => skillId = value; }
+
     Skilltree skilltree = null;
     Button button = null;
     // Start is called before the first frame update
