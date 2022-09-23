@@ -6,31 +6,36 @@ using UnityEngine.UI;
 public enum SkillId
 { 
     heal = 1,
-    attack1,
-    attack2,
-    attack3,
-    attack4,
-    attack5
+    attack,
+    buff
 }
-
 public class SkillButton : MonoBehaviour
 {
     [SerializeField]
     SkillId skillId = SkillId.heal;
-    /// <summary>何番目のスキルなのか</summary>
+    /// <summary>何系統の何番目のスキルなのか</summary>
+    [SerializeField]
     int skillnumber = 0;
-    /// <summary>解放されているか</summary>
+    /// <summary>解放するために必要なポイント</summary>
+    [SerializeField]
+    int skillpoint = 0;
+
+    Skilltree skilltree = null;
+
+    Button button = null;
+
+    PlayerController player = null;
+    /// <summary>スキルが解放されているか</summary>
     bool skillcheck = false;
     public int Skillnumber { get => skillnumber; set => skillnumber = value; }
     public bool Skillcheck { get => skillcheck; set => skillcheck = value; }
     public SkillId SkillId { get => skillId; set => skillId = value; }
-
-    Skilltree skilltree = null;
-    Button button = null;
+    public int Skillpoint { get => skillpoint; set => skillpoint = value; }
     // Start is called before the first frame update
     void Start()
     {
         skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         button = GetComponent<Button>();
     }
 
@@ -41,15 +46,16 @@ public class SkillButton : MonoBehaviour
     }
     public void OnCllik()
     {
-        skilltree.SkillJudge(skillnumber);
+        skilltree.SkillPointJudge(skillpoint,skillnumber,(int)skillId);
     }
 
     public void Yobidasi()
     {
        if(skillcheck)
         {
-            Debug.Log(skillnumber + "番目呼ばれました");
-            //playerにskill追加の処理を書く
+            Debug.Log(skillId + "の" + skillnumber + "番目呼ばれました");
+          //player.AddSkill((int)skillId, skillnumber);
+            player.Skillpoint -= skillpoint;
             button.interactable = false;
         }
        else
