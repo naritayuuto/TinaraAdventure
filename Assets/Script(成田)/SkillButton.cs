@@ -19,6 +19,8 @@ public class SkillButton : MonoBehaviour
     /// <summary>解放するために必要なポイント</summary>
     [SerializeField]
     int skillpoint = 0;
+    [SerializeField]
+    Image lineimage = null;
 
     Skilltree skilltree = null;
 
@@ -57,6 +59,10 @@ public class SkillButton : MonoBehaviour
           //player.AddSkill((int)skillId, skillnumber);
             player.Skillpoint -= skillpoint;
             button.interactable = false;
+            if(lineimage)
+            {
+                lineimage.color = Color.black;
+            }
         }
        else
         {

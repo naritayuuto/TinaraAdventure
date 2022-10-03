@@ -2,20 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    float moveSpeed = 3;
+    float moveSpeed = 3f;
     [SerializeField]
     float turnSpeed = 3f;
+    [SerializeField]
+    float jumpPower = 3f;
+    [SerializeField]
+    float skillpoint = 0.0f;
     [SerializeField]
     private float playerhp = 5000f;
     [SerializeField]
     GameObject[] weapons;
     [SerializeField]
-    float skillpoint = 0.0f;
+    GameObject attackCollider = null;
     private float getpoint = 0.5f;
-    //[SerializeField]
+    private float timer = 0.0f;
+    private float attackJudgeTime = 0.5f;
+
     //Heal heal = null;
     //Skilltree[] newSkill = null;
     List<Skilltree> heal = new List<Skilltree>();
@@ -23,20 +30,24 @@ public class PlayerController : MonoBehaviour
     List<Skilltree> buff = new List<Skilltree>();
     Skilltree skilltree = null;
     Rigidbody _rb = default;
-    Animator anim = null;
+    Animator anim = default;
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
-    Vector3 _dir;
 
+    bool isGrounded = true;
     public float Playerhp { get => playerhp; set => playerhp = value; }
     public float Skillpoint { get => skillpoint; set => skillpoint = value; }
     public float Getpoint { get => getpoint; set => getpoint = value; }
 
     void Start()
     {
+        if(!attackCollider)
+        {
+            Debug.LogError("攻撃判定用のコライダーがセットされていません");
+        }
         _rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
-        for(int i = 0; i < weapons.Length; i++)
+        //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
+        for (int i = 0; i < weapons.Length; i++)
         {
             weapons[i].SetActive(false);
         }
@@ -47,6 +58,8 @@ public class PlayerController : MonoBehaviour
     {
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
+
+        timer += Time.deltaTime;
 
         // 入力方向のベクトル計算
         Vector3 dir = Vector3.forward * v + Vector3.right * h;
@@ -61,21 +74,50 @@ public class PlayerController : MonoBehaviour
             // カメラを基準にする
             dir = Camera.main.transform.TransformDirection(dir);
             dir.y = 0;
-
-            Quaternion targetRotation = Quaternion.LookRotation(dir);
-            this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
             //移動の処理
             Vector3 velo = dir.normalized * moveSpeed;
-            velo.y = _rb.velocity.y;   
-            _rb.velocity = velo;   
+            velo.y = _rb.velocity.y;
+            _rb.velocity = velo;
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
         }
-        //if (Input.GetButtonDown("Space"))
+        //if (Input.GetButtonDown("Jump") && isGrounded)
         //{
-        //    if (skilltree.SkillActive[(int)SkillId.heal])//１
-        //    {
-        //        //newSkill[(int)SkillId.heal].SkillAction();
-        //    }
+        //    _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         //}
+        if(Input.GetButtonDown("Jump"))
+        {
+            anim.Play("NormalAttack");
+        }
+    }
+    void LateUpdate()
+    {
+        // アニメーションの処理
+        if (anim)
+        {
+            anim.SetBool("IsGrounded", isGrounded);
+            Vector3 walkSpeed = _rb.velocity;
+            walkSpeed.y = 0;
+            anim.SetFloat("Speed", walkSpeed.magnitude);
+        }
+    }
+    private void NormalAttack()
+    {
+        Debug.Log("Attack");
+        attackCollider.SetActive(true);
+        if(timer > attackJudgeTime)
+        {
+            attackCollider.SetActive(false);
+        }
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        isGrounded = true;
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        isGrounded = false;
     }
     public void GetSkillPoint(float point)
     {
@@ -100,10 +142,5 @@ public class PlayerController : MonoBehaviour
     //        }
     //    }
     //}
-    void LateUpdate()
-    {
-        Vector3 velocity = _rb.velocity;
-        velocity.y = 0; // 上下方向の速度は無視する
-        //anim.SetFloat("Speed", velocity.magnitude);
-    }
+
 }
