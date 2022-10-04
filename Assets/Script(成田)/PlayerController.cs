@@ -12,9 +12,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float jumpPower = 3f;
     [SerializeField]
-    float skillpoint = 0.0f;
-    [SerializeField]
     private float playerhp = 5000f;
+    [SerializeField]
+    int attackDamage = 500;//関数で変更する。
     [SerializeField]
     GameObject[] weapons;
     [SerializeField]
@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private float getpoint = 0.5f;
     private float timer = 0.0f;
     private float attackJudgeTime = 0.5f;
+
+    public int AttackDamage { get => attackDamage; set => attackDamage = value; }
 
     //Heal heal = null;
     //Skilltree[] newSkill = null;
@@ -37,7 +39,6 @@ public class PlayerController : MonoBehaviour
 
     bool normalAttack = false;
     public float Playerhp { get => playerhp; set => playerhp = value; }
-    public float Skillpoint { get => skillpoint; set => skillpoint = value; }
     public float Getpoint { get => getpoint; set => getpoint = value; }
 
     void Start()
@@ -115,9 +116,14 @@ public class PlayerController : MonoBehaviour
     {
         attackCollider.SetActive(true);
     }
-    private void NormalAttack()
+    private void NormalAttackPlay()
     {
         normalAttack = true;
+    }
+
+    public void NormalAttack()
+    {
+        attackDamage = Random.Range(400, 600);
     }
     void OnTriggerEnter(Collider other)
     {
@@ -127,10 +133,6 @@ public class PlayerController : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         isGrounded = false;
-    }
-    public void GetSkillPoint(float point)
-    {
-        skillpoint += point;
     }
     //public void AddSkill(int skillId, int skillnumber)//SkillButtonが押されたら呼び出す、あくまでも使えるスキルのListを作っている部分
     //{

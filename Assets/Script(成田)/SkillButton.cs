@@ -26,7 +26,6 @@ public class SkillButton : MonoBehaviour
 
     Button button = null;
 
-    PlayerController player = null;
     /// <summary>ƒXƒLƒ‹‚ª‰ð•ú‚³‚ê‚Ä‚¢‚é‚©</summary>
     bool skillcheck = false;
     public int Skillnumber { get => skillnumber; set => skillnumber = value; }
@@ -37,7 +36,6 @@ public class SkillButton : MonoBehaviour
     void Start()
     {
         skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         button = GetComponent<Button>();
     }
 
@@ -57,7 +55,7 @@ public class SkillButton : MonoBehaviour
         {
             Debug.Log(skillId + "‚Ì" + skillnumber + "”Ô–ÚŒÄ‚Î‚ê‚Ü‚µ‚½");
           //player.AddSkill((int)skillId, skillnumber);
-            player.Skillpoint -= skillpoint;
+            skilltree.Skillpoint -= skillpoint;
             button.interactable = false;
             if(lineimage)
             {

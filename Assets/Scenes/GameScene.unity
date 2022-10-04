@@ -959,9 +959,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   turnSpeed: 3
+  jumpPower: 3
   playerhp: 5000
+  attackDamage: 500
   weapons: []
-  skillpoint: 15
+  attackCollider: {fileID: 0}
 --- !u!65 &482788851
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2542,7 +2544,11 @@ MonoBehaviour:
   - {fileID: 1089585853}
   - {fileID: 1674817242}
   skillLine:
+  - {fileID: 1718229790}
   - {fileID: 280041205}
+  - {fileID: 636239600}
+  childs:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
 --- !u!1 &1601573717

@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : MonoBehaviour
+public class Attack : Skilltree//スキルごとにダメージを変えたいためスキル分の関数を作り管理する。
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void SkillAction()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Player.AttackDamage += 500;
     }
 }

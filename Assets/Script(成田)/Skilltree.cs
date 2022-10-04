@@ -10,6 +10,8 @@ public class Skilltree : MonoBehaviour
     PlayerController player = null;
     [SerializeField]
     Image[] skillLine;
+    [SerializeField]
+    List<Skilltree> childs;
     ///<summary>healスキルの数</summary>
     private int healcount = 1;
     ///<summary>attackスキルの数</summary>
@@ -60,7 +62,7 @@ public class Skilltree : MonoBehaviour
     
     public void SkillPointJudge(float skillpoint, int skillnumber, int skillid)
     {
-        if (player.Skillpoint < skillpoint)
+        if (Skillpoint < skillpoint)
         {
             return;
         }
