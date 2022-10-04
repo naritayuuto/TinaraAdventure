@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
 
     bool isGrounded = true;
+
+    bool normalAttack = false;
     public float Playerhp { get => playerhp; set => playerhp = value; }
     public float Skillpoint { get => skillpoint; set => skillpoint = value; }
     public float Getpoint { get => getpoint; set => getpoint = value; }
@@ -58,9 +60,17 @@ public class PlayerController : MonoBehaviour
     {
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
-
-        timer += Time.deltaTime;
-
+        if(normalAttack)
+        {
+            timer += Time.deltaTime;
+            AttackColliderActive();
+        }
+        if(timer > attackJudgeTime)
+        {
+            attackCollider.SetActive(false);
+            normalAttack = false;
+            timer -= timer;
+        }
         // 入力方向のベクトル計算
         Vector3 dir = Vector3.forward * v + Vector3.right * h;
 
@@ -101,14 +111,13 @@ public class PlayerController : MonoBehaviour
             anim.SetFloat("Speed", walkSpeed.magnitude);
         }
     }
+    private void AttackColliderActive()
+    {
+        attackCollider.SetActive(true);
+    }
     private void NormalAttack()
     {
-        Debug.Log("Attack");
-        attackCollider.SetActive(true);
-        if(timer > attackJudgeTime)
-        {
-            attackCollider.SetActive(false);
-        }
+        normalAttack = true;
     }
     void OnTriggerEnter(Collider other)
     {
