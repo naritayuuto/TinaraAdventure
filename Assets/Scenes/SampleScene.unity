@@ -122,7 +122,26 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 11d0994c68f72e7469692be3b39b2101, type: 2}
+--- !u!1 &109608662 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3657423218400854375, guid: 5867ac4e197392d419a1b55aba421b72, type: 3}
+  m_PrefabInstance: {fileID: 3659081167435906731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &109608665
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109608662}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2.1287384
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.0464933, z: 0}
 --- !u!1 &252312474
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,12 +154,13 @@ GameObject:
   - component: {fileID: 252312477}
   - component: {fileID: 252312476}
   - component: {fileID: 252312475}
+  - component: {fileID: 252312479}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &252312475
 MeshCollider:
@@ -221,6 +241,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &252312479
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252312474}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.00001
+  m_BaseOffset: 1.110223e-16
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &324500897
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +605,69 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 157.18, z: 0}
+--- !u!4 &1128635211 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1319811120687928610, guid: 3fc0d403cf306cd4c8415428d1d25214, type: 3}
+  m_PrefabInstance: {fileID: 1319811121605792769}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1293236223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1293236224}
+  - component: {fileID: 1293236226}
+  - component: {fileID: 1293236225}
+  m_Layer: 0
+  m_Name: GuardCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1293236224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293236223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 1.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1128635211}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1293236225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293236223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df81cc0554a2fa7408e9350de1122cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &1293236226
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293236223}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1338893850
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +775,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1319811120687534016, guid: 3fc0d403cf306cd4c8415428d1d25214, type: 3}
+      propertyPath: guardCollider
+      value: 
+      objectReference: {fileID: 1293236223}
     - target: {fileID: 1319811120687565058, guid: 3fc0d403cf306cd4c8415428d1d25214, type: 3}
       propertyPath: m_Name
       value: Hyahaa_v1_variable_T
@@ -741,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3663276169636917299, guid: 5867ac4e197392d419a1b55aba421b72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.554
       objectReference: {fileID: 0}
     - target: {fileID: 3663276169636917299, guid: 5867ac4e197392d419a1b55aba421b72, type: 3}
       propertyPath: m_LocalPosition.z

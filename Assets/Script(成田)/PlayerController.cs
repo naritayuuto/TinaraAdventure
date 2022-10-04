@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     GameObject[] weapons;
     [SerializeField]
     GameObject attackCollider = null;
+    [SerializeField]
+    GameObject guardCollider = null;
     private float getpoint = 0.5f;
     private float timer = 0.0f;
     private float attackJudgeTime = 0.5f;
@@ -38,14 +40,23 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true;
 
     bool normalAttack = false;
+
+    bool guard = false;
+
+    bool parrysuccess = false;
     public float Playerhp { get => playerhp; set => playerhp = value; }
     public float Getpoint { get => getpoint; set => getpoint = value; }
 
+    public bool Guard { get => guard; set => guard = value; }
     void Start()
     {
         if(!attackCollider)
         {
             Debug.LogError("攻撃判定用のコライダーがセットされていません");
+        }
+        else if(!guardCollider)
+        {
+            Debug.LogError("ガード判定用のコライダーがセットされていません");
         }
         _rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
@@ -61,16 +72,16 @@ public class PlayerController : MonoBehaviour
     {
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
-        if(normalAttack)
+        timer += Time.deltaTime;
+        if (normalAttack)
         {
-            timer += Time.deltaTime;
+            timer -= timer;
             AttackColliderActive();
+            normalAttack = false;
         }
         if(timer > attackJudgeTime)
         {
-            attackCollider.SetActive(false);
-            normalAttack = false;
-            timer -= timer;
+            attackCollider.SetActive(false);   
         }
         // 入力方向のベクトル計算
         Vector3 dir = Vector3.forward * v + Vector3.right * h;
@@ -106,24 +117,43 @@ public class PlayerController : MonoBehaviour
         // アニメーションの処理
         if (anim)
         {
-            anim.SetBool("IsGrounded", isGrounded);
+            anim.SetBool("IsGrounded", isGrounded);//接地判定用
+            anim.SetBool("Guard",guard);//ガード用
+            anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
             Vector3 walkSpeed = _rb.velocity;
             walkSpeed.y = 0;
             anim.SetFloat("Speed", walkSpeed.magnitude);
         }
     }
-    private void AttackColliderActive()
+    private void AttackColliderActive()//animationイベント用
     {
         attackCollider.SetActive(true);
     }
-    private void NormalAttackPlay()
+    
+    private void GuardColliderActive()//animationイベント用
+    {
+        guardCollider.SetActive(true);
+    }
+    private void NormalAttackPlay()//animationイベント用
     {
         normalAttack = true;
     }
 
-    public void NormalAttack()
+    public void NormalAttack()//animationイベント用
     {
         attackDamage = Random.Range(400, 600);
+    }
+
+    public void ParryJudge(bool judge)
+    {
+        if(!judge)
+        {
+            return;
+        }
+        else
+        {
+            parrysuccess = true;//parry用のanimationを流す
+        }
     }
     void OnTriggerEnter(Collider other)
     {

@@ -10,8 +10,13 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ðŽQ
     float moveSpeed = 3.0f;
     float x = 0;
     float z = 0;
+    float time = 0.0f;
+    float parrylimit = 0.5f;
     Animator anim = null;
+    bool attack = false;
+    bool parry = false;
     public int EnemyHp { get => enemyHp; set => enemyHp = value; }
+    public bool Parry { get => parry;}//UŒ‚‚Ìanimation’†‚É0.5•bŠÔ‚¾‚¯true‚É‚·‚éB
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +27,17 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ðŽQ
     // Update is called once per frame
     void Update()
     {
-        
+        if(parry)
+        {
+            time += Time.deltaTime;
+            if(time > parrylimit)
+            {
+                parry = false;
+            }
+        }
+    }
+    private void ParryActive()
+    {
+        parry = true;
     }
 }
