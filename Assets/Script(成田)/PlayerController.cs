@@ -5,26 +5,46 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    float moveSpeed = 3f;
-    [SerializeField]
-    float turnSpeed = 3f;
-    [SerializeField]
-    float jumpPower = 3f;
+    /// <summary>playerの体力<summary>
     [SerializeField]
     private float playerhp = 5000f;
+    /// <summary>playerの速さ<summary>
+    [SerializeField]
+    float moveSpeed = 3f;
+    /// <summary>playerの回転速度<summary>
+    [SerializeField]
+    float turnSpeed = 3f;
+    /// <summary>playerのジャンプ力<summary>
+    [SerializeField]
+    float jumpPower = 3f;
+    /// <summary>playerの基本攻撃力<summary>
     [SerializeField]
     int attackDamage = 500;//関数で変更する。
+    /// <summary>playerの武器配列<summary>
     [SerializeField]
     GameObject[] weapons;
+    /// <summary>攻撃判定用コライダー<summary>
     [SerializeField]
     GameObject attackCollider = null;
+    /// <summary>ガード判定用コライダー<summary>
     [SerializeField]
     GameObject guardCollider = null;
-    private float getpoint = 0.5f;
+    /// <summary>時間<summary>
     private float timer = 0.0f;
+    /// <summary>攻撃判定用コライダーのアクティブタイム<summary>
     private float attackJudgeTime = 0.5f;
+    /// <summary>ガード判定用コライダーのアクティブタイム<summary>
+    private float guardJudgeTime = 0.5f;
+    /// <summary>接地判定<summary>
+    bool isGrounded = true;
+    /// <summary>通常攻撃判定用<summary>
+    bool normalAttack = false;
+    /// <summary>通常攻撃判定用<summary>
+    bool guard = false;
 
+    bool parrysuccess = false;
+    public float Playerhp { get => playerhp; set => playerhp = value; }
+    public bool Guard { get => guard; set => guard = value; }
     public int AttackDamage { get => attackDamage; set => attackDamage = value; }
 
     //Heal heal = null;
@@ -37,17 +57,6 @@ public class PlayerController : MonoBehaviour
     Animator anim = default;
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
 
-    bool isGrounded = true;
-
-    bool normalAttack = false;
-
-    bool guard = false;
-
-    bool parrysuccess = false;
-    public float Playerhp { get => playerhp; set => playerhp = value; }
-    public float Getpoint { get => getpoint; set => getpoint = value; }
-
-    public bool Guard { get => guard; set => guard = value; }
     void Start()
     {
         if(!attackCollider)
@@ -82,6 +91,16 @@ public class PlayerController : MonoBehaviour
         if(timer > attackJudgeTime)
         {
             attackCollider.SetActive(false);   
+        }
+        if(guard)
+        {
+            timer -= timer;
+            GuardColliderActive();
+            guard = false;
+        }
+        if(timer > guardJudgeTime)
+        {
+            guardCollider.SetActive(false);
         }
         // 入力方向のベクトル計算
         Vector3 dir = Vector3.forward * v + Vector3.right * h;
@@ -125,12 +144,12 @@ public class PlayerController : MonoBehaviour
             anim.SetFloat("Speed", walkSpeed.magnitude);
         }
     }
-    private void AttackColliderActive()//animationイベント用
+    private void AttackColliderActive()
     {
         attackCollider.SetActive(true);
     }
     
-    private void GuardColliderActive()//animationイベント用
+    private void GuardColliderActive()
     {
         guardCollider.SetActive(true);
     }

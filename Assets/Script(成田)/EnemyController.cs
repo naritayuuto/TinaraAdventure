@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQl‚ÉB
 {//ƒ_ƒ[ƒW‚ÌŠÖ”‚Í•Ê‚É‚ ‚é‚Ì‚ÅA‚±‚±‚Å‚Í‘å‚Ü‚©‚È“®‚«Aanimation‚ğ‚Ç‚¤g‚¤‚©‚ğl‚¦‚Ä‘g‚Ş‚±‚ÆB
+    /// <summary>Enemy‚Ì‘Ì—Í<summary>
     [SerializeField]
     int enemyHp = 5000;
+    /// <summary>Enemy‚Ì‘¬‚³<summary>
     [SerializeField]
     float moveSpeed = 3.0f;
+    /// <summary>transform‚Ìx<summary>
     float x = 0;
+    /// <summary>transform‚Ìz<summary>
     float z = 0;
-    float time = 0.0f;
+    /// <summary>ŠÔ<summary>
+    float timer = 0.0f;
+    /// <summary>ƒpƒŠƒB‚³‚ê‚éŠÔ<summary>
     float parrylimit = 0.5f;
     Animator anim = null;
     bool attack = false;
@@ -29,8 +35,8 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     {
         if(parry)
         {
-            time += Time.deltaTime;
-            if(time > parrylimit)
+            timer += Time.deltaTime;
+            if(timer > parrylimit)
             {
                 parry = false;
             }
