@@ -5,41 +5,41 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    /// <summary>playerの体力<summary>
+    /// <summary> playerの体力</summary>
     [SerializeField]
     private float playerhp = 5000f;
-    /// <summary>playerの速さ<summary>
+    /// <summary>playerの速さ</summary>
     [SerializeField]
     float moveSpeed = 3f;
-    /// <summary>playerの回転速度<summary>
+    /// <summary>playerの回転速度</summary>
     [SerializeField]
     float turnSpeed = 3f;
-    /// <summary>playerのジャンプ力<summary>
+    /// <summary>playerのジャンプ力</summary>
     [SerializeField]
     float jumpPower = 3f;
-    /// <summary>playerの基本攻撃力<summary>
+    /// <summary>playerの基本攻撃力</summary>
     [SerializeField]
     int attackDamage = 500;//関数で変更する。
-    /// <summary>playerの武器配列<summary>
+    /// <summary>playerの武器配列</summary>
     [SerializeField]
     GameObject[] weapons;
-    /// <summary>攻撃判定用コライダー<summary>
+    /// <summary>攻撃判定用コライダー</summary>
     [SerializeField]
     GameObject attackCollider = null;
-    /// <summary>ガード判定用コライダー<summary>
+    /// <summary>ガード判定用コライダー</summary>
     [SerializeField]
     GameObject guardCollider = null;
-    /// <summary>時間<summary>
+    /// <summary>時間</summary>
     private float timer = 0.0f;
-    /// <summary>攻撃判定用コライダーのアクティブタイム<summary>
+    /// <summary>攻撃判定用コライダーのアクティブタイム</summary>
     private float attackJudgeTime = 0.5f;
-    /// <summary>ガード判定用コライダーのアクティブタイム<summary>
+    /// <summary>ガード判定用コライダーのアクティブタイム</summary>
     private float guardJudgeTime = 0.5f;
-    /// <summary>接地判定<summary>
+    /// <summary>接地判定</summary>
     bool isGrounded = true;
-    /// <summary>通常攻撃判定用<summary>
+    /// <summary>通常攻撃判定用</summary>
     bool normalAttack = false;
-    /// <summary>通常攻撃判定用<summary>
+    /// <summary>通常攻撃判定用</summary>
     bool guard = false;
 
     bool parrysuccess = false;
