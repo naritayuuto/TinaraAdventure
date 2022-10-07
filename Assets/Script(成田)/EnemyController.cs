@@ -38,6 +38,7 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     public int EnemyHp { get => enemyHp; set => enemyHp = value; }
     public bool Parry { get => parry;}//UŒ‚‚Ìanimation’†‚É0.5•bŠÔ‚¾‚¯true‚É‚·‚éB
     Animator anim = null;
+    Rigidbody rb = null;
     PlayerController player = null;
 
     // Start is called before the first frame update
@@ -45,6 +46,7 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
         enemyInitialPosition = transform.position;
     }
 
@@ -59,6 +61,10 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
                 MovePosition(transform.position);
             }
         }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position,player.transform.position, moveSpeed);
+        }
         if(parry)
         {
             parrytimer += Time.deltaTime;
@@ -68,7 +74,7 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
             }
         }
     }
-    private void ParryActive()
+    private void ParryActive()//UŒ‚—panimation—pŠÖ”A
     {
         parry = true;
     }
@@ -88,6 +94,18 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
         else
         {
             transform.position = Vector3.MoveTowards(enemyPos, new Vector3(enemyPosX, enemyPos.y, enemyPosZ), moveSpeed);
+        }
+    }
+
+    private void PlayerSenseAttack()
+    {
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            playerSense = false;
         }
     }
 }
