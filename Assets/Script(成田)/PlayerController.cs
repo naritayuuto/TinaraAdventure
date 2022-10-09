@@ -1,13 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    /// <summary> playerの体力</summary>
-    [SerializeField]
-    private float playerhp = 5000f;
     /// <summary>playerの速さ</summary>
     [SerializeField]
     float moveSpeed = 3f;
@@ -43,7 +41,6 @@ public class PlayerController : MonoBehaviour
     bool guard = false;
 
     bool parrysuccess = false;
-    public float Playerhp { get => playerhp; set => playerhp = value; }
     public bool Guard { get => guard; set => guard = value; }
     public int AttackDamage { get => attackDamage; set => attackDamage = value; }
 
@@ -59,14 +56,14 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        if(!attackCollider)
-        {
-            Debug.LogError("攻撃判定用のコライダーがセットされていません");
-        }
-        else if(!guardCollider)
-        {
-            Debug.LogError("ガード判定用のコライダーがセットされていません");
-        }
+        //if(!attackCollider)
+        //{
+        //    Debug.LogError("攻撃判定用のコライダーがセットされていません");
+        //}
+        //else if(!guardCollider)
+        //{
+        //    Debug.LogError("ガード判定用のコライダーがセットされていません");
+        //}
         _rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
@@ -82,6 +79,10 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
         timer += Time.deltaTime;
+        //if(playerDamagehp <= 0)
+        //{
+        //    //GameOver
+        //}
         if (normalAttack)
         {
             timer -= timer;

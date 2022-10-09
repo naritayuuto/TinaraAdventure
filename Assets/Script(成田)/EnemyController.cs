@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQl‚ÉB
 {//ƒ_ƒ[ƒW‚ÌŠÖ”‚Í•Ê‚É‚ ‚é‚Ì‚ÅA‚±‚±‚Å‚Í‘å‚Ü‚©‚È“®‚«Aanimation‚ğ‚Ç‚¤g‚¤‚©‚ğl‚¦‚Ä‘g‚Ş‚±‚ÆB
@@ -59,11 +60,13 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
             if (movetimer > moveInterval)
             {
                 MovePosition(transform.position);
+                movetimer -= movetimer;
             }
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position,player.transform.position, moveSpeed);
+            //transform.position = Vector3.MoveTowards(transform.position,player.transform.position, moveSpeed);
+            //Vector3.MoveTowards‚ğg‚í‚¸‚É§Œä‚ğs‚¤B
         }
         if(parry)
         {
@@ -101,7 +104,7 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     {
 
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)//enemy‚ğ•ï‚İ‚Ş‚æ‚¤‚ÉƒRƒ‰ƒCƒ_[‚ğİ’u‚·‚é—\’è
     {
         if(other.gameObject.CompareTag("Player"))
         {
