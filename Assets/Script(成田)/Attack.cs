@@ -6,6 +6,6 @@ public class Attack : Skilltree//ƒXƒLƒ‹‚²‚Æ‚Éƒ_ƒ[ƒW‚ğ•Ï‚¦‚½‚¢‚½‚ßƒXƒLƒ‹•ª‚ÌŠÖ
 {
     public override void SkillAction()
     {
-        Player.AttackDamage += 500;
+        PlayerStatus.AttackDamage += 500;
     }
 }

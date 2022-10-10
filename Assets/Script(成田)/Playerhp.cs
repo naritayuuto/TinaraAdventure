@@ -16,6 +16,8 @@ public class Playerhp : MonoBehaviour
     [SerializeField]
     Slider hpslider = null;
     public int PlayerDamagehp { get => playerDamagehp; set => playerDamagehp = value; }
+
+    public int PlayerHp { get => playerHp; set => playerHp = value; }
     // Start is called before the first frame update
     void Start()
     {

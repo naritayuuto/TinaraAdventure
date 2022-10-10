@@ -6,6 +6,13 @@ public class Heal : Skilltree
 {
     public override void SkillAction()
     {
-        Player.PlayerDamagehp += 500;
+        if (Playerhp.PlayerDamagehp >= Playerhp.PlayerHp)
+        {
+            Playerhp.PlayerDamagehp += 500;
+        }
+        else
+        {
+            Playerhp.PlayerDamagehp = Playerhp.PlayerHp;
+        }
     }
 }

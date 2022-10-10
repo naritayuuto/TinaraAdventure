@@ -7,7 +7,9 @@ public class Skilltree : MonoBehaviour
 {
     ///<summary>skillnumberと数が同じ</summary>
     [SerializeField] SkillButton[] skillButton;//後々Instantiateして、押した場合に使うメソッドを決める。配置などはまだ未定。
-    PlayerController player = null;
+    GameObject player = null;
+    PlayerController playerStatus = null;
+    Playerhp playerhp = null;
     [SerializeField]
     Image[] skillLine;
     [SerializeField]
@@ -26,12 +28,14 @@ public class Skilltree : MonoBehaviour
     public SkillButton[] SkillButton { get => skillButton; set => skillButton = value; }
     public bool[] SkillActive { get => skillActive; set => skillActive = value; }
     public float Skillpoint { get => skillpoint; set => skillpoint = value; }
-    public PlayerController Player { get => player; set => player = value; }
-
+    public PlayerController PlayerStatus { get => playerStatus; set => playerStatus = value; }
+    public Playerhp Playerhp { get => playerhp; set => playerhp = value; }
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerStatus = player.GetComponent<PlayerController>();
+        playerhp = player.GetComponent<Playerhp>();
         skillActive = new bool[skillButton.Length];
         for (int i = 0; i < skillButton.Length; i++)
         {
