@@ -11,9 +11,9 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     /// <summary>Enemy‚Ì‘¬‚³</summary>
     [SerializeField]
     float moveSpeed = 3.0f;
-    /// <summary>Enemy‚ÌX²‚Æ‚y²‚ÌˆÚ“®‹——£</summary>
+    /// <summary>Enemy‚ÌX²‚Æ‚y²‚ÌˆÚ“®”ÍˆÍ</summary>
     [SerializeField]
-    float xz = 0f;
+    float xz = 30f;
     /// <summary>Enemy‚Ì“®‚«o‚·ŠÔŠu</summary>
     [SerializeField]
     int moveInterval = 10;
@@ -27,7 +27,6 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     float movetimer = 0.0f;
     /// <summary>ƒpƒŠƒB‚³‚ê‚éŠÔ</summary>
     float parrylimit = 0.5f;
-
     float enemyPosX;
     float enemyPosZ;
     /// <summary>Enemy‚Ì‰ŠúˆÊ’u</summary>
@@ -37,15 +36,17 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     /// <summary>player‚ğŒ©‚Â‚¯‚½‚©‚Ç‚¤‚©</summary>
     bool playerSense = false;
     public int EnemyHp { get => enemyHp; set => enemyHp = value; }
-    public bool Parry { get => parry;}//UŒ‚‚Ìanimation’†‚É0.5•bŠÔ‚¾‚¯true‚É‚·‚éB
+    public bool Parry { get => parry; }//UŒ‚‚Ìanimation’†‚É0.5•bŠÔ‚¾‚¯true‚É‚·‚éB
     Animator anim = null;
     Rigidbody rb = null;
-    PlayerController player = null;
-
+    PlayerController playerStatus = null;
+    GameObject player = null;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerStatus = player.GetComponent<PlayerController>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         enemyInitialPosition = transform.position;
@@ -55,7 +56,9 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     void Update()
     {
         movetimer += Time.deltaTime;
-        if(!playerSense)
+        var playerpos = player.transform.position;
+
+        if(Vector3.Distance(transform.position, playerpos) > 50)
         {
             if (movetimer > moveInterval)
             {
@@ -65,29 +68,37 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
         }
         else
         {
-            //transform.position = Vector3.MoveTowards(transform.position,player.transform.position, moveSpeed);
-            //Vector3.MoveTowards‚ğg‚í‚¸‚É§Œä‚ğs‚¤B
+            if ((transform.position - player.transform.position).magnitude > 5)
+            {
+                var targetpos = transform.position + player.transform.position;
+                transform.LookAt(targetpos);
+                rb.velocity = targetpos * moveSpeed;
+            }
+            else
+            {
+                rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+                PlayerSenseAttack();//–¢Š®¬
+            }
         }
-        if(parry)
+        if (parry)
         {
             parrytimer += Time.deltaTime;
-            if(parrytimer > parrylimit)
+            if (parrytimer > parrylimit)
             {
                 parry = false;
             }
         }
     }
-    private void ParryActive()//UŒ‚—panimation—pŠÖ”A
+    private void ParryActive()//UŒ‚—panimation—pŠÖ”
     {
         parry = true;
     }
     //transform.position = Vector3.MoveTowards(©•ª‚ÌˆÊ’u, –Ú“I’n, speed);
-
     private void MovePosition(Vector3 enemyPos)
     {//enemyPosx‚ª0Axz‚ª50‚¾‚Á‚½ê‡A-50`+50‚Ü‚ÅB
         enemyPosX = Random.Range(enemyPos.x - xz, enemyPos.x + xz);
         enemyPosZ = Random.Range(enemyPos.z - xz, enemyPos.z + xz);
-        if ( enemyPosX > enemyInitialPosition.x + xz || 
+        if (enemyPosX > enemyInitialPosition.x + xz ||
              enemyPosX < enemyInitialPosition.x - xz &&
              enemyPosZ > enemyInitialPosition.z + xz ||
              enemyPosZ < enemyInitialPosition.z - xz)
@@ -96,7 +107,7 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
         }
         else
         {
-            transform.position = Vector3.MoveTowards(enemyPos, new Vector3(enemyPosX, enemyPos.y, enemyPosZ), moveSpeed);
+            transform.position = Vector3.MoveTowards(enemyPos, new Vector3(enemyPosX, enemyPos.y, enemyPosZ), moveSpeed / 2);
         }
     }
 
@@ -104,11 +115,12 @@ public class EnemyController : MonoBehaviour//¡‰ñ‚ÍlŒ^‚È‚Ì‚Ågamedev 1-3-5‚ğQ
     {
 
     }
-    private void OnTriggerEnter(Collider other)//enemy‚ğ•ï‚İ‚Ş‚æ‚¤‚ÉƒRƒ‰ƒCƒ_[‚ğİ’u‚·‚é—\’è
-    {
-        if(other.gameObject.CompareTag("Player"))
-        {
-            playerSense = false;
-        }
-    }
+    //private void OnTriggerEnter(Collider other)//enemy‚ğ•ï‚İ‚Ş‚æ‚¤‚ÉƒRƒ‰ƒCƒ_[‚ğİ’u‚·‚é—\’è
+    //{
+    //    if (other.gameObject.CompareTag("Player"))
+    //    {
+    //        playerSense = false;
+    //        player = other.gameObject;
+    //    }
+    //}
 }
