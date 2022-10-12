@@ -12,20 +12,23 @@ public class EnemyController1 : MonoBehaviour
     [SerializeField]
     float moveSpeed = 3.0f;
     /// <summary>プレイヤーを見つけることができる距離</summary>
-    [SerializeField]
+    [SerializeField, Header("プレイヤーを見つけられる距離")]
     float playerSensedis = 5f;
-    [SerializeField]
-    float moveTimer = 5f;
-    [SerializeField]
-    float time = 5f;
+    [SerializeField, Header("動き出すまでの時間")]
+    float moveTime = 5f;
+    [SerializeField, Header("カウント用")]
+    float timer = 0f;
     /// <summary>目的地が切り替わる距離</summary>
-    [SerializeField]
-    float changepos = 5f;
+    [SerializeField, Header("目的地が切り替わる距離")]
+    float changeDis = 5f;
+    [SerializeField, Header("プレイヤーに攻撃する距離")]
+    float attackDis = 1f;
     /// <summary>EnemyのX軸とＺ軸の移動範囲</summary>
     [SerializeField]
     float xz = 30f;
     float enemyPosX;
     float enemyPosZ;
+    int pattern = 0;
     GameObject player = null;
     NavMeshAgent agent = null;
     /// <summary>Enemyの生成された初期地点</summary>
@@ -33,6 +36,7 @@ public class EnemyController1 : MonoBehaviour
     Vector3 targetpos;
     Vector3 destination = new Vector3(0, 0, 0);
     Animator anim = null;
+    bool chack = false;//見つけているかどうか
     // Start is called before the first frame update
     void Start()
     {
@@ -48,50 +52,66 @@ public class EnemyController1 : MonoBehaviour
     {
         targetpos = player.transform.position;
         var distance = Vector3.Distance(transform.position, targetpos);
-        if (distance >= playerSensedis)//範囲外
+        if (distance >= playerSensedis)//プレイヤー索敵範囲外
         {
-            if (Vector3.Distance(transform.position,destination) <= changepos)//目的地周辺に来たら
+            if(chack)
             {
-                moveTimer += Time.deltaTime;
-                if (moveTimer >= time)//時間が来たら
-                {
-                    MovePosition(transform.position);//新しく目的地をセット
-                    moveTimer -= moveTimer;
-                }
+                destination = enemypos;
+                agent.SetDestination(destination);
+                chack = false;
             }
+            pattern = 1;
         }
-        else if (distance <= playerSensedis)//範囲内
+        if (distance <= playerSensedis)//プレイヤー索敵範囲内
         {
-            agent.SetDestination(targetpos);
-            if (Vector3.Distance(transform.position, targetpos) <= 1f)
-            {
-                //animationを流す。
-            }
+            chack = true;
+            pattern = 2;
+        }
+        switch (pattern)
+        {
+            case 1:
+                if (Vector3.Distance(transform.position, destination) <= changeDis)//目的地周辺に来たら
+                {
+                    moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
+                    if (moveTime >= timer)//時間が来たら
+                    {
+                        MovePosition(transform.position);//自分を中心とした一定範囲の中からランダムで座標計算
+                        moveTime -= moveTime;
+                    }
+                }
+                break;
+            case 2:
+                if (Vector3.Distance(transform.position, targetpos) > attackDis)//見つけているが攻撃が届かない部分の処理
+                {
+                    agent.SetDestination(targetpos);//目的地を常にプレイヤーに変更 
+                }
+                break;//switch文を抜ける
         }
     }
-    private void MovePosition(Vector3 enemyPos)
+
+    private void MovePosition(Vector3 enemyPos)//目的地計算
     {
-            enemyPosX = Random.Range(enemyPos.x - xz, enemyPos.x + xz);
-            enemyPosZ = Random.Range(enemyPos.z - xz, enemyPos.z + xz);
-            if (enemyPosX > enemypos.x + xz ||
-                 enemyPosX < enemypos.x - xz &&
-                 enemyPosZ > enemypos.z + xz ||
-                 enemyPosZ < enemypos.z - xz)
-            {
-                MovePosition(enemyPos);//やり直し
-            }
-            else
-            {
-                destination = new Vector3(enemyPosX, enemypos.y, enemyPosZ);
-                agent.SetDestination(destination);//NavMeshAgentの情報を取得し,新しく目的地（pos）を設定する。
-            }
+        enemyPosX = Random.Range(enemyPos.x - xz, enemyPos.x + xz);
+        enemyPosZ = Random.Range(enemyPos.z - xz, enemyPos.z + xz);
+        if (enemyPosX > enemypos.x + xz ||
+             enemyPosX < enemypos.x - xz &&
+             enemyPosZ > enemypos.z + xz ||
+             enemyPosZ < enemypos.z - xz)
+        {
+            MovePosition(enemyPos);//やり直し
+        }
+        else
+        {
+            destination = new Vector3(enemyPosX, enemypos.y, enemyPosZ);
+            agent.SetDestination(destination);//NavMeshAgentの情報を取得し,新しく目的地（pos）を設定する。
+        }
     }
     private void LateUpdate()
     {
-        if (anim)
-        {
-            anim.SetFloat("Speed", agent.velocity.magnitude);
-            anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
-        }
+        //if (anim)
+        //{
+        //    anim.SetFloat("Speed", agent.velocity.magnitude);
+        //    anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
+        //}
     }
 }

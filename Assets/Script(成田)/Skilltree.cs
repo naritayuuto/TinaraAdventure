@@ -14,6 +14,7 @@ public class Skilltree : MonoBehaviour
     Image[] skillLine;
     [SerializeField]
     List<Skilltree> childs;
+    Skilltree parent;
     ///<summary>healスキルの数</summary>
     private int healcount = 1;
     ///<summary>attackスキルの数</summary>
