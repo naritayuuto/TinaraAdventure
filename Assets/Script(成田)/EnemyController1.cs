@@ -26,6 +26,9 @@ public class EnemyController1 : MonoBehaviour
     /// <summary>EnemyのX軸とＺ軸の移動範囲</summary>
     [SerializeField]
     float xz = 30f;
+    /// <summary>パリィされる時間</summary>
+    float parrylimit = 0.5f;
+
     float enemyPosX;
     float enemyPosZ;
     int pattern = 0;
@@ -36,7 +39,14 @@ public class EnemyController1 : MonoBehaviour
     Vector3 targetpos;
     Vector3 destination = new Vector3(0, 0, 0);
     Animator anim = null;
-    bool chack = false;//見つけているかどうか
+    /// <summary>プレイヤーを見つけているかどうか</summary>
+    bool playerFound = false;
+    /// <summary>攻撃中かどうか</summary>
+    bool attack = false;//パリィ可能な攻撃のみ使う予定
+    /// <summary>パリィが出来るかどうか</summary>
+    bool parry = false;//
+
+    public int EnemyHp { get => enemyHp; set => enemyHp = value; }
     // Start is called before the first frame update
     void Start()
     {
@@ -54,22 +64,22 @@ public class EnemyController1 : MonoBehaviour
         var distance = Vector3.Distance(transform.position, targetpos);
         if (distance >= playerSensedis)//プレイヤー索敵範囲外
         {
-            if(chack)
-            {
-                destination = enemypos;
-                agent.SetDestination(destination);
-                chack = false;
-            }
             pattern = 1;
         }
         if (distance <= playerSensedis)//プレイヤー索敵範囲内
         {
-            chack = true;
+            playerFound = true;
             pattern = 2;
         }
         switch (pattern)
         {
             case 1:
+                if (playerFound)//プレイヤーを見失った時、自分が生成された場所へ戻る
+                {
+                    destination = enemypos;
+                    agent.SetDestination(destination);
+                    playerFound = false;
+                }
                 if (Vector3.Distance(transform.position, destination) <= changeDis)//目的地周辺に来たら
                 {
                     moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
@@ -108,10 +118,10 @@ public class EnemyController1 : MonoBehaviour
     }
     private void LateUpdate()
     {
-        //if (anim)
-        //{
-        //    anim.SetFloat("Speed", agent.velocity.magnitude);
-        //    anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
-        //}
+        if (anim)
+        {
+            anim.SetFloat("Speed", agent.velocity.magnitude);
+            anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
+        }
     }
 }

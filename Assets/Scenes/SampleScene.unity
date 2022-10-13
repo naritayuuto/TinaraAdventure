@@ -1135,8 +1135,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHp: 5000
   moveSpeed: 3
-  playerSensedis: 5
-  moveTimer: 5
-  time: 5
-  changepos: 5
+  playerSensedis: 10
+  moveTime: 0
+  timer: 5
+  changeDis: 5
+  attackDis: 1
   xz: 30
