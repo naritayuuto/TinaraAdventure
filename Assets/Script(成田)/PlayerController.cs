@@ -3,7 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PlayerState
+{
+  None,
+  Attack,
+  guard
+}
 [RequireComponent(typeof(Rigidbody))]
+
 public class PlayerController : MonoBehaviour
 {
     /// <summary>player‚Ì‘¬‚³</summary>
