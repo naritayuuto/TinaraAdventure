@@ -2,13 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public enum PlayerState
-{
-  None,
-  Attack,
-  guard
-}
 [RequireComponent(typeof(Rigidbody))]
 
 public class PlayerController : MonoBehaviour
@@ -42,9 +35,9 @@ public class PlayerController : MonoBehaviour
     private float guardJudgeTime = 0.5f;
     /// <summary>接地判定</summary>
     bool isGrounded = true;
-    /// <summary>通常攻撃判定用</summary>
+    /// <summary>通常攻撃判定用,コライダーActive用</summary>
     bool normalAttack = false;
-    /// <summary>通常攻撃判定用</summary>
+    /// <summary>防御判定用,コライダーActive用</summary>
     bool guard = false;
 
     bool parrysuccess = false;
@@ -134,7 +127,7 @@ public class PlayerController : MonoBehaviour
         //{
         //    _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         //}
-        if(Input.GetButtonDown("Jump"))
+        if(Input.GetButtonDown("Fire1"))
         {
             anim.Play("NormalAttack");
         }
@@ -144,12 +137,12 @@ public class PlayerController : MonoBehaviour
         // アニメーションの処理
         if (anim)
         {
-            anim.SetBool("IsGrounded", isGrounded);//接地判定用
-            anim.SetBool("Guard",guard);//ガード用
-            anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
             Vector3 walkSpeed = _rb.velocity;
             walkSpeed.y = 0;
             anim.SetFloat("Speed", walkSpeed.magnitude);
+            anim.SetBool("IsGrounded", isGrounded);//接地判定用
+            anim.SetBool("Guard",guard);//ガード用
+            anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
         }
     }
     private void AttackColliderActive()

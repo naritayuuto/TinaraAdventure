@@ -5,16 +5,20 @@ using UnityEngine;
 public class ParryJudge : MonoBehaviour
 {
     bool parryJudge;
+    [SerializeField]
     PlayerController player = null;
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        if(player)
+        {
+            Debug.LogError("ƒvƒŒƒCƒ„[‚ğŒ©‚Â‚¯‚ç‚ê‚Ü‚¹‚ñ");
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
-            parryJudge = other.GetComponent<EnemyController>().Parry;
+            parryJudge = other.GetComponent<EnemyController1>().Parry;
             player.ParryJudge(parryJudge);
         }
     }

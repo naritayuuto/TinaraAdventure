@@ -47,6 +47,8 @@ public class EnemyController1 : MonoBehaviour
     bool parry = false;//
 
     public int EnemyHp { get => enemyHp; set => enemyHp = value; }
+    public bool Parry { get => parry; set => parry = value; }
+
     // Start is called before the first frame update
     void Start()
     {

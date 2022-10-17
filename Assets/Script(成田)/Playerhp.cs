@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Playerhp : MonoBehaviour
 {
+    [SerializeField]
+    PlayerController player = null;
     /// <summary> player‚Ì‘Ì—Í</summary>
     [SerializeField]
     private int playerHp = 5000;
@@ -21,6 +23,10 @@ public class Playerhp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if(player)
+        {
+            Debug.LogError("ƒvƒŒƒCƒ„[‚ğŒ©‚Â‚¯‚ç‚ê‚Ü‚¹‚ñ");
+        }
         playerDamagehp = playerHp;
     }
 
@@ -33,6 +39,7 @@ public class Playerhp : MonoBehaviour
     void Damage(int damage)
     {
         playerDamagehp -= damage;
+
         hpslider.value = playerDamagehp / playerHp;
     }
 }
