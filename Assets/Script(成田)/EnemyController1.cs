@@ -24,7 +24,7 @@ public class EnemyController1 : MonoBehaviour
     [SerializeField, Header("プレイヤーに攻撃する距離")]
     float attackDis = 1f;
     /// <summary>EnemyのX軸とＺ軸の移動範囲</summary>
-    [SerializeField]
+    [SerializeField,Header("X軸とＺ軸の移動範囲")]
     float xz = 30f;
     /// <summary>パリィされる時間</summary>
     float parrylimit = 0.5f;

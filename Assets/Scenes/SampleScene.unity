@@ -1251,4 +1251,4 @@ MonoBehaviour:
   timer: 5
   changeDis: 5
   attackDis: 1
-  xz: 30
+  xz: 10

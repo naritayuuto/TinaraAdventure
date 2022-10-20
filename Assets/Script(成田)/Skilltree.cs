@@ -12,9 +12,11 @@ public class Skilltree : MonoBehaviour
     Playerhp playerhp = null;
     [SerializeField]
     Image[] skillLine;
-    [SerializeField]
-    List<Skilltree> childs;
-    Skilltree parent;
+    List<Skilltree> childs = new List<Skilltree>();//自分自身。このSkilltreeが持っているスキル。
+    [SerializeField, SerializeReference, SubclassSelector]
+    ISkill skill;//最初から持っておく。
+
+    Skilltree parent;//一つ上。
     ///<summary>healスキルの数</summary>
     private int healcount = 1;
     ///<summary>attackスキルの数</summary>

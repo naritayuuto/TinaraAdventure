@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Attack : Skilltree//スキルごとにダメージを変えたいためスキル分の関数を作り管理する。
+[System.Serializable]
+public class Attack : ISkill//スキルごとにダメージを変えたいためスキル分の関数を作り管理する。
 {
-    public override void SkillAction()
+    public void Action()
     {
-        PlayerStatus.AttackDamage += 500;
+        Debug.Log("Attack");
     }
 }
