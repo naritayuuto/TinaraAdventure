@@ -58,7 +58,6 @@ public class Skilltree : MonoBehaviour
                 skillButton[i].SkillId = SkillId.buff;
             }
             skillButton[i].Skillpoint += 2 * skillButton[i].Skillnumber;
-            skillActive[i] = false;
         }
     }
 
@@ -80,49 +79,48 @@ public class Skilltree : MonoBehaviour
     }
     public void SkillOnOffJudge(int skillnumber, int skillid)
     {
-        if ((SkillId)skillid == SkillId.heal)
-        {
-            if (skillnumber == 1)
-            {
-                skillButton[skillnumber - 1].Skillcheck = true;
-                skillActive[skillnumber - 1] = true;
-            }
-            else if (skillButton[skillnumber - 2].Skillcheck)
-            {
-
-                skillButton[skillnumber - 1].Skillcheck = true;
-                skillActive[skillnumber - 1] = true;
-            }
-            skillButton[skillnumber - 1].Yobidasi();
-        }
-        else if ((SkillId)skillid == SkillId.attack)
-        {
-            if (skillnumber == 1)
-            {
-                skillButton[skillnumber + healcount -1].Skillcheck = true;
-                skillActive[skillnumber + healcount -1] = true;
-            }
-            else if(skillButton[skillnumber + healcount - 2].Skillcheck)
-            {
-                skillButton[skillnumber + healcount -1].Skillcheck = true;
-                skillActive[skillnumber + healcount -1] = true;
-            }
-            skillButton[skillnumber + healcount -1].Yobidasi();
-        }
-        else if ((SkillId)skillid == SkillId.buff)
-        {
-            if (skillnumber == 1)
-            {
-                skillButton[skillnumber + attackcount + healcount -1].Skillcheck = true;
-                skillActive[skillnumber + attackcount + healcount - 1] = true;
-            }
-            else if (skillButton[skillnumber + attackcount + healcount - 2].Skillcheck)
-            {
-                skillButton[skillnumber + attackcount + healcount - 1].Skillcheck = true;
-                skillActive[skillnumber + attackcount + healcount - 1] = true;
-            }
-            skillButton[skillnumber + attackcount].Yobidasi();
-        }
+        //if ((SkillId)skillid == SkillId.heal)
+        //{
+        //    if (skillnumber == 1)
+        //    {
+        //        skillButton[skillnumber - 1].Skillcheck = true;
+        //        skillActive[skillnumber - 1] = true;
+        //    }
+        //    else if (skillButton[skillnumber - 2].Skillcheck)
+        //    {
+        //        skillButton[skillnumber - 1].Skillcheck = true;
+        //        skillActive[skillnumber - 1] = true;
+        //    }
+        //    skillButton[skillnumber - 1].Yobidasi();
+        //}
+        //else if ((SkillId)skillid == SkillId.attack)
+        //{
+        //    if (skillnumber == 1)
+        //    {
+        //        skillButton[skillnumber + healcount -1].Skillcheck = true;
+        //        skillActive[skillnumber + healcount -1] = true;
+        //    }
+        //    else if(skillButton[skillnumber + healcount - 2].Skillcheck)
+        //    {
+        //        skillButton[skillnumber + healcount -1].Skillcheck = true;
+        //        skillActive[skillnumber + healcount -1] = true;
+        //    }
+        //    skillButton[skillnumber + healcount -1].Yobidasi();
+        //}
+        //else if ((SkillId)skillid == SkillId.buff)
+        //{
+        //    if (skillnumber == 1)
+        //    {
+        //        skillButton[skillnumber + attackcount + healcount -1].Skillcheck = true;
+        //        skillActive[skillnumber + attackcount + healcount - 1] = true;
+        //    }
+        //    else if (skillButton[skillnumber + attackcount + healcount - 2].Skillcheck)
+        //    {
+        //        skillButton[skillnumber + attackcount + healcount - 1].Skillcheck = true;
+        //        skillActive[skillnumber + attackcount + healcount - 1] = true;
+        //    }
+        //    skillButton[skillnumber + attackcount].Yobidasi();
+        //}
         //if(2 < num)//skillButton[3]ˆÈã‚¾‚Á‚½‚ç
         //{
         //    for(int i = 0; i < num; i++)
