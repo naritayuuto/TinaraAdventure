@@ -44,12 +44,7 @@ public class PlayerController : MonoBehaviour
     public bool Guard { get => guard; set => guard = value; }
     public int AttackDamage { get => attackDamage; set => attackDamage = value; }
 
-    //Heal heal = null;
-    //Skilltree[] newSkill = null;
-    List<Skilltree> heal = new List<Skilltree>();
-    List<Skilltree> attack = new List<Skilltree>();
-    List<Skilltree> buff = new List<Skilltree>();
-    Skilltree skilltree = null;
+    List<ISkill> skills = new List<ISkill>();
     Rigidbody _rb = default;
     Animator anim = default;
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
@@ -184,24 +179,9 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = false;
     }
-    //public void AddSkill(int skillId, int skillnumber)//SkillButtonが押されたら呼び出す、あくまでも使えるスキルのListを作っている部分
-    //{
-    //    {
-    //        switch ((SkillId)skillId)
-    //        {
-    //            case SkillId.heal://Listで作り直してAddで追加、enumはあくまでも種類分けなので回復力が違うHealが出てきた場合困る
-    //                //newSkill[skillId] = new Heal();
-    //                heal.Add();
-    //                break;
-    //            case SkillId.attack:
-    //                attack.Add();
-    //                break;
-    //            case SkillId.buff:
-    //                buff.Add();
-    //                break;
-    //                //スキルの作成が終わり次第ここに追加
-    //        }
-    //    }
-    //}
 
+    public void AddSkill(ISkill skill)
+    {
+        skills.Add(skill);
+    }
 }
