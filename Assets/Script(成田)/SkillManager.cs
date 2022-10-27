@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //ここではskillbuttonにそれぞれ何のスキルを持つのか割り振りする。
+//skilltreeとこれは別物。
 public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何が解放されているのかの情報を持っている。
 {
     [SerializeField]
@@ -9,7 +10,7 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
 
     bool[] _skillActive;//直接的にいじることはない
 
-    List<ISkill> _skill = new List<ISkill>();
+    List<SkillTree1> skillTree = new List<SkillTree1>();
 
     float skillPoint = 0f;
 
@@ -46,10 +47,5 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
             buttons[i].ArrayNumber = i;
             buttons[i].Skillpoint += 2 * buttons[i].Skillnumber;
         }
-    }
-
-    private void Update()
-    {
-        
     }
 }

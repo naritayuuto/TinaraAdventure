@@ -43,8 +43,9 @@ public class PlayerController : MonoBehaviour
     bool parrysuccess = false;
     public bool Guard { get => guard; set => guard = value; }
     public int AttackDamage { get => attackDamage; set => attackDamage = value; }
-
+    
     List<ISkill> skills = new List<ISkill>();
+
     Rigidbody _rb = default;
     Animator anim = default;
     /// <summary>“ü—Í‚³‚ê‚½•ûŒü‚Ì XZ •½–Ê‚Å‚ÌƒxƒNƒgƒ‹</summary>

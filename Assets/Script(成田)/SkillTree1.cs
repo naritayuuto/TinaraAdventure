@@ -11,9 +11,9 @@ public class SkillTree1 : MonoBehaviour
 {
     SkillManager skillManager = null;//skillpointを使うため。
 
-    Skilltree parent;//一つ上。
+    SkillTree1 parent = null;//一つ上。
 
-    List<SkillTree1> childs = new List<SkillTree1>();//自分自身。このSkilltreeが持っているスキル。
+    List<SkillTree1> childs = new List<SkillTree1>();//自分自身の下に付いている物。このSkilltreeが持っているスキル。
 
     [SerializeField, SerializeReference, SubclassSelector]
     ISkill skill;//最初から持っておく。
@@ -36,5 +36,5 @@ public class SkillTree1 : MonoBehaviour
         }
     }
 
-    public virtual void SkillAction() { }
+    public virtual void Action() { }
 }

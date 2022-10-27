@@ -8,7 +8,6 @@ public class Attackjudge : MonoBehaviour
     PlayerController player = null;
     Skilltree skilltree = null;
     int enemyHp = 0;
-
     private void Start()
     {
         if (player)

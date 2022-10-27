@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ISkill
 {
-    void Action();
+    void Action(PlayerController player);
 }
