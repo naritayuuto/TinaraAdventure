@@ -21,9 +21,10 @@ public class PlayerController : MonoBehaviour
     /// <summary>playerの武器配列</summary>
     [SerializeField]
     GameObject[] weapons;
-    /// <summary>攻撃判定用コライダー</summary>
-    [SerializeField]
-    GameObject attackCollider = null;
+    ///// <summary>攻撃判定用コライダー</summary>
+    //[SerializeField]
+    //GameObject attackCollider = null;
+    //↑ここの部分は武器に当たり判定を付けることで解決。
     /// <summary>ガード判定用コライダー</summary>
     [SerializeField]
     GameObject guardCollider = null;
@@ -35,8 +36,9 @@ public class PlayerController : MonoBehaviour
     private float guardJudgeTime = 0.5f;
     /// <summary>接地判定</summary>
     bool isGrounded = true;
-    /// <summary>通常攻撃判定用,コライダーActive用</summary>
-    bool normalAttack = false;
+    ///// <summary>通常攻撃判定用,コライダーActive用</summary>
+    //bool normalAttack = false;
+    //↑ここの部分は武器に当たり判定を付けることで解決。
     /// <summary>防御判定用,コライダーActive用</summary>
     bool guard = false;
 
@@ -79,16 +81,16 @@ public class PlayerController : MonoBehaviour
         //{
         //    //GameOver
         //}
-        if (normalAttack)
-        {
-            timer -= timer;
-            AttackColliderActive();
-            normalAttack = false;
-        }
-        if(timer > attackJudgeTime)
-        {
-            attackCollider.SetActive(false);   
-        }
+        //if (normalAttack)
+        //{
+        //    timer -= timer;
+        //    AttackColliderActive();
+        //    normalAttack = false;
+        //}
+        //if(timer > attackJudgeTime)
+        //{
+        //    attackCollider.SetActive(false);   
+        //}
         if(guard)
         {
             timer -= timer;
@@ -112,6 +114,7 @@ public class PlayerController : MonoBehaviour
             // カメラを基準にする
             dir = Camera.main.transform.TransformDirection(dir);
             dir.y = 0;
+
             //移動の処理
             Vector3 velo = dir.normalized * moveSpeed;
             velo.y = _rb.velocity.y;
@@ -119,11 +122,11 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
         }
-        //if (Input.GetButtonDown("Jump") && isGrounded)
-        //{
-        //    _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        //}
-        if(Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        }
+        if (Input.GetButtonDown("Fire1"))
         {
             anim.Play("NormalAttack");
         }
@@ -141,10 +144,10 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
         }
     }
-    private void AttackColliderActive()
-    {
-        attackCollider.SetActive(true);
-    }
+    //private void AttackColliderActive()
+    //{
+    //    attackCollider.SetActive(true);
+    //}
     
     private void GuardColliderActive()
     {
@@ -152,7 +155,7 @@ public class PlayerController : MonoBehaviour
     }
     private void NormalAttackPlay()//animationイベント用
     {
-        normalAttack = true;
+        //normalAttack = true;
     }
 
     public void NormalAttack()//animationイベント用
@@ -171,7 +174,7 @@ public class PlayerController : MonoBehaviour
             parrysuccess = true;//parry用のanimationを流す
         }
     }
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         isGrounded = true;
     }
