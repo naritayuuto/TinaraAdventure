@@ -10,10 +10,6 @@ public class Attackjudge : MonoBehaviour
     int enemyHp = 0;
     private void Start()
     {
-        if (player)
-        {
-            Debug.LogError("プレイヤーを見つけられません");
-        }
         skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
     }
     private void OnTriggerEnter(Collider other)
@@ -22,7 +18,7 @@ public class Attackjudge : MonoBehaviour
         {
             enemyHp = gameObject.GetComponent<EnemyController>().EnemyHp;
             skilltree.Skillpoint += 0.5f;
-            enemyHp -= player.AttackDamage; 
+            //enemyHp -= player.AttackDamage; 
             //Enemyに与えるダメージの値変化は関数にしてanimationイベントで行う。
         }
     }
