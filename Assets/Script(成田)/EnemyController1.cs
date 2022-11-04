@@ -126,4 +126,13 @@ public class EnemyController1 : MonoBehaviour
             anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
         }
     }
+
+    public void Damage(int damage)
+    {
+        enemyHp -= damage;
+        if(enemyHp <= 0)
+        {
+            Debug.Log("Ž€");
+        }
+    }
 }
