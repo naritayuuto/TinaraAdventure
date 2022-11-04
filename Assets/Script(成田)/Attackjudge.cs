@@ -1,25 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class Attackjudge : MonoBehaviour
 {
     [SerializeField]
+    GameObject damageUi = null;
     PlayerController player = null;
+    TextMeshProUGUI damageText = null;
     Skilltree skilltree = null;
-    int enemyHp = 0;
+    EnemyController1 enemy;
     private void Start()
     {
-        skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
+        if(!damageUi)
+        {
+            Debug.LogError("damageUIがありません");
+        }
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        damageText = damageUi.GetComponentInChildren<TextMeshProUGUI>();
+        //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
-            enemyHp = gameObject.GetComponent<EnemyController>().EnemyHp;
-            skilltree.Skillpoint += 0.5f;
-            //enemyHp -= player.AttackDamage; 
-            //Enemyに与えるダメージの値変化は関数にしてanimationイベントで行う。
+            Debug.Log("Attack");
+            Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
+            //enemy = other.gameObject.GetComponent<EnemyController1>();
+            //enemy.Damage(player.AttackDamage);//ダメージを与える
+            //skilltree.Skillpoint += 0.5f;//スキルpoint加算
+            damageText.text = player.AttackDamage.ToString();
+            Instantiate(damageUi,hitPos,Quaternion.identity);//ダメージ表示
         }
     }
 }
