@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     int attackDamage = 500;//関数で変更する。
     /// <summary>playerの武器配列</summary>
     [SerializeField]
-    GameObject[] weapons;
+    GameObject weapon = null;
     ///// <summary>攻撃判定用コライダー</summary>
     //[SerializeField]
     //GameObject attackCollider = null;
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>ガード判定用コライダー</summary>
     [SerializeField]
     GameObject guardCollider = null;
+    Collider attackCollider = null;
     /// <summary>時間</summary>
     private float timer = 0.0f;
     /// <summary>攻撃判定用コライダーのアクティブタイム</summary>
@@ -62,13 +63,11 @@ public class PlayerController : MonoBehaviour
         //{
         //    Debug.LogError("ガード判定用のコライダーがセットされていません");
         //}
+        if (!weapon) Debug.LogError("武器がありません");
+        attackCollider = weapon.GetComponent<BoxCollider>();
         _rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
-        for (int i = 0; i < weapons.Length; i++)
-        {
-            weapons[i].SetActive(false);
-        }
         //if (!heal) Debug.LogError("スキル名Healをセットしてください");
     }
 
@@ -144,14 +143,18 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
         }
     }
-    //private void AttackColliderActive()
-    //{
-    //    attackCollider.SetActive(true);
-    //}
-    
-    private void GuardColliderActive()
+    private void AttackColliderActive()//武器の当たり判定を出す、animationイベント専用関数
     {
-        guardCollider.SetActive(true);
+        attackCollider.enabled = true;
+    }
+
+    private void AttackColliderNotActive()//武器の当たり判定を出す、animationイベント専用関数
+    {
+        attackCollider.enabled = false;
+    }
+    private void GuardColliderActive()//防御用の当たり判定を出す、animationイベント専用関数
+    {
+        guardCollider.SetActive(true);//パリィと連動するように
     }
     private void NormalAttackPlay()//animationイベント用
     {
