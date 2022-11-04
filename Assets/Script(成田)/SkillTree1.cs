@@ -3,38 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum SkillId
 {
-    heal = 1,
+    None,
+    heal,
     attack,
     buff
 }
 public class SkillTree1 : MonoBehaviour
 {
-    SkillManager skillManager = null;//skillpointを使うため。
+    [SerializeField]
+    SkillTree1 _parent = null;//一つ上。
 
-    SkillTree1 parent = null;//一つ上。
-
-    List<SkillTree1> childs = new List<SkillTree1>();//自分自身の下に付いている物。このSkilltreeが持っているスキル。
-
+    List<SkillTree1> childs = new List<SkillTree1>();//自分自身の下に付いている子供たち
     [SerializeField, SerializeReference, SubclassSelector]
-    ISkill skill;//最初から持っておく。
+    ISkill skill = null;//最初から持っておく。
+    bool kaihou = false;
+
+    public SkillTree1 Parent { get => _parent; set => _parent = value; }
+    public List<SkillTree1> Childs { get => childs; set => childs = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        skillManager = GameObject.FindGameObjectWithTag("SkillManager").GetComponent<SkillManager>();
+        ChildAdd(this);//親がセットされていたら子供として親のListに追加する。
     }
 
     public void SkillPointJudge(float skillpoint,int arraynumber)//ポイントが足りているか、skillの配列順番
     {
-        if (skillManager.SkillPoint < skillpoint)
+    }
+
+    public void ChildAdd(SkillTree1 child)
+    {
+        if(_parent)
         {
-            return;
-        }
-        else
-        {
-            skillManager.Buttons[arraynumber].Yobidasi(skill);
+            _parent.Childs.Add(child);
         }
     }
 
+    public void AllOpen()//自分より上のスキルを全て使えるようにする
+    {
+        kaihou = true;
+        if(_parent)
+        {
+            _parent.AllOpen();
+        }
+    }
     public virtual void Action() { }
 }

@@ -1,4 +1,4 @@
-ï»¿#if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
 using System;
 using System.Reflection;
 using System.Linq;
@@ -17,7 +17,8 @@ public class SubclassSelectorDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         if (property.propertyType != SerializedPropertyType.ManagedReference) return;
-        if(!initialized) {
+        if (!initialized)
+        {
             Initialize(property);
             initialized = true;
         }
@@ -71,26 +72,27 @@ public class SubclassSelectorDrawer : PropertyDrawer
 
         var propertyPaths = property.propertyPath.Split('.');
         var fieldType = property.serializedObject.targetObject.GetType();
-        for (int i = 0; i < propertyPaths.Length; i++) {
+        for (int i = 0; i < propertyPaths.Length; i++)
+        {
             FieldInfo field = fieldType.GetField(propertyPaths[i], bindingAttr);
-            // é…åˆ—å¯¾å¿œ
+            // ”z—ñ‘Î‰ž
             if (propertyPaths[i].Contains("Array"))
             {
-                // é…åˆ—ã®å ´åˆ
+                // ”z—ñ‚Ìê‡
                 if (fieldType.IsArray)
                 {
-                    // GetElementType ã§è¦ç´ ã®åž‹ã‚’å–å¾—ã™ã‚‹
+                    // GetElementType ‚Å—v‘f‚ÌŒ^‚ðŽæ“¾‚·‚é
                     fieldType = fieldType.GetElementType();
                 }
-                // ãƒªã‚¹ãƒˆã®å ´åˆ
+                // ƒŠƒXƒg‚Ìê‡
                 else
                 {
-                    // GetGenericArguments ã§è¦ç´ ã®åž‹ã‚’å–å¾—ã™ã‚‹
+                    // GetGenericArguments ‚Å—v‘f‚ÌŒ^‚ðŽæ“¾‚·‚é
                     var genericArguments = fieldType.GetGenericArguments();
                     fieldType = genericArguments[0];
                 }
 
-                //data[0]ã‚’è©•ä¾¡ã—ã«è¡Œãã®ã§ã€ã¨ã°ã™ã€‚
+                //data[0]‚ð•]‰¿‚µ‚És‚­‚Ì‚ÅA‚Æ‚Î‚·B
                 ++i;
                 continue;
             }
@@ -101,12 +103,12 @@ public class SubclassSelectorDrawer : PropertyDrawer
 
         return fieldType;
     }
-    
+
     private void UpdatePropertyToSelectedTypeIndex(SerializedProperty property, int selectedTypeIndex)
     {
         if (currentTypeIndex == selectedTypeIndex)
         {
-            return ;
+            return;
         }
 
         currentTypeIndex = selectedTypeIndex;

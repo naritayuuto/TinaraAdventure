@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 31281381}
   - component: {fileID: 31281380}
   - component: {fileID: 31281379}
-  - component: {fileID: 31281378}
   m_Layer: 5
   m_Name: Button (Legacy)
   m_TagString: Untagged
@@ -164,25 +163,6 @@ RectTransform:
   m_AnchoredPosition: {x: -319.99997, y: -209.99998}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &31281378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31281376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc38c9323de5eb94a981ed69cbb7e943, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skill:
-  - rid: 3830031564273352704
-  references:
-    version: 2
-    RefIds:
-    - rid: 3830031564273352704
-      type: {class: Attack, ns: , asm: Assembly-CSharp}
 --- !u!114 &31281379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,19 +206,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 31281380}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 31281378}
-        m_TargetAssemblyTypeName: Demo, Assembly-CSharp
-        m_MethodName: Be
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &31281380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1221,8 +1189,7 @@ MonoBehaviour:
   turnSpeed: 3
   jumpPower: 3
   attackDamage: 500
-  weapons: []
-  attackCollider: {fileID: 0}
+  weapon: {fileID: 0}
   guardCollider: {fileID: 0}
 --- !u!65 &482788851
 BoxCollider:
@@ -2697,7 +2664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1285911241
 MonoBehaviour:
   m_ObjectHideFlags: 0
