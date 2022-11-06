@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heal : Skilltree
+public class Heal : ISkill
 {
-    public override void SkillAction()
+    string name = "Heal";
+    string ISkill.Name => name;
+    public void Action(PlayerController player)
     {
-        if (Playerhp.PlayerDamagehp >= Playerhp.PlayerHp)
+        player.Anim.Play(name);
+        if (player.Hp.PlayerDamagehp + 500 > player.Hp.PlayerMaxHp)
         {
-            Playerhp.PlayerDamagehp += 500;
+            player.Hp.PlayerDamagehp = player.Hp.PlayerMaxHp;
         }
         else
         {
-            Playerhp.PlayerDamagehp = Playerhp.PlayerHp;
+            player.Hp.PlayerDamagehp += 500;
         }
     }
 }

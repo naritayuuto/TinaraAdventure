@@ -46,11 +46,14 @@ public class PlayerController : MonoBehaviour
     bool parrysuccess = false;
     public bool Guard { get => guard; set => guard = value; }
     public int AttackDamage { get => attackDamage; set => attackDamage = value; }
-    
+    public Animator Anim { get => _anim; set => _anim = value; }
+    public Playerhp Hp { get => hp; set => hp = value; }
+
     List<ISkill> skills = new List<ISkill>();
 
+    Playerhp hp = null;
     Rigidbody _rb = default;
-    Animator anim = default;
+    Animator _anim = default;
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
 
     void Start()
@@ -66,7 +69,8 @@ public class PlayerController : MonoBehaviour
         if (!weapon) Debug.LogError("武器がありません");
         attackCollider = weapon.GetComponent<BoxCollider>();
         _rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
+        hp = GetComponent<Playerhp>();
         //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
         //if (!heal) Debug.LogError("スキル名Healをセットしてください");
     }
@@ -125,22 +129,22 @@ public class PlayerController : MonoBehaviour
         {
             _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         }
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire2"))
         {
-            anim.Play("NormalAttack");
+            _anim.Play("NormalAttack");
         }
     }
     void LateUpdate()
     {
         // アニメーションの処理
-        if (anim)
+        if (_anim)
         {
             Vector3 walkSpeed = _rb.velocity;
             walkSpeed.y = 0;
-            anim.SetFloat("Speed", walkSpeed.magnitude);
-            anim.SetBool("IsGrounded", isGrounded);//接地判定用
-            anim.SetBool("Guard",guard);//ガード用
-            anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
+            _anim.SetFloat("Speed", walkSpeed.magnitude);
+            _anim.SetBool("IsGrounded", isGrounded);//接地判定用
+            _anim.SetBool("Guard",guard);//ガード用
+            _anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
         }
     }
     private void AttackColliderActive()//武器の当たり判定を出す、animationイベント専用関数
@@ -190,5 +194,18 @@ public class PlayerController : MonoBehaviour
     public void AddSkill(ISkill skill)
     {
         skills.Add(skill);
+    }
+
+    public void UseSkill(string name)
+    {
+        foreach(var skill in skills)
+        {
+            if(skill.Name == name)
+            {
+                skill.Action(this);
+                break;
+            }
+            Debug.Log("使用できません");
+        }
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Playerhp : MonoBehaviour
 {
-    [SerializeField]
-    PlayerController player = null;
+    //[SerializeField]
+    //PlayerController player = null;
     /// <summary> player‚Ì‘Ì—Í</summary>
     [SerializeField]
     private int playerHp = 5000;
@@ -17,24 +17,21 @@ public class Playerhp : MonoBehaviour
     Text playerHpText = null;
     [SerializeField]
     Slider hpslider = null;
+    /// <summary> player‚Ì‘Œ¸‚·‚é‘Ì—Í</summary>
     public int PlayerDamagehp { get => playerDamagehp; set => playerDamagehp = value; }
-
-    public int PlayerHp { get => playerHp; set => playerHp = value; }
+    /// <summary> player‚Ì‘Ì—Í</summary>
+    public int PlayerMaxHp { get => playerHp; set => playerHp = value; }
     // Start is called before the first frame update
     void Start()
     {
-        if(player)
-        {
-            Debug.LogError("ƒvƒŒƒCƒ„[‚ğŒ©‚Â‚¯‚ç‚ê‚Ü‚¹‚ñ");
-        }
         playerDamagehp = playerHp;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
-    }
+    //void Update()
+    //{
+    //    playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
+    //}
 
     void Damage(int damage)
     {
