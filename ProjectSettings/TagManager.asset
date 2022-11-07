@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Skilltree
   - Enemy
+  - SkillManager
   layers:
   - Default
   - TransparentFX

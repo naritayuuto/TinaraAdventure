@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>playerの基本攻撃力</summary>
     [SerializeField]
     int attackDamage = 500;//関数で変更する。
+    int keepAttackDamage = 0;
     /// <summary>playerの武器配列</summary>
     [SerializeField]
     GameObject weapon = null;
@@ -71,6 +72,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         hp = GetComponent<Playerhp>();
+        keepAttackDamage = attackDamage;
         //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
         //if (!heal) Debug.LogError("スキル名Healをセットしてください");
     }
@@ -131,6 +133,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetButtonDown("Fire2"))
         {
+            NormalAttack();
             _anim.Play("NormalAttack");
         }
     }
@@ -165,11 +168,21 @@ public class PlayerController : MonoBehaviour
         //normalAttack = true;
     }
 
-    public void NormalAttack()//animationイベント用
+    public void NormalAttack()
     {
         attackDamage = Random.Range(400, 600);
     }
 
+    public void AttackDamageKeep(int damage)
+    {
+        keepAttackDamage = attackDamage;
+        attackDamage = damage;
+    }
+
+    public void ReturnAttackDamage()//攻撃スキルをしていない時に呼ぶ
+    {
+        attackDamage = keepAttackDamage;
+    }
     public void ParryJudge(bool judge)
     {
         if(!judge)
