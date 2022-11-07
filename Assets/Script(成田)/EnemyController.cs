@@ -1,126 +1,138 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour//今回は人型なのでgamedev 1-3-5を参考に。
-{//ダメージの関数は別にあるので、ここでは大まかな動き、animationをどう使うかを考えて組むこと。
-    /// <summary>Enemyの体力</summary>
+[RequireComponent(typeof(NavMeshAgent))]
+public class EnemyController : MonoBehaviour
+{
     [SerializeField]
     int enemyHp = 5000;
     /// <summary>Enemyの速さ</summary>
     [SerializeField]
     float moveSpeed = 3.0f;
+    /// <summary>プレイヤーを見つけることができる距離</summary>
+    [SerializeField, Header("プレイヤーを見つけられる距離")]
+    float playerSensedis = 5f;
+    [SerializeField, Header("動き出すまでの時間")]
+    float moveTime = 5f;
+    [SerializeField, Header("カウント用")]
+    float timer = 0f;
+    /// <summary>目的地が切り替わる距離</summary>
+    [SerializeField, Header("目的地が切り替わる距離")]
+    float changeDis = 5f;
+    [SerializeField, Header("プレイヤーに攻撃する距離")]
+    float attackDis = 1f;
     /// <summary>EnemyのX軸とＺ軸の移動範囲</summary>
-    [SerializeField]
+    [SerializeField,Header("X軸とＺ軸の移動範囲")]
     float xz = 30f;
-    /// <summary>Enemyの動き出す間隔</summary>
-    [SerializeField]
-    int moveInterval = 10;
-    ///// <summary>EnemyのX軸の移動範囲</summary>
-    //float enemyMoveRangeX = 0f;
-    ///// <summary>EnemyのZ軸の移動範囲</summary>
-    //float enemyMoveRangeZ = 0f;
-    /// <summary>parryがtrueになった時からカウントする時間</summary>
-    float parrytimer = 0.0f;
-    /// <summary>動いている間カウントする時間</summary>
-    float movetimer = 0.0f;
     /// <summary>パリィされる時間</summary>
     float parrylimit = 0.5f;
+
     float enemyPosX;
     float enemyPosZ;
-    /// <summary>Enemyの初期位置</summary>
-    Vector3 enemyInitialPosition;
-    bool attack = false;
-    bool parry = false;
-    /// <summary>playerを見つけたかどうか</summary>
-    bool playerSense = false;
-    public int EnemyHp { get => enemyHp; set => enemyHp = value; }
-    public bool Parry { get => parry; }//攻撃のanimation中に0.5秒間だけtrueにする。
-    Animator anim = null;
-    Rigidbody rb = null;
-    PlayerController playerStatus = null;
+    int pattern = 0;
     GameObject player = null;
+    NavMeshAgent agent = null;
+    /// <summary>Enemyの生成された初期地点</summary>
+    Vector3 enemypos;
+    Vector3 targetpos;
+    Vector3 destination = new Vector3(0, 0, 0);
+    Animator anim = null;
+    /// <summary>プレイヤーを見つけているかどうか</summary>
+    bool playerFound = false;
+    /// <summary>攻撃中かどうか</summary>
+    bool attack = false;//パリィ可能な攻撃のみ使う予定
+    /// <summary>パリィが出来るかどうか</summary>
+    bool parry = false;//
+
+    public int EnemyHp { get => enemyHp; set => enemyHp = value; }
+    public bool Parry { get => parry; set => parry = value; }
+
     // Start is called before the first frame update
     void Start()
     {
-        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
-        playerStatus = player.GetComponent<PlayerController>();
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-        enemyInitialPosition = transform.position;
+        enemypos = transform.position;
+        destination = transform.position;
+        Debug.Log(Vector3.Distance(transform.position, targetpos));
     }
 
     // Update is called once per frame
     void Update()
     {
-        movetimer += Time.deltaTime;
-        var playerpos = player.transform.position;
+        targetpos = player.transform.position;
+        var distance = Vector3.Distance(transform.position, targetpos);
+        if (distance >= playerSensedis)//プレイヤー索敵範囲外
+        {
+            pattern = 1;
+        }
+        if (distance <= playerSensedis)//プレイヤー索敵範囲内
+        {
+            playerFound = true;
+            pattern = 2;
+        }
+        switch (pattern)
+        {
+            case 1:
+                if (playerFound)//プレイヤーを見失った時、自分が生成された場所へ戻る
+                {
+                    destination = enemypos;
+                    agent.SetDestination(destination);
+                    playerFound = false;
+                }
+                if (Vector3.Distance(transform.position, destination) <= changeDis)//目的地周辺に来たら
+                {
+                    moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
+                    if (moveTime >= timer)//時間が来たら
+                    {
+                        MovePosition(transform.position);//自分を中心とした一定範囲の中からランダムで座標計算
+                        moveTime -= moveTime;
+                    }
+                }
+                break;
+            case 2:
+                if (Vector3.Distance(transform.position, targetpos) > attackDis)//見つけているが攻撃が届かない部分の処理
+                {
+                    agent.SetDestination(targetpos);//目的地を常にプレイヤーに変更 
+                }
+                break;//switch文を抜ける
+        }
+    }
 
-        if(Vector3.Distance(transform.position, playerpos) > 50)
-        {
-            if (movetimer > moveInterval)
-            {
-                MovePosition(transform.position);
-                movetimer -= movetimer;
-            }
-        }
-        else
-        {
-            if ((transform.position - player.transform.position).magnitude > 5)
-            {
-                var targetpos = transform.position + player.transform.position;
-                transform.LookAt(targetpos);
-                rb.velocity = targetpos * moveSpeed;
-            }
-            else
-            {
-                rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
-                PlayerSenseAttack();//未完成
-            }
-        }
-        if (parry)
-        {
-            parrytimer += Time.deltaTime;
-            if (parrytimer > parrylimit)
-            {
-                parry = false;
-            }
-        }
-    }
-    private void ParryActive()//攻撃用animation用関数
+    private void MovePosition(Vector3 enemyPos)//目的地計算
     {
-        parry = true;
-    }
-    //transform.position = Vector3.MoveTowards(自分の位置, 目的地, speed);
-    private void MovePosition(Vector3 enemyPos)
-    {//enemyPosxが0、xzが50だった場合、-50～+50まで。
         enemyPosX = Random.Range(enemyPos.x - xz, enemyPos.x + xz);
         enemyPosZ = Random.Range(enemyPos.z - xz, enemyPos.z + xz);
-        if (enemyPosX > enemyInitialPosition.x + xz ||
-             enemyPosX < enemyInitialPosition.x - xz &&
-             enemyPosZ > enemyInitialPosition.z + xz ||
-             enemyPosZ < enemyInitialPosition.z - xz)
+        if (enemyPosX > enemypos.x + xz ||
+             enemyPosX < enemypos.x - xz &&
+             enemyPosZ > enemypos.z + xz ||
+             enemyPosZ < enemypos.z - xz)
         {
-            MovePosition(enemyPos);
+            MovePosition(enemyPos);//やり直し
         }
         else
         {
-            transform.position = Vector3.MoveTowards(enemyPos, new Vector3(enemyPosX, enemyPos.y, enemyPosZ), moveSpeed / 2);
+            destination = new Vector3(enemyPosX, enemypos.y, enemyPosZ);
+            agent.SetDestination(destination);//NavMeshAgentの情報を取得し,新しく目的地（pos）を設定する。
+        }
+    }
+    private void LateUpdate()
+    {
+        if (anim)
+        {
+            anim.SetFloat("Speed", agent.velocity.magnitude);
+            anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
         }
     }
 
-    private void PlayerSenseAttack()
+    public void Damage(int damage)
     {
-
+        enemyHp -= damage;
+        if(enemyHp <= 0)
+        {
+            Debug.Log("死");
+        }
     }
-    //private void OnTriggerEnter(Collider other)//enemyを包み込むようにコライダーを設置する予定
-    //{
-    //    if (other.gameObject.CompareTag("Player"))
-    //    {
-    //        playerSense = false;
-    //        player = other.gameObject;
-    //    }
-    //}
 }
