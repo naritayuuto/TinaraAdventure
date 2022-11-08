@@ -10,7 +10,6 @@ public class SkillTree : MonoBehaviour
     [SerializeField, SerializeReference, SubclassSelector]
     ISkill _skill = null;//最初から持っておく。
     PlayerController player = null;
-    bool kaihou = false;
     SkillManager sManager = null;
     public SkillTree Parent { get => _parent; set => _parent = value; }
     public List<SkillTree> Childs { get => _childs; set => _childs = value; }
@@ -33,6 +32,7 @@ public class SkillTree : MonoBehaviour
             sManager.SkillActive[arraynumber] = true;
             SkillAdd();
             button.interactable = false;
+            Debug.Log("解放出来ました");
         }
         else
         {
@@ -54,10 +54,10 @@ public class SkillTree : MonoBehaviour
 
     public void AllOpen()//自分より上のスキルを全て使えるようにする
     {
-        kaihou = true;
-        if(_parent)
+        player.AddSkill(_skill);//プレイヤーに自身のスキルを追加
+        if (_parent)//親がいるのは、親をインスペクター上でセットしたSkillTreeのみ
         {
-            _parent.AllOpen();
+            _parent.AllOpen();//親の関数を呼ぶ
         }
     }
 }

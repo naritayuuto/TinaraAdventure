@@ -17,7 +17,7 @@ public class SkillManager : MonoBehaviour//skill‚ðŠÇ—‚·‚éB–ÚŽŸ‚Ì‚æ‚¤‚È‚à‚Ì‚Å‰½
     public bool[] SkillActive { get => _skillActive; set => _skillActive = value; }
     public SkillButton[] Buttons { get => buttons;}
 
-    private void Start()
+    private void Awake()
     {
         _skillActive = new bool[buttons.Length];
         for (int i = 0; i < buttons.Length; i++)

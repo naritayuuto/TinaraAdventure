@@ -27,11 +27,10 @@ public class Playerhp : MonoBehaviour
         playerDamagehp = playerHp;
     }
 
-    // Update is called once per frame
-    //void Update()
-    //{
-    //    playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
-    //}
+    void Update()
+    {
+        playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
+    }
 
     void Damage(int damage)
     {
