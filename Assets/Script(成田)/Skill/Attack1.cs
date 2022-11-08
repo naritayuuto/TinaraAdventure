@@ -4,7 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class Attack1 : ISkill//スキルごとにダメージを変えたいためスキル分の関数を作り管理する。
 {
-    string name = "Attack1";
+    public SkillType skillType => SkillType.attack;
+    string name = "Attack";
     string ISkill.Name => name;
     int damage = 800;
     public void Action(PlayerController player)

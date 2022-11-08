@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Heal : ISkill
 {
+    public SkillType SkillType => SkillType.heal;
+
     string name = "Heal";
     string ISkill.Name => name;
 
