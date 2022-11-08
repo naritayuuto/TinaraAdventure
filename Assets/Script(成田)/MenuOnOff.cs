@@ -4,31 +4,30 @@ using UnityEngine;
 
 public class MenuOnOff : MonoBehaviour
 {
-    bool menu = false;
-    [SerializeField]
-    GameObject canvas = null;
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Jump"))//esc
+        //if(Input.GetButtonDown("Fire3"))//esc
+        //{
+        //    Debug.Log("ä÷êîÇåƒÇÒÇæ");
+        //    CanvasOnOff();
+        //}
+    }
+
+    public void CanvasOnOff(GameObject canvas)
+    {
+        if (!canvas.activeSelf)
         {
-            Debug.Log("osareta");
-            if (!menu)
-            {
-                canvas.SetActive(true);
-                menu = true;
-            }
-            else
-            {
-                canvas.SetActive(false);
-                menu = false;
-            }
+            canvas.SetActive(true);
+        }
+        else
+        {
+            canvas.SetActive(false);
         }
     }
 }

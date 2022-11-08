@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 [RequireComponent(typeof(Rigidbody))]
 
 public class PlayerController : MonoBehaviour
@@ -22,6 +23,9 @@ public class PlayerController : MonoBehaviour
     /// <summary>playerの武器配列</summary>
     [SerializeField]
     GameObject weapon = null;
+    [SerializeField]
+    GameObject button = null;
+    TextMeshProUGUI skillText = null;
     ///// <summary>攻撃判定用コライダー</summary>
     //[SerializeField]
     //GameObject attackCollider = null;
@@ -50,8 +54,9 @@ public class PlayerController : MonoBehaviour
     public Animator Anim { get => _anim; set => _anim = value; }
     public Playerhp Hp { get => hp; set => hp = value; }
 
-    List<ISkill> skills = new List<ISkill>();
-
+    List<ISkill> _skills = new List<ISkill>();
+    ISkill _skill;
+    int skillnum = 0;
     Playerhp hp = null;
     Rigidbody _rb = default;
     Animator _anim = default;
@@ -67,7 +72,10 @@ public class PlayerController : MonoBehaviour
         //{
         //    Debug.LogError("ガード判定用のコライダーがセットされていません");
         //}
+        
         if (!weapon) Debug.LogError("武器がありません");
+        if (!button) Debug.LogError("ボタンをセットしてください");
+        skillText = button.GetComponentInChildren<TextMeshProUGUI>();
         attackCollider = weapon.GetComponent<BoxCollider>();
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
@@ -178,7 +186,10 @@ public class PlayerController : MonoBehaviour
         keepAttackDamage = attackDamage;
         attackDamage = damage;
     }
-
+    public void AttackDamageKeep()//レベルアップ時使用。
+    {
+        keepAttackDamage = attackDamage;
+    }
     public void ReturnAttackDamage()//攻撃スキルをしていない時に呼ぶ
     {
         attackDamage = keepAttackDamage;
@@ -206,19 +217,34 @@ public class PlayerController : MonoBehaviour
 
     public void AddSkill(ISkill skill)
     {
-        skills.Add(skill);
+        if (_skills == null)
+        {
+            _skills.Add(skill);
+            _skill = skill;
+            skillText.text = skill.Name;
+        }
+        else
+        {
+            _skills.Add(skill);
+            skillnum = 0;
+        }
     }
 
-    public void UseSkill(string name)
+    public void NextSkill()
     {
-        foreach(var skill in skills)
+        if (_skills != null)
         {
-            if(skill.Name == name)
-            {
-                skill.Action(this);
-                break;
-            }
-            Debug.Log("使用できません");
+            skillnum++;
+            _skill = _skills[skillnum % _skills.Count];
+            skillText.text = _skill.Name;
+        }
+
+    }
+    public void UseSkill()
+    {  
+        if(_skill != null)
+        {
+            _skill.Action(this);
         }
     }
 }
