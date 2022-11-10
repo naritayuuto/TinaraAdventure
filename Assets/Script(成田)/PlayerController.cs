@@ -47,7 +47,9 @@ public class PlayerController : MonoBehaviour
     //↑ここの部分は武器に当たり判定を付けることで解決。
     /// <summary>防御判定用,コライダーActive用</summary>
     bool guard = false;
-
+    /// <summary>アニメーション再生中かどうか</summary>
+    bool animPlay = false;
+    /// <summary>パリィ判定用</summary>
     bool parrysuccess = false;
     public bool Guard { get => guard; set => guard = value; }
     public int AttackDamage { get => attackDamage; set => attackDamage = value; }
