@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class SkillTree : MonoBehaviour
 {
     [SerializeField]
     SkillTree _parent = null;//一つ上。
 
     List<SkillTree> _childs = new List<SkillTree>();//自分自身の下に付いている子供たち
+
     [SerializeField, SerializeReference, SubclassSelector]
     ISkill _skill = null;//最初から持っておく。
     PlayerController player = null;
     SkillManager sManager = null;
+    [SerializeField]
+    GameObject myButton;
     public SkillTree Parent { get => _parent; set => _parent = value; }
     public List<SkillTree> Childs { get => _childs; set => _childs = value; }
 
@@ -52,12 +56,14 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    public void AllOpen()//自分より上のスキルを全て使えるようにする
+    public void AllOpen()//自分より下のスキルを全て使えるようにする
     {
-        player.AddSkill(_skill);//プレイヤーに自身のスキルを追加
-        if (_parent)//親がいるのは、親をインスペクター上でセットしたSkillTreeのみ
+        if (_childs != null)//子を持っていたら
         {
-            _parent.AllOpen();//親の関数を呼ぶ
+            foreach(var child in _childs)
+            {
+                child.AllOpen();
+            }
         }
     }
 }

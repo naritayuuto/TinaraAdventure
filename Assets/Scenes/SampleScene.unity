@@ -880,6 +880,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1966531338 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8587309541889381008, guid: 975a7bdf0f0b4804cae1385105fcfe39, type: 3}
+  m_PrefabInstance: {fileID: 617878660641619972}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &617878660641619972
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1245,6 +1250,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4305733050935787345, guid: a4c73d895b649074ca74edd598fdc379, type: 3}
+      propertyPath: button
+      value: 
+      objectReference: {fileID: 1966531338}
     - target: {fileID: 4753599779524575455, guid: a4c73d895b649074ca74edd598fdc379, type: 3}
       propertyPath: hpslider
       value: 

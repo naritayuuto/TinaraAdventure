@@ -23,7 +23,7 @@ public class SkillManager : MonoBehaviour//skill‚ğŠÇ—‚·‚éB–ÚŸ‚Ì‚æ‚¤‚È‚à‚Ì‚Å‰½
         for (int i = 0; i < buttons.Length; i++)
         {
             buttons[i].ArrayNumber = i;
-            buttons[i].Skillpoint += 2 * buttons[i].ArrayNumber;
+            //buttons[i].Skillpoint += 2 * buttons[i].ArrayNumber;
         }
     }
 }
