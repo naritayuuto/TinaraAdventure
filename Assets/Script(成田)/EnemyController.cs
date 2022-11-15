@@ -54,9 +54,10 @@ public class EnemyController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+        anim = GetComponent<Animator>();
         enemypos = transform.position;
         destination = transform.position;
-        Debug.Log(Vector3.Distance(transform.position, targetpos));
+        //Debug.Log(Vector3.Distance(transform.position, targetpos));
     }
 
     // Update is called once per frame
@@ -123,7 +124,7 @@ public class EnemyController : MonoBehaviour
         if (anim)
         {
             anim.SetFloat("Speed", agent.velocity.magnitude);
-            anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
+            //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
         }
     }
 
