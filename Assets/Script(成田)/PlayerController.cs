@@ -26,13 +26,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject button = null;
     TextMeshProUGUI skillText = null;
-    ///// <summary>攻撃判定用コライダー</summary>
-    //[SerializeField]
-    //GameObject attackCollider = null;
-    //↑ここの部分は武器に当たり判定を付けることで解決。
     /// <summary>ガード判定用コライダー</summary>
     [SerializeField]
     GameObject guardCollider = null;
+    /// <summary>weaponの判定用コライダー</summary>
     Collider attackCollider = null;
     /// <summary>時間</summary>
     private float timer = 0.0f;
@@ -42,9 +39,6 @@ public class PlayerController : MonoBehaviour
     private float guardJudgeTime = 0.5f;
     /// <summary>接地判定</summary>
     bool isGrounded = true;
-    ///// <summary>通常攻撃判定用,コライダーActive用</summary>
-    //bool normalAttack = false;
-    //↑ここの部分は武器に当たり判定を付けることで解決。
     /// <summary>防御判定用,コライダーActive用</summary>
     bool guard = false;
     /// <summary>アニメーション再生中かどうか</summary>
@@ -57,7 +51,7 @@ public class PlayerController : MonoBehaviour
     public Playerhp Hp { get => hp; set => hp = value; }
 
     List<ISkill> _skills = new List<ISkill>();
-    ISkill _skill;
+    ISkill _skill = null;
     int skillnum = 0;
     Playerhp hp = null;
     Rigidbody _rb = default;
@@ -91,6 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
+
         timer += Time.deltaTime;
         //if(playerDamagehp <= 0)
         //{
@@ -144,7 +139,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire2"))
         {
             NormalAttack();
-            _anim.Play("NormalAttack");
+            _anim.Play("NormalAttack1");
         }
     }
     void LateUpdate()
@@ -219,11 +214,11 @@ public class PlayerController : MonoBehaviour
 
     public void AddSkill(ISkill skill)
     {
-        if (_skills == null)
+        if (_skill == null)
         {
             _skills.Add(skill);
             _skill = skill;
-            skillText.text = skill.Name;
+            skillText.text = _skill.Name;
         }
         else
         {
@@ -232,7 +227,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void NextSkill()
+    public void NextSkill()//Nextボタンを押したとき
     {
         if (_skills != null)
         {
@@ -242,7 +237,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-    public void UseSkill()
+    public void UseSkill()//スキルボタンを押したとき
     {  
         if(_skill != null)
         {
