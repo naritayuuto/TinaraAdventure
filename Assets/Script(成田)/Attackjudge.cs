@@ -20,7 +20,6 @@ public class Attackjudge : MonoBehaviour
         sManager = GameObject.FindGameObjectWithTag("SkillManager").GetComponent<SkillManager>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         damageText = damageUi.GetComponentInChildren<TextMeshProUGUI>();
-        //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -30,8 +29,7 @@ public class Attackjudge : MonoBehaviour
             Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
             damageText.text = player.AttackDamage.ToString();
             Instantiate(damageUi, hitPos, Quaternion.identity);//ダメージ表示
-            //enemy = other.gameObject.GetComponent<EnemyController1>();
-            //enemy.Damage(player.AttackDamage);//ダメージを与える
+            other.gameObject.GetComponent<EnemyController>().Damage(player.AttackDamage);
             sManager.SkillPoint += 0.5f;//スキルpoint加算    
         }
     }
