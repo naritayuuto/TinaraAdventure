@@ -13,7 +13,7 @@ public class SkillButton : MonoBehaviour
     //int skillnumber = 0;
     /// <summary>解放するために必要なポイント</summary>
     [SerializeField]
-    int skillpoint = 0;
+    int skillPoint = 0;
 
     SkillTree skilltree = null;
 
@@ -23,7 +23,7 @@ public class SkillButton : MonoBehaviour
     bool skillcheck = false;
     //public int Skillnumber { get => skillnumber; set => skillnumber = value; }
     public int ArrayNumber { get => arrayNumber; set => arrayNumber = value; }
-    public int Skillpoint { get => skillpoint; set => skillpoint = value; }
+    public int SkillPoint { get => skillPoint; set => skillPoint = value; }
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +33,7 @@ public class SkillButton : MonoBehaviour
 
     public void OnCllik()
     {
-        skilltree.SkillPointJudge(skillpoint,arrayNumber,button);
+        skilltree.SkillPointJudge(skillPoint,arrayNumber,button);
     }
 
     //public void SkillRelease()
