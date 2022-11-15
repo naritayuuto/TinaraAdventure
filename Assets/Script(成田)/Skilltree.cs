@@ -13,8 +13,6 @@ public class SkillTree : MonoBehaviour
     ISkill _skill = null;//最初から持っておく。
     PlayerController player = null;
     SkillManager sManager = null;
-    [SerializeField]
-    GameObject myButton;
     public SkillTree Parent { get => _parent; set => _parent = value; }
     public List<SkillTree> Childs { get => _childs; set => _childs = value; }
 
@@ -26,9 +24,10 @@ public class SkillTree : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         sManager = GameObject.FindGameObjectWithTag("SkillManager").GetComponent<SkillManager>();
+
     }
 
-    public void SkillPointJudge(float skillpoint,int arraynumber,UnityEngine.UI.Button button)//ポイントが足りているか、skillの配列順番
+    public void SkillPointJudge(float skillpoint,int arraynumber,Button button)//ポイントが足りているか、skillの配列順番
     {
         if(sManager.SkillPoint >= skillpoint)
         {
@@ -58,7 +57,11 @@ public class SkillTree : MonoBehaviour
 
     public void AllOpen()//自分より下のスキルを全て使えるようにする
     {
-        if (_childs != null)//子を持っていたら
+        float skillpoint = GetComponent<SkillButton>().SkillPoint;
+        int arraynumber = GetComponent<SkillButton>().ArrayNumber;
+        Button button = GetComponent<Button>();
+        SkillPointJudge(skillpoint, arraynumber,button);
+        if (_childs != null && sManager.SkillActive[arraynumber])//子を持っていたら
         {
             foreach(var child in _childs)
             {
