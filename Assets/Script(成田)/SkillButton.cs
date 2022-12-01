@@ -8,9 +8,6 @@ public class SkillButton : MonoBehaviour
     /// <summary>配列番号</summary>
     [SerializeField]
     int arrayNumber = 0;
-    ///// <summary>何系統の何番目のスキルなのか</summary>
-    //[SerializeField]
-    //int skillnumber = 0;
     /// <summary>解放するために必要なポイント</summary>
     [SerializeField]
     int skillPoint = 0;
@@ -19,8 +16,8 @@ public class SkillButton : MonoBehaviour
 
     Button button = null;
 
-    /// <summary>スキルが解放されているか</summary>
-    bool skillcheck = false;
+    ///// <summary>スキルが解放されているか</summary>
+    //bool skillcheck = false;
     //public int Skillnumber { get => skillnumber; set => skillnumber = value; }
     public int ArrayNumber { get => arrayNumber; set => arrayNumber = value; }
     public int SkillPoint { get => skillPoint; set => skillPoint = value; }
@@ -35,18 +32,4 @@ public class SkillButton : MonoBehaviour
     {
         skilltree.SkillPointJudge(skillPoint,arrayNumber,button);
     }
-
-    //public void SkillRelease()
-    //{
-    //   if(skillcheck)
-    //    {
-    //        Debug.Log(arrayNumber + "番目呼ばれました");
-
-    //        button.interactable = false;
-    //    }
-    //   else
-    //    {
-    //        Debug.Log("まだ開放されていません");
-    //    }
-    //}
 }
