@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Header("プレイヤーに攻撃する距離")]
     float attackDis = 1f;
     /// <summary>EnemyのX軸とＺ軸の移動範囲</summary>
-    [SerializeField,Header("X軸とＺ軸の移動範囲")]
+    [SerializeField, Header("X軸とＺ軸の移動範囲")]
     float xz = 30f;
     /// <summary>パリィされる時間</summary>
     float parrylimit = 0.5f;
@@ -36,15 +36,16 @@ public class EnemyController : MonoBehaviour
     NavMeshAgent agent = null;
     /// <summary>Enemyの生成された初期地点</summary>
     Vector3 enemypos;
+    /// <summary>プレイヤーの地点、または移動目的地</summary>
     Vector3 targetpos;
     Vector3 destination = new Vector3(0, 0, 0);
     Animator anim = null;
     /// <summary>プレイヤーを見つけているかどうか</summary>
     bool playerFound = false;
-    /// <summary>攻撃中かどうか</summary>
-    bool attack = false;//パリィ可能な攻撃のみ使う予定
+    ///// <summary>攻撃中かどうか</summary>
+    //bool attack = false;//パリィ可能な攻撃のみ使用予定
     /// <summary>パリィが出来るかどうか</summary>
-    bool parry = false;//
+    bool parry = false;//アニメーションイベントで使用予定
 
     public int EnemyHp { get => enemyHp; set => enemyHp = value; }
     public bool Parry { get => parry; set => parry = value; }
@@ -98,6 +99,10 @@ public class EnemyController : MonoBehaviour
                 {
                     agent.SetDestination(targetpos);//目的地を常にプレイヤーに変更 
                 }
+                else
+                {
+                    //攻撃処理を書く予定
+                }
                 break;//switch文を抜ける
         }
     }
@@ -121,17 +126,19 @@ public class EnemyController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (anim)
+        if (!anim)
         {
-            anim.SetFloat("Speed", agent.velocity.magnitude);
-            //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
+            return;
         }
+        anim.SetFloat("Speed", agent.velocity.magnitude);
+        //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
+
     }
 
     public void Damage(int damage)
     {
         enemyHp -= damage;
-        if(enemyHp <= 0)
+        if (enemyHp <= 0)
         {
             Debug.Log("死");
         }

@@ -17,8 +17,6 @@ public class DamageUI : MonoBehaviour
         transform.position += Vector3.up * moveTime * Time.deltaTime;
         text.color = Color.Lerp(text.color, new Color(1f, 0f, 0f, 0f), fadeOutSpeed * Time.deltaTime);
         if(text.color.a <= 0.1f)
-        {
             Destroy(gameObject);
-        }
     }
 }
