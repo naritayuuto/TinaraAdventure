@@ -10,10 +10,14 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
     bool[] _skillActive;//直接的にいじることはない
 
     List<SkillTree> skillTree = new List<SkillTree>();
-
-    float skillPoint = 0f;
-
-    public float SkillPoint { get => skillPoint; set => skillPoint = value; }
+    [Tooltip("スキルポイントを入れる変数")]
+    float _skillPoint = 0f;
+    [Tooltip("敵を攻撃したときに加算する値")]
+    float _attackSkillPoint = 0.5f;
+    [Tooltip("敵を倒したときに加算する値")]
+    float _defeatSkillPoint = 5f;
+    
+    public float SkillPoint { get => _skillPoint; set => _skillPoint = value; }
     public bool[] SkillActive { get => _skillActive; set => _skillActive = value; }
     public SkillButton[] Buttons { get => buttons;}
 
@@ -25,5 +29,9 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
             buttons[i].ArrayNumber = i;
             //buttons[i].Skillpoint += 2 * buttons[i].ArrayNumber;
         }
+    }
+    public void AddSkillPoint(bool enemyDie)
+    {
+        _skillPoint = enemyDie == true ? _skillPoint + _attackSkillPoint : _skillPoint + _defeatSkillPoint;
     }
 }

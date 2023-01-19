@@ -12,7 +12,6 @@ public class SkillTree : MonoBehaviour
     [SerializeField, SerializeReference, SubclassSelector]
     ISkill _skill = null;//最初から持っておく。
     PlayerController player = null;
-    SkillManager sManager = null;
     public SkillTree Parent { get => _parent; set => _parent = value; }
     public List<SkillTree> Childs { get => _childs; set => _childs = value; }
 
@@ -23,16 +22,14 @@ public class SkillTree : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        sManager = GameObject.FindGameObjectWithTag("SkillManager").GetComponent<SkillManager>();
-
     }
 
-    public void SkillPointJudge(float skillpoint,int arraynumber,Button button)//ポイントが足りているか、skillの配列順番
+    public void SkillPointJudge(float removeSkillpoint,int arraynumber,Button button)//ポイントが足りているか、skillの配列順番
     {
-        if(sManager.SkillPoint >= skillpoint)
+        if(GameManager.Instance._skillManager.SkillPoint >= removeSkillpoint)
         {
-            sManager.SkillPoint -= skillpoint;
-            sManager.SkillActive[arraynumber] = true;
+            GameManager.Instance._skillManager.SkillPoint -= removeSkillpoint;
+            GameManager.Instance._skillManager.SkillActive[arraynumber] = true;
             SkillAdd();
             button.interactable = false;
             Debug.Log("解放出来ました");
@@ -61,7 +58,7 @@ public class SkillTree : MonoBehaviour
         int arraynumber = GetComponent<SkillButton>().ArrayNumber;
         Button button = GetComponent<Button>();
         SkillPointJudge(skillpoint, arraynumber,button);
-        if (_childs != null && sManager.SkillActive[arraynumber])//子を持っていたら
+        if (_childs != null && GameManager.Instance._skillManager.SkillActive[arraynumber])//子を持っていたら
         {
             foreach(var child in _childs)
             {
