@@ -26,16 +26,13 @@ public class Playerhp : MonoBehaviour
     {
         playerDamagehp = playerHp;
     }
-
     void Update()
     {
         playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
     }
-
     void Damage(int damage)
     {
         playerDamagehp -= damage;
-
         hpslider.value = playerDamagehp / playerHp;
     }
 }
