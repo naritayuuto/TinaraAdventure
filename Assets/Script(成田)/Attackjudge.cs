@@ -6,7 +6,7 @@ public class Attackjudge : MonoBehaviour
 {
     [SerializeField,Tooltip("ダメージ表示用のUI")]
     GameObject damageUi = null;
-    [SerializeField,Tooltip("damageUiのText")]
+    [Tooltip("damageUiのText")]
     TextMeshProUGUI damageText = null;
     PlayerController player = null;
     [Tooltip("攻撃が当たったEnemy")]

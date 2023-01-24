@@ -8,24 +8,24 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     /// <summary>playerの速さ</summary>
-    [SerializeField]
-    float moveSpeed = 3f;
+    [SerializeField,Tooltip("playerの速度"),Header("動く速度")]
+    float _moveSpeed = 3f;
     /// <summary>playerの回転速度</summary>
     [SerializeField]
-    float turnSpeed = 3f;
+    float _turnSpeed = 3f;
     /// <summary>playerのジャンプ力</summary>
     [SerializeField]
-    float jumpPower = 3f;
+    float _jumpPower = 3f;
     /// <summary>playerの基本攻撃力</summary>
     [SerializeField]
-    int attackDamage = 500;//関数で変更する。
-    int keepAttackDamage = 0;
+    int _attackDamage = 500;//関数で変更する。
+    int _keepAttackDamage = 0;
     /// <summary>playerの武器配列</summary>
-    [SerializeField]
-    GameObject weapon = null;
-    [SerializeField]
-    GameObject button = null;
-    TextMeshProUGUI skillText = null;
+    [SerializeField,Tooltip("LongSwordMesh"),Header("LongSwordMesh")]
+    GameObject _weapon = null;
+    [SerializeField,Tooltip("スキルを使用するために押すボタン"),Header("PlayerUseCanvasのSkillButton")]
+    GameObject _button = null;
+    TextMeshProUGUI _skillText = null;
     /// <summary>ガード判定用コライダー</summary>
     [SerializeField]
     GameObject guardCollider = null;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>パリィ判定用</summary>
     bool parrysuccess = false;
     public bool Guard { get => guard; set => guard = value; }
-    public int AttackDamage { get => attackDamage; set => attackDamage = value; }
+    public int AttackDamage { get => _attackDamage; set => _attackDamage = value; }
     public Animator Anim { get => _anim; set => _anim = value; }
     public Playerhp Hp { get => hp; set => hp = value; }
 
@@ -69,16 +69,14 @@ public class PlayerController : MonoBehaviour
         //    Debug.LogError("ガード判定用のコライダーがセットされていません");
         //}
         
-        if (!weapon) Debug.LogError("武器がありません");
-        if (!button) Debug.LogError("ボタンをセットしてください");
-        skillText = button.GetComponentInChildren<TextMeshProUGUI>();
-        attackCollider = weapon.GetComponent<BoxCollider>();
+        if (!_weapon) Debug.LogError("武器がありません");
+        if (!_button) Debug.LogError("ボタンをセットしてください");
+        _skillText = _button.GetComponentInChildren<TextMeshProUGUI>();
+        attackCollider = _weapon.GetComponent<BoxCollider>();
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
         hp = GetComponent<Playerhp>();
-        keepAttackDamage = attackDamage;
-        //skilltree = GameObject.FindGameObjectWithTag("Skilltree").GetComponent<Skilltree>();
-        //if (!heal) Debug.LogError("スキル名Healをセットしてください");
+        _keepAttackDamage = _attackDamage;
     }
 
     void Update()
@@ -126,15 +124,15 @@ public class PlayerController : MonoBehaviour
             dir.y = 0;
 
             //移動の処理
-            Vector3 velo = dir.normalized * moveSpeed;
+            Vector3 velo = dir.normalized * _moveSpeed;
             velo.y = _rb.velocity.y;
             _rb.velocity = velo;
             Quaternion targetRotation = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
         }
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            _rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         }
         if (Input.GetButtonDown("Fire2"))
         {
@@ -175,21 +173,21 @@ public class PlayerController : MonoBehaviour
 
     public void NormalAttack()
     {
-        attackDamage = Random.Range(400, 600);
+        _attackDamage = Random.Range(400, 600);
     }
 
     public void AttackDamageKeep(int damage)
     {
-        keepAttackDamage = attackDamage;
-        attackDamage = damage;
+        _keepAttackDamage = _attackDamage;
+        _attackDamage = damage;
     }
     public void AttackDamageKeep()//レベルアップ時使用。
     {
-        keepAttackDamage = attackDamage;
+        _keepAttackDamage = _attackDamage;
     }
     public void ReturnAttackDamage()//攻撃スキルをしていない時に呼ぶ
     {
-        attackDamage = keepAttackDamage;
+        _attackDamage = _keepAttackDamage;
     }
     public void ParryJudge(bool judge)
     {
@@ -218,7 +216,7 @@ public class PlayerController : MonoBehaviour
         {
             _skills.Add(skill);
             _skill = skill;
-            skillText.text = _skill.Name;
+            _skillText.text = _skill.Name;
         }
         else
         {
@@ -233,7 +231,7 @@ public class PlayerController : MonoBehaviour
         {
             skillnum++;
             _skill = _skills[skillnum % _skills.Count];
-            skillText.text = _skill.Name;
+            _skillText.text = _skill.Name;
         }
 
     }
