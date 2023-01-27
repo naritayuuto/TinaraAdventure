@@ -130,10 +130,10 @@ public class PlayerController : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
         }
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
-        }
+        //if (Input.GetButtonDown("Jump") && isGrounded)
+        //{
+        //    _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
+        //}
         if (Input.GetButtonDown("Fire2"))
         {
             NormalAttack();
@@ -200,15 +200,15 @@ public class PlayerController : MonoBehaviour
             parrysuccess = true;//parry—p‚Ìanimation‚ð—¬‚·
         }
     }
-    void OnTriggerStay(Collider other)
-    {
-        isGrounded = true;
-    }
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    isGrounded = true;
+    //}
 
-    void OnTriggerExit(Collider other)
-    {
-        isGrounded = false;
-    }
+    //void OnTriggerExit(Collider other)
+    //{
+    //    isGrounded = false;
+    //}
 
     public void AddSkill(ISkill skill)
     {
