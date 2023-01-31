@@ -11,15 +11,15 @@ public class GameManager
 
     public SkillManager _skillManager;
 
-    public GameObject _player = null;
+    public PlayerController _player = null;
 
 
-    void GetSkillManager(SkillManager s)
+    public void GetSkillManager(SkillManager s)
     {
         _skillManager = s;
     }
 
-    void GetPlayerObject(GameObject p)
+    public void GetPlayerObject(PlayerController p)
     {
         _player = p;
     }
