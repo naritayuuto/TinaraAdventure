@@ -19,7 +19,7 @@ public class ParryJudge : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy"))
         {
             parryJudge = other.GetComponent<EnemyController>().Parry;
-            player.ParryJudge(parryJudge);
+            //player.ParryJudge(parryJudge);
         }
     }
 }

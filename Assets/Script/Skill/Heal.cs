@@ -12,14 +12,14 @@ public class Heal : ISkill
     int recoveryAmount = 500;
     public void Action(PlayerController player)
     {
-        player.Anim.Play(name);
-        if (player.Hp.PlayerDamagehp + recoveryAmount > player.Hp.PlayerMaxHp)
+        player._playerAnimAndcollider.Anim.Play(name);
+        if (player._playerHp.PlayerDamagehp + recoveryAmount > player._playerHp.PlayerMaxHp)
         {
-            player.Hp.PlayerDamagehp = player.Hp.PlayerMaxHp;
+            player._playerHp.PlayerDamagehp = player._playerHp.PlayerMaxHp;
         }
         else
         {
-            player.Hp.PlayerDamagehp += recoveryAmount;
+            player._playerHp.PlayerDamagehp += recoveryAmount;
         }
     }
 }

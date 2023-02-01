@@ -10,8 +10,8 @@ public class Attack1 : ISkill//ƒXƒLƒ‹‚²‚Æ‚Éƒ_ƒ[ƒW‚ğ•Ï‚¦‚½‚¢‚½‚ßƒXƒLƒ‹•ª‚ÌŠÖ”‚
     int damage = 800;
     public void Action(PlayerController player)
     {
-        player.AttackDamageKeep(damage);
-        player.Anim.Play(name);
+        player._playerAnimAndcollider.AttackDamageChange(damage);
+        player._playerAnimAndcollider.Anim.Play(name);
         Debug.Log("Attack");
     }
 }

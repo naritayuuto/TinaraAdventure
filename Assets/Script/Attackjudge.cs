@@ -8,7 +8,6 @@ public class Attackjudge : MonoBehaviour
     GameObject damageUi = null;
     [Tooltip("damageUiのText")]
     TextMeshProUGUI damageText = null;
-    PlayerController player = null;
     [Tooltip("攻撃が当たったEnemy")]
     EnemyController enemy = null;
     private void Start()
@@ -17,7 +16,6 @@ public class Attackjudge : MonoBehaviour
         {
             Debug.LogError("damageUIがありません");
         }
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         damageText = damageUi.GetComponentInChildren<TextMeshProUGUI>();
     }
     private void OnTriggerEnter(Collider other)
@@ -26,10 +24,10 @@ public class Attackjudge : MonoBehaviour
         {
             Debug.Log("Attack");
             Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
-            damageText.text = player.AttackDamage.ToString();
+            damageText.text = GameManager.Instance._player._playerAttackParam.AttackDamage.ToString();
             Instantiate(damageUi, hitPos, Quaternion.identity);//ダメージ表示
             enemy = other.gameObject.GetComponent<EnemyController>();
-            enemy.Damage(player.AttackDamage);
+            enemy.Damage(GameManager.Instance._player._playerAttackParam.AttackDamage);
             GameManager.Instance._skillManager.AddSkillPoint(enemy.Die);
             if(enemy.Die)
             {

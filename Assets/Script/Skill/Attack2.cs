@@ -8,7 +8,7 @@ public class Attack2 : ISkill
     string ISkill.Name => name;
     public void Action(PlayerController player)
     {
-        player.Anim.Play(name);
+        player._playerAnimAndcollider.Anim.Play(name);
         Debug.Log("Attack");
     }
 }
