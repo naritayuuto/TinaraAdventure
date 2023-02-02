@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
     public PlayerAttackParam _playerAttackParam = null;
     Rigidbody _rb = default;
     public bool Guard { get => guard; set => guard = value; }
+    public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
+
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
 
     private void Awake()
