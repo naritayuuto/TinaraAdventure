@@ -8,48 +8,39 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField]
     int _enemyHp = 5000;
-    /// <summary>Enemyの速さ</summary>
-    [SerializeField]
+    [SerializeField,Tooltip("Enemyの速さ")]
     float _moveSpeed = 3.0f;
-    /// <summary>プレイヤーを見つけることができる距離</summary>
-    [SerializeField, Header("プレイヤーを見つけられる距離")]
+    [SerializeField, Header("プレイヤーを見つけられる距離"), Tooltip("プレイヤーを見つけることができる距離")]
     float _playerSensedis = 5f;
-    [SerializeField, Header("動き出すまでの時間")]
+    [SerializeField, Header("動き出すまでの時間"), Tooltip("動き出すまでの時間")]
     float _moveTime = 5f;
-    [SerializeField, Header("カウント用")]
+    [SerializeField, Header("カウント用"), Tooltip("??")]
     float _timer = 0f;
-    /// <summary>目的地が切り替わる距離</summary>
-    [SerializeField, Header("目的地が切り替わる距離")]
+    [SerializeField, Header("目的地が切り替わる距離"), Tooltip("目的地が切り替わる距離")]
     float _changeDis = 5f;
-    [SerializeField, Header("プレイヤーに攻撃する距離")]
+    [SerializeField, Header("プレイヤーに攻撃する距離"), Tooltip("プレイヤーに攻撃する距離")]
     float _attackDis = 1f;
-    /// <summary>EnemyのX軸とＺ軸の移動範囲</summary>
-    [SerializeField, Header("X軸とＺ軸の移動範囲")]
+    [SerializeField, Header("X軸とＺ軸の移動範囲"), Tooltip("EnemyのX軸とＺ軸の移動範囲")]
     float _xz = 30f;
-    /// <summary>パリィされる時間</summary>
-    float _parrylimit = 0.5f;
-
+    [Tooltip("目的地のX座標")]
     float _enemyPosX;
+    [Tooltip("目的地のZ座標")]
     float _enemyPosZ;
+    [Tooltip("1の時 = player以外を目的地とする。2の時 = Playerを目標にし、攻撃まで行う")]
     int _pattern = 0;
     GameObject _player = null;
     NavMeshAgent _agent = null;
-    /// <summary>Enemyの生成された初期地点</summary>
+    [Tooltip("Enemyの生成された初期地点")]
     Vector3 _enemypos;
-    /// <summary>プレイヤーの地点、または移動目的地</summary>
+    [Tooltip("プレイヤーの地点、または移動目的地")]
     Vector3 _targetpos;
-    Vector3 _destination = new Vector3(0, 0, 0);
+    Vector3 _destination = default;
     Animator _anim = null;
-    /// <summary>プレイヤーを見つけているかどうか</summary>
+    [Tooltip("プレイヤーを見つけているかどうか")]
     bool _playerFound = false;
-    ///// <summary>攻撃中かどうか</summary>
-    //bool attack = false;//パリィ可能な攻撃のみ使用予定
-    /// <summary>パリィが出来るかどうか</summary>
-    bool _parry = false;//アニメーションイベントで使用予定
     [Tooltip("死んだかどうか")]
     bool _die = false;
     public int EnemyHp { get => _enemyHp; set => _enemyHp = value; }
-    public bool Parry { get => _parry; set => _parry = value; }
     public bool Die { get => _die;}
 
     // Start is called before the first frame update
