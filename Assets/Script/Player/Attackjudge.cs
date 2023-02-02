@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class Attackjudge : MonoBehaviour
+public class Attackjudge : MonoBehaviour//武器に付ける
 {
     [SerializeField,Tooltip("ダメージ表示用のUI")]
     GameObject damageUi = null;
@@ -27,7 +27,7 @@ public class Attackjudge : MonoBehaviour
             damageText.text = GameManager.Instance._player._playerAttackParam.AttackDamage.ToString();
             Instantiate(damageUi, hitPos, Quaternion.identity);//ダメージ表示
             enemy = other.gameObject.GetComponent<EnemyController>();
-            enemy.Damage(GameManager.Instance._player._playerAttackParam.AttackDamage);
+            enemy.Damage((int)Mathf.Round(GameManager.Instance._player._playerAttackParam.AttackDamage));
             GameManager.Instance._skillManager.AddSkillPoint(enemy.Die);
             if(enemy.Die)
             {

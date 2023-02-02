@@ -25,13 +25,14 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
     bool guard = false;
     /// <summary>パリィ判定用</summary>
     bool parrysuccess = false;
-    public Playerhp _playerHp = null;
+    public PlayerHp _playerHp = null;
     public PlayerAnim _playerAnimAndcollider = null;
     public PlayerUseSkill _playerSkill = null;
     public PlayerAttackParam _playerAttackParam = null;
     Rigidbody _rb = default;
     public bool Guard { get => guard; set => guard = value; }
     public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
+    public Rigidbody Rb { get => _rb;}
 
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
 
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
         _playerSkill = GetComponent<PlayerUseSkill>();
         if (!_button) Debug.LogError("ボタンをセットしてください");
         _rb = GetComponent<Rigidbody>(); 
-        _playerHp = GetComponent<Playerhp>();
+        _playerHp = GetComponent<PlayerHp>();
         _playerAnimAndcollider = GetComponent<PlayerAnim>();
         _playerSkill = GetComponent<PlayerUseSkill>();
         _playerAttackParam = GetComponent<PlayerAttackParam>();

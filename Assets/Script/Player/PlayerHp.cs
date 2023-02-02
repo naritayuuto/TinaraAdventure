@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class Playerhp : MonoBehaviour
+public class PlayerHp : MonoBehaviour
 {
     //[SerializeField]
     //PlayerController player = null;
@@ -30,7 +30,7 @@ public class Playerhp : MonoBehaviour
     {
         playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
     }
-    void Damage(int damage)
+    public void Damage(int damage)
     {
         playerDamagehp -= damage;
         hpslider.value = playerDamagehp / playerHp;

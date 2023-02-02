@@ -42,7 +42,7 @@ public class PlayerAnim : MonoBehaviour
     {
         if (_anim)
         {
-            Vector3 walkSpeed = _rb.velocity;
+            Vector3 walkSpeed = GameManager.Instance._player.Rb.velocity;
             walkSpeed.y = 0;
             _anim.SetFloat("Speed", walkSpeed.magnitude);
             //_anim.SetBool("Guard",guard);//ガード用
@@ -83,5 +83,10 @@ public class PlayerAnim : MonoBehaviour
     public void ReturnAttackDamage()//攻撃スキルをしていない時に呼ぶ
     {
         _attackParam.AttackDamage = _attackParam.KeepAttackDamage;
+    }
+
+    public void DamageAnimation()
+    {
+        //animatoinの記述
     }
 }
