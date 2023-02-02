@@ -18,7 +18,7 @@ public class PlayerAnim : MonoBehaviour
     [Tooltip("アニメーション再生中かどうか")]
     bool animPlay = false;
     Rigidbody2D _rb = null;
-    PlayerAttackParam _attackParam = null;
+    PlayerAttackParam _attackParam = GameManager.Instance._player._playerAttackParam;
     public Animator Anim { get => _anim; set => _anim = value; }
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,6 @@ public class PlayerAnim : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         if (!_weapon) Debug.LogError("武器がありません");
         _attackCollider = _weapon.GetComponent<BoxCollider>();
-        _attackParam = GetComponent<PlayerAttackParam>();
     }
 
     // Update is called once per frame
