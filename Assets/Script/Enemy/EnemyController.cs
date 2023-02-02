@@ -103,9 +103,9 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
-                    //攻撃処理を書く予定
+                    //攻撃アニメーションの再生。
                 }
-                break;//switch文を抜ける
+                break;
         }
     }
 
@@ -128,13 +128,11 @@ public class EnemyController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (!_anim)
+        if (_anim)
         {
-            return;
+            _anim.SetFloat("Speed", _agent.velocity.magnitude);
         }
-        _anim.SetFloat("Speed", _agent.velocity.magnitude);
         //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
-
     }
 
     public void Damage(int damage)
