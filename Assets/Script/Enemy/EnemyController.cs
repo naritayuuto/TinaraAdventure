@@ -8,10 +8,10 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField]
     int _enemyHp = 5000;
-    [SerializeField,Tooltip("Enemyの速さ")]
+    [SerializeField, Tooltip("Enemyの速さ")]
     float _moveSpeed = 3.0f;
     [SerializeField, Header("プレイヤーを見つけられる距離"), Tooltip("プレイヤーを見つけることができる距離")]
-    float _playerSensedis = 5f;
+    float _playerSensedis = 10f;
     [SerializeField, Header("動き出すまでの時間"), Tooltip("動き出すまでの時間")]
     float _moveTime = 5f;
     [SerializeField, Header("カウント用"), Tooltip("??")]
@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour
     Vector3 _enemypos;
     [Tooltip("プレイヤーの地点、または移動目的地")]
     Vector3 _targetpos;
+    [Tooltip("行先")]
     Vector3 _destination = default;
     Animator _anim = null;
     [Tooltip("プレイヤーを見つけているかどうか")]
@@ -77,7 +78,7 @@ public class EnemyController : MonoBehaviour
                     _agent.SetDestination(_destination);
                     _playerFound = false;
                 }
-                if (Vector3.Distance(transform.position, _destination) <= _changeDis)//目的地周辺に来たら
+                else if (Vector3.Distance(transform.position, _destination) <= _changeDis)//目的地周辺に来たら
                 {
                     _moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
                     if (_moveTime >= _timer)//時間が来たら
