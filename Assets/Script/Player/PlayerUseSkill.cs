@@ -13,7 +13,7 @@ public class PlayerUseSkill : MonoBehaviour
     int _skillnum = 0;
     [Tooltip("プレイヤーが使用するスキル名")]
     TextMeshProUGUI _skillText = null;
-    PlayerAttackParam _attackParam = GameManager.Instance._player._playerAttackParam;
+    PlayerAttackParam _attackParam;
     [Tooltip("バフスキルを使っている場合true")]
     bool _buffUse = false;
     [Tooltip("バフスキルを使ったらtrue")]
@@ -22,6 +22,10 @@ public class PlayerUseSkill : MonoBehaviour
     public float _buffTimer = 0f;
     [SerializeField, Tooltip("バフスキルのクールタイム")]
     float _buffCoolTime = 0;
+    private void Start()
+    {
+        _attackParam = GameManager.Instance._player._playerAttackParam;
+    }
     private void Update()
     {
         if (_buffUse)

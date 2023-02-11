@@ -27,7 +27,7 @@ public class PlayerAnim : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         if (!_weapon) Debug.LogError("•Ší‚ª‚ ‚è‚Ü‚¹‚ñ");
         _attackCollider = _weapon.GetComponent<BoxCollider>();
-        _attackParam = GameManager.Instance._player._playerAttackParam;
+        _attackParam = GetComponent<PlayerAttackParam>();
     }
 
     // Update is called once per frame
