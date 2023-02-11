@@ -186,6 +186,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3663479512687058247}
   - component: {fileID: 3688431338430124767}
+  - component: {fileID: 1380339922}
+  - component: {fileID: 1380339921}
   m_Layer: 0
   m_Name: Axe00_Right
   m_TagString: Untagged
@@ -318,6 +320,31 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.9304377, y: 1.5924478, z: 0.65058804}
     m_Extent: {x: 0.09660038, y: 0.4788707, z: 0.9174366}
   m_DirtyAABB: 0
+--- !u!65 &1380339922
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657133118713139247}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.57464486, y: 1.1019129, z: 0.12571822}
+  m_Center: {x: -0.5301255, y: -2.1636615, z: -1.4270551}
+--- !u!114 &1380339921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657133118713139247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dac2375160769f45a8b87e5b3fd5c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3657204446969650869
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,6 +941,8 @@ GameObject:
   - component: {fileID: 3659736744548266253}
   - component: {fileID: 3652493747564775645}
   - component: {fileID: 3645119149178398517}
+  - component: {fileID: 1912190375}
+  - component: {fileID: 1912190374}
   m_Layer: 0
   m_Name: Axe00_Left
   m_TagString: Untagged
@@ -986,6 +1015,31 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1912190375
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657340073523175941}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.957741, y: 0.1768842, z: 1.833371}
+  m_Center: {x: 0.10685537, y: -0.0000014699708, z: 0.6867802}
+--- !u!114 &1912190374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657340073523175941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dac2375160769f45a8b87e5b3fd5c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3657340678718422919
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,10 +1508,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3663276169636917299}
-  - component: {fileID: 3717211792799394617}
   - component: {fileID: 109608665}
   - component: {fileID: 3659081167435906736}
   - component: {fileID: 3659081167435906737}
+  - component: {fileID: 1317020001}
+  - component: {fileID: 1317020002}
   m_Layer: 0
   m_Name: SkeletonOutlaw_Armor - LOD0
   m_TagString: Enemy
@@ -1489,26 +1544,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3717211792799394617
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3657423218400854375}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 28b668865ad9a884395ab10f675feb53, type: 3}
-  m_Controller: {fileID: 9100000, guid: 0ca7eafc6f555b741862212a56fd50e9, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!136 &109608665
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1557,14 +1592,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef98efb13db1a24bbfe720c3683ccb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyHp: 5000
   _moveSpeed: 3
   _playerSensedis: 5
   _moveTime: 5
-  _timer: 0
   _changeDis: 5
-  _attackDis: 1
+  _attackDis: 3
   _xz: 30
+  _attackMaxNum: 3
+  _coolActionTime: 3
+--- !u!95 &1317020001
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657423218400854375}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 28b668865ad9a884395ab10f675feb53, type: 3}
+  m_Controller: {fileID: 9100000, guid: a154579fe94277347a6d66c90414a9df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1317020002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3657423218400854375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf47d50fed85d45bb113d04afa0f43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHp: 5000
+  hpSlider: {fileID: 4746275386225279555}
 --- !u!1 &3657432820808149841
 GameObject:
   m_ObjectHideFlags: 0
@@ -3724,20 +3793,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3443311198377476511, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
   m_PrefabInstance: {fileID: 2270270886747538093}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8427623946226759001 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7743218297001506804, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
+--- !u!114 &4746275386225279555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6800355202883698926, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
   m_PrefabInstance: {fileID: 2270270886747538093}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3262354047439027209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8427623946226759001}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86196366277ff0f4984c818e93af8a80, type: 3}
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
