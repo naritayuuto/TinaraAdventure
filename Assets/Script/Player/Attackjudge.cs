@@ -4,35 +4,44 @@ using UnityEngine;
 using TMPro;
 public class Attackjudge : MonoBehaviour//武器に付ける
 {
-    [SerializeField,Tooltip("ダメージ表示用のUI")]
+    [SerializeField, Tooltip("ダメージ表示用のUI")]
     GameObject damageUi = null;
     [Tooltip("damageUiのText")]
     TextMeshProUGUI damageText = null;
     [Tooltip("攻撃が当たったEnemy")]
-    EnemyController enemy = null;
+    EnemyHp _enemyHp = null;
+    [Tooltip("playerのAttackDamageの値を入れる変数")]
+    int _playerAttack = 0;
+    //public Vector3 _uiTransform;
     private void Start()
     {
-        if(!damageUi)
+        if (!damageUi)
         {
             Debug.LogError("damageUIがありません");
         }
         damageText = damageUi.GetComponentInChildren<TextMeshProUGUI>();
+        //gameObject.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
+            //if (_uiTransform != default)
+            //{
             Debug.Log("Attack");
             Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
-            damageText.text = GameManager.Instance._player._playerAttackParam.AttackDamage.ToString();
+            _playerAttack = (int)Mathf.Round(GameManager.Instance._player._playerAttackParam.AttackDamage);
+            damageText.text = _playerAttack.ToString();
             Instantiate(damageUi, hitPos, Quaternion.identity);//ダメージ表示
-            enemy = other.gameObject.GetComponent<EnemyController>();
-            enemy.Damage((int)Mathf.Round(GameManager.Instance._player._playerAttackParam.AttackDamage));
-            GameManager.Instance._skillManager.AddSkillPoint(enemy.Die);
-            if(enemy.Die)
+            _enemyHp = other.gameObject.GetComponent<EnemyHp>();
+            _enemyHp.Damage(_playerAttack);
+            GameManager.Instance._skillManager.AddSkillPoint(_enemyHp.Die);
+            //}
+            if (_enemyHp.Die)
             {
-                enemy = null;
+                _enemyHp = null;
             }
+            //gameObject.SetActive(false);
         }
     }
 }
