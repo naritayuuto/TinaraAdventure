@@ -26,6 +26,8 @@ public class EnemyController : MonoBehaviour
     float _enemyPosX;
     [Tooltip("目的地のZ座標")]
     float _enemyPosZ;
+    [Header("攻撃アニメーションの数"), Tooltip("ランダムで決める、値は攻撃アニメーションの個数")]
+    int _attackPattern = 1;
     [Tooltip("1の時 = player以外を目的地とする。2の時 = Playerを目標にし、攻撃まで行う")]
     int _pattern = 0;
     GameObject _player = null;
@@ -95,7 +97,7 @@ public class EnemyController : MonoBehaviour
                 }
                 else
                 {
-                    //攻撃アニメーションの再生。
+                   
                 }
                 break;
         }
