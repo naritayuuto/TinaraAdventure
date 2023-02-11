@@ -6,33 +6,33 @@ public class PlayerHp : MonoBehaviour
 {
     //[SerializeField]
     //PlayerController player = null;
-    /// <summary> playerの体力</summary>
-    [SerializeField]
-    private int playerHp = 5000;
-    /// <summary> playerの増減する体力</summary>
-    [SerializeField]
-    private int playerDamagehp = 0;
-    /// <summary>プレイヤーのHP表示用テキスト</summary>
-    [SerializeField]
+    [SerializeField,Header("体力の最大値"),Tooltip("playerの体力の最大値")]
+    private float _playerHp = 5000f;
+    [Header("ダメージを受けて変化する体力"), Tooltip("playerの増減する体力")]
+    float _playerDamageHp = 0;
+    [SerializeField,Tooltip("プレイヤーのHP表示用テキスト")]
     Text playerHpText = null;
     [SerializeField]
-    Slider hpslider = null;
+    Slider hpSlider = null;
     /// <summary> playerの増減する体力</summary>
-    public int PlayerDamagehp { get => playerDamagehp; set => playerDamagehp = value; }
-    /// <summary> playerの体力</summary>
-    public int PlayerMaxHp { get => playerHp; set => playerHp = value; }
-    // Start is called before the first frame update
+    public float PlayerDamageHp { get => _playerDamageHp; set => _playerDamageHp = value; }
+    /// <summary> playerの体力の最大値</summary>
+    public float PlayerMaxHp { get => _playerHp; set => _playerHp = value; }
     void Start()
     {
-        playerDamagehp = playerHp;
+        _playerDamageHp = _playerHp;
     }
     void Update()
     {
-        playerHpText.text = playerDamagehp.ToString() + "/" + playerHp.ToString();
+        playerHpText.text = _playerDamageHp.ToString() + "/" + _playerHp.ToString();
+        if (Input.GetButtonDown("Jump"))
+        {
+            Damage(500);
+        }
     }
     public void Damage(int damage)
     {
-        playerDamagehp -= damage;
-        hpslider.value = playerDamagehp / playerHp;
+        _playerDamageHp -= damage;
+        hpSlider.value = _playerDamageHp / _playerHp;
     }
 }
