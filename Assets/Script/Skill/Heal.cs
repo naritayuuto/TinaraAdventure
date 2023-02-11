@@ -13,13 +13,13 @@ public class Heal : ISkill
     public void Action(PlayerController player)
     {
         player._playerAnimAndcollider.Anim.Play(name);
-        if (player._playerHp.PlayerDamagehp + recoveryAmount > player._playerHp.PlayerMaxHp)
+        if (player._playerHp.PlayerDamageHp + recoveryAmount > player._playerHp.PlayerMaxHp)
         {
-            player._playerHp.PlayerDamagehp = player._playerHp.PlayerMaxHp;
+            player._playerHp.PlayerDamageHp = player._playerHp.PlayerMaxHp;
         }
         else
         {
-            player._playerHp.PlayerDamagehp += recoveryAmount;
+            player._playerHp.PlayerDamageHp += recoveryAmount;
         }
     }
 }
