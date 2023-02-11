@@ -6,30 +6,32 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField]
-    int _enemyHp = 5000;
     [SerializeField, Tooltip("Enemyの速さ")]
     float _moveSpeed = 3.0f;
     [SerializeField, Header("プレイヤーを見つけられる距離"), Tooltip("プレイヤーを見つけることができる距離")]
     float _playerSensedis = 10f;
     [SerializeField, Header("動き出すまでの時間"), Tooltip("動き出すまでの時間")]
     float _moveTime = 5f;
-    [SerializeField, Header("カウント用"), Tooltip("??")]
-    float _timer = 0f;
     [SerializeField, Header("目的地が切り替わる距離"), Tooltip("目的地が切り替わる距離")]
     float _changeDis = 5f;
     [SerializeField, Header("プレイヤーに攻撃する距離"), Tooltip("プレイヤーに攻撃する距離")]
-    float _attackDis = 1f;
+    float _attackDis = 2.5f;
     [SerializeField, Header("X軸とＺ軸の移動範囲"), Tooltip("EnemyのX軸とＺ軸の移動範囲")]
-    float _xz = 30f;
+    float _xz = 10f;
     [Tooltip("目的地のX座標")]
     float _enemyPosX;
     [Tooltip("目的地のZ座標")]
     float _enemyPosZ;
-    [Header("攻撃アニメーションの数"), Tooltip("ランダムで決める、値は攻撃アニメーションの個数")]
-    int _attackPattern = 1;
+    //[Header("攻撃アニメーションの数"), Tooltip("ランダムで決める、値は攻撃アニメーションの個数")]
+    //int _attackPattern;
+    [SerializeField,Header("攻撃アニメーションの個数＋１の値")]
+    int _attackMaxNum = 3;
     [Tooltip("1の時 = player以外を目的地とする。2の時 = Playerを目標にし、攻撃まで行う")]
     int _pattern = 0;
+    [SerializeField, Header("次の攻撃までの待機時間")]
+    float _coolActionTime = 3f;
+    [Header("カウント用"), Tooltip("攻撃用のタイマー")]
+    float _timer = 0f;
     GameObject _player = null;
     NavMeshAgent _agent = null;
     [Tooltip("Enemyの生成された初期地点")]
@@ -41,10 +43,8 @@ public class EnemyController : MonoBehaviour
     Animator _anim = null;
     [Tooltip("プレイヤーを見つけているかどうか")]
     bool _playerFound = false;
-    [Tooltip("死んだかどうか")]
-    bool _die = false;
-    public int EnemyHp { get => _enemyHp; set => _enemyHp = value; }
-    public bool Die { get => _die;}
+    [Tooltip("プレイヤーを攻撃出来る距離の場合true")]
+    bool _attack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +71,19 @@ public class EnemyController : MonoBehaviour
             _playerFound = true;
             _pattern = 2;
         }
+        if (_attack)
+        {
+            _timer += Time.deltaTime;
+            if (_timer >= _coolActionTime)
+            {
+                _anim.SetInteger("AttackPattern", Random.Range(0, _attackMaxNum));
+                _timer = 0;
+            }
+            else
+            {
+                _anim.SetInteger("AttackPattern", _attackMaxNum);
+            }
+        }
         switch (_pattern)
         {
             case 1:
@@ -93,11 +106,13 @@ public class EnemyController : MonoBehaviour
             case 2:
                 if (Vector3.Distance(transform.position, _targetpos) > _attackDis)//見つけているが攻撃が届かない部分の処理
                 {
-                    _agent.SetDestination(_targetpos);//目的地を常にプレイヤーに変更 
+                    _attack = false;
+                    _agent.SetDestination(_targetpos);//目的地を常にプレイヤーに変更
                 }
                 else
                 {
-                   
+                    _attack = true;
+                    transform.rotation = Quaternion.LookRotation(_targetpos - transform.position);
                 }
                 break;
         }
@@ -120,6 +135,7 @@ public class EnemyController : MonoBehaviour
             _agent.SetDestination(_destination);//NavMeshAgentの情報を取得し,新しく目的地（pos）を設定する。
         }
     }
+
     private void LateUpdate()
     {
         if (_anim)
@@ -127,16 +143,5 @@ public class EnemyController : MonoBehaviour
             _anim.SetFloat("Speed", _agent.velocity.magnitude);
         }
         //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
-    }
-
-    public void Damage(int damage)
-    {
-        _enemyHp -= damage;
-        if (_enemyHp <= 0)
-        {
-            _die = true;
-            //アニメーションを流す、当たり判定となっているコライダーのリストを作っておき、当たり判定を消す。
-            Debug.Log("敵が死んだ");
-        }
     }
 }
