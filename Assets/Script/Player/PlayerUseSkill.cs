@@ -75,12 +75,12 @@ public class PlayerUseSkill : MonoBehaviour
         }
     }
 
-    public void BuffUse(float buff, float time,int jobNum)
+    public void BuffUse(float buff, float actionTime, float coolTime, int jobNum)
     {
         if (!_buffCool)
         {
-            _buffTimer = time;
-            _buffCoolTime = time;
+            _buffTimer = actionTime;
+            _buffCoolTime = coolTime;
             switch (jobNum)
             {
                 case 1:
@@ -98,6 +98,7 @@ public class PlayerUseSkill : MonoBehaviour
                     }
                 case 3:
                     {
+
                         break;
                     }
             }
