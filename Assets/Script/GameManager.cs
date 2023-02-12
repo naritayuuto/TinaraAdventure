@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class GameManager
+public class GameManager : MonoBehaviour
 {
-    static private GameManager _instance = new GameManager();
+    private static GameManager _instance = default;
 
-    static public GameManager Instance { get => _instance;}
+    public static GameManager Instance { get => _instance;}
 
-    public SkillManager _skillManager;
+    [SerializeField, Header("スキルマネージャー")]
+    SkillManager _skillManager = null;
 
-    public PlayerController _player = null;
+    [SerializeField,Header("Player"),Tooltip("プレイヤー")]
+    PlayerController _player = null;
 
+    public PlayerController Player { get => _player; }
+    public SkillManager SkillManager { get => _skillManager;}
 
-    public void GetSkillManager(SkillManager s)
+    private void Awake()
     {
-        _skillManager = s;
-    }
-
-    public void GetPlayerObject(PlayerController p)
-    {
-        _player = p;
+        if (Instance)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }
