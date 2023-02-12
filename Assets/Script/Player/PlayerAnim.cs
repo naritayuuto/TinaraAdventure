@@ -43,7 +43,7 @@ public class PlayerAnim : MonoBehaviour
     {
         if (_anim)
         {
-            Vector3 walkSpeed = GameManager.Instance._player.Rb.velocity;
+            Vector3 walkSpeed = GameManager.Instance.Player.Rb.velocity;
             walkSpeed.y = 0;
             _anim.SetFloat("Speed", walkSpeed.magnitude);
             //_anim.SetBool("Guard",guard);//ÉKÅ[Éhóp

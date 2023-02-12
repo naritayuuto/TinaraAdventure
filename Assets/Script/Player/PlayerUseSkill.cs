@@ -11,7 +11,7 @@ public class PlayerUseSkill : MonoBehaviour
     ISkill _skill = null;
     [Tooltip("_skillsの要素番号")]
     int _skillnum = 0;
-    [Tooltip("プレイヤーが使用するスキル名")]
+    [SerializeField,Tooltip("プレイヤーが使用するスキル名のText")]
     TextMeshProUGUI _skillText = null;
     PlayerAttackParam _attackParam;
     [Tooltip("バフスキルを使っている場合true")]
@@ -24,7 +24,7 @@ public class PlayerUseSkill : MonoBehaviour
     float _buffCoolTime = 0;
     private void Start()
     {
-        _attackParam = GameManager.Instance._player._playerAttackParam;
+        _attackParam = GameManager.Instance.Player._playerAttackParam;
     }
     private void Update()
     {
@@ -75,7 +75,7 @@ public class PlayerUseSkill : MonoBehaviour
     {
         if (_skill != null)
         {
-            _skill.Action(GameManager.Instance._player);
+            _skill.Action(GameManager.Instance.Player);
         }
     }
 
@@ -96,7 +96,7 @@ public class PlayerUseSkill : MonoBehaviour
                     }
                 case 2:
                     {
-                        GameManager.Instance._player.MoveSpeed *= buff;
+                        GameManager.Instance.Player.MoveSpeed *= buff;
                         _buffUse = true;
                         break;
                     }

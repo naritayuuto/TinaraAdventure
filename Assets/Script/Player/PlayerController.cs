@@ -36,10 +36,6 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
 
     /// <summary>入力された方向の XZ 平面でのベクトル</summary>
 
-    private void Awake()
-    {
-        GameManager.Instance.GetPlayerObject(this);
-    }
     void Start()
     {
         _playerAnimAndcollider = GetComponent<PlayerAnim>();
