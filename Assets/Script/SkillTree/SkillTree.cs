@@ -9,6 +9,8 @@ public class SkillTree : MonoBehaviour
 
     List<SkillTree> _childs = new List<SkillTree>();//自分自身の下に付いている子供たち
 
+    SkillManager _skillManager = null;
+
     /// <summary>解放するために必要なポイント</summary>
     [SerializeField]
     int _openSkillPoint = 1;
@@ -20,6 +22,8 @@ public class SkillTree : MonoBehaviour
     public List<SkillTree> Childs { get => _childs; set => _childs = value; }
     public ISkill Skill { get => _skill;}
     public int OpenSkillPoint { get => _openSkillPoint; set => _openSkillPoint = value; }
+    public SkillManager SkillManager { get => _skillManager; set => _skillManager = value; }
+
     private void Awake()
     {
         ChildAdd(this);//親がセットされていたら子供として親のListに追加する。
@@ -31,10 +35,10 @@ public class SkillTree : MonoBehaviour
     }
     public void SkillPointJudge(float removeSkillpoint,int arraynumber,Button button)//ポイントが足りているか、skillの配列順番
     {
-        if(GameManager.Instance._skillManager.SkillPoint >= removeSkillpoint)
+        if(_skillManager.SkillPoint >= removeSkillpoint)
         {
-            GameManager.Instance._skillManager.SkillPoint -= removeSkillpoint;
-            GameManager.Instance._skillManager.SkillActive[arraynumber] = true;
+            _skillManager.SkillPoint -= removeSkillpoint;
+            _skillManager.SkillActive[arraynumber] = true;
             SkillAdd();
             button.interactable = false;
             Debug.Log("解放出来ました");
@@ -47,7 +51,7 @@ public class SkillTree : MonoBehaviour
 
     public void SkillAdd()
     {
-        GameManager.Instance._player._playerSkill.AddSkill(_skill);
+        GameManager.Instance.Player._playerSkill.AddSkill(_skill);
     }
     public void ChildAdd(SkillTree child)
     {
