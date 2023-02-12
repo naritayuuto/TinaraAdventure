@@ -19,7 +19,7 @@ public class DamageUITransform : MonoBehaviour
             if(_attackJudge)
             {
                 _attackJudgeObject.SetActive(true);
-                //_attackJudge._uiTransform = hitPos;
+                _attackJudge._uiTransform = hitPos;
             }
         }
     }
