@@ -10,9 +10,11 @@ public class PlayerAttackParam : MonoBehaviour
 
     float _keepAttackDamage = 0;
 
-    float _minAttackDamage = 400;
+    float _minAttackDamage;
 
-    float _maxAttackDamage = 600;
+    float _maxAttackDamage;
+    [Tooltip("攻撃の最低値と最大値を決めるために、_attackDamageにかける倍率")]
+    float _attackMagnification = 0.5f;
 
     public float AttackDamage { get => _attackDamage; set => _attackDamage = value; }
     public float KeepAttackDamage { get => _keepAttackDamage; set => _keepAttackDamage = value; }
@@ -22,5 +24,14 @@ public class PlayerAttackParam : MonoBehaviour
     private void Start()
     {
         _keepAttackDamage = _attackDamage;
+        MinAndMaxAttackDamageDecision();
+    }
+    /// <summary>
+    /// 攻撃の最低値と最高値を決める関数
+    /// </summary>
+    public void MinAndMaxAttackDamageDecision()
+    {
+        _minAttackDamage = _attackDamage - (_attackDamage * _attackMagnification);
+        _maxAttackDamage = _attackDamage + (_attackDamage * _attackMagnification);
     }
 }

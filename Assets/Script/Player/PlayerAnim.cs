@@ -35,8 +35,8 @@ public class PlayerAnim : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire2"))
         {
-            NormalAttack();
-            _anim.Play("NormalAttack1");
+            AttackDamageDecision();
+            _anim.Play("NormalAttack");
         }
     }
     private void LateUpdate()
@@ -68,14 +68,15 @@ public class PlayerAnim : MonoBehaviour
         //normalAttack = true;
     }
 
-    public void NormalAttack()//攻撃アニメーションとセットで使う
+    public void AttackDamageDecision()//攻撃アニメーションとセットで使う
     {
         _attackParam.AttackDamage = Random.Range(_attackParam.MinAttackDamage, _attackParam.MaxAttackDamage);
     }
 
-    public void AttackDamageChange(int damage)//Attackスキルを使用したときに攻撃力を変えている。
+    public void AttackDamageAdd(int damage)//Attackスキルを使用したときに攻撃力を変えている。
     {
-        _attackParam.AttackDamage = damage;
+        AttackDamageDecision();
+        _attackParam.AttackDamage += damage;
     }
     public void AttackDamageKeep()//レベルアップ時使用。
     {

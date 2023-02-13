@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpeedBuff : ISkill
+public class BuffSpeed : ISkill
 {
     public SkillType SkillType => SkillType.buff;
 
-    string name = "SpeedBuff";
+    string name = "BuffSpeed";
     [Tooltip("”{—¦")]
     float _magnification = 1.5f;
     [Tooltip("Œø‰ÊŽžŠÔ")]

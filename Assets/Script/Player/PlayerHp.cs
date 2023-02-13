@@ -6,11 +6,11 @@ public class PlayerHp : MonoBehaviour
 {
     //[SerializeField]
     //PlayerController player = null;
-    [SerializeField,Header("体力の最大値"),Tooltip("playerの体力の最大値")]
+    [SerializeField, Header("体力の最大値"), Tooltip("playerの体力の最大値")]
     private float _playerHp = 5000f;
     [Header("ダメージを受けて変化する体力"), Tooltip("playerの増減する体力")]
     float _playerDamageHp = 0;
-    [SerializeField,Tooltip("プレイヤーのHP表示用テキスト")]
+    [SerializeField, Tooltip("プレイヤーのHP表示用テキスト")]
     Text playerHpText = null;
     [SerializeField]
     Slider hpSlider = null;
@@ -32,7 +32,8 @@ public class PlayerHp : MonoBehaviour
     }
     public void Damage(int damage)
     {
-        _playerDamageHp -= damage;
+        _playerDamageHp = _playerDamageHp > damage ? _playerDamageHp - damage : 0;
+
         hpSlider.value = _playerDamageHp / _playerHp;
     }
 }

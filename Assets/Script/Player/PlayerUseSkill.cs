@@ -22,6 +22,7 @@ public class PlayerUseSkill : MonoBehaviour
     public float _buffTimer = 0f;
     [SerializeField, Tooltip("バフスキルのクールタイム")]
     float _buffCoolTime = 0;
+
     private void Start()
     {
         _attackParam = GameManager.Instance.Player._playerAttackParam;
@@ -76,6 +77,7 @@ public class PlayerUseSkill : MonoBehaviour
         if (_skill != null)
         {
             _skill.Action(GameManager.Instance.Player);
+            GameManager.Instance.Player._playerAnimAndcollider.Anim.Play(_skill.Name);
         }
     }
 
