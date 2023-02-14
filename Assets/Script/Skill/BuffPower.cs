@@ -6,7 +6,7 @@ public class BuffPower : ISkill
 {
     public SkillType SkillType => SkillType.buff;
 
-    string name = "BuffPower";
+    string name = typeof(BuffPower).Name;
     [Tooltip("”{—¦")]
     float _magnification = 1.5f;
     [Tooltip("Œø‰ÊŽžŠÔ")]

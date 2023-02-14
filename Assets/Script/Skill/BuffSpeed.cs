@@ -6,7 +6,7 @@ public class BuffSpeed : ISkill
 {
     public SkillType SkillType => SkillType.buff;
 
-    string name = "BuffSpeed";
+    string name = typeof(BuffSpeed).Name;
     [Tooltip("”{—¦")]
     float _magnification = 1.5f;
     [Tooltip("Œø‰ÊŽžŠÔ")]

@@ -6,7 +6,7 @@ public class Heal : ISkill
 {
     public SkillType SkillType => SkillType.heal;
 
-    string name = "Heal";
+    string name = typeof(Heal).Name;
     string ISkill.Name => name;
 
     int recoveryAmount = 500;

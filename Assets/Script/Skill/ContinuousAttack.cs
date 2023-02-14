@@ -6,7 +6,7 @@ public class ContinuousAttack : ISkill
 {
     public SkillType skillType => SkillType.attack;
 
-    string name = "ContinuousAttack";
+    string name = typeof(ContinuousAttack).Name;
 
     [Tooltip("‰ÁZ‚·‚é’l‚Ì”{—¦iŒ³‚ÌUŒ‚—Í‚Ì‰½Š„•ª‚ğ‰ÁZ‚·‚é‚©Œˆ‚ß‚é’lj")]
     float _magnification = 0.7f;
