@@ -18,7 +18,7 @@ public class Attackjudge : MonoBehaviour//武器に付ける
     float _timer = 0;
     [Tooltip("当たり判定内にモンスターが入っていない場合に当たり判定を消す秒数")]
     float _colliderActiveTime = 0.5f;
-    public Vector3 _uiTransform;
+    public Vector3 _Itransform;
     private void Start()
     {
         if (!damageUi)
@@ -44,22 +44,25 @@ public class Attackjudge : MonoBehaviour//武器に付ける
     {
         if (other.CompareTag("Enemy"))
         {
-            if (_uiTransform != default)
-            {
-                Debug.Log("Attack");
-                //Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
-                _playerAttack = (int)Mathf.Round(GameManager.Instance.Player._playerAttackParam.AttackDamage);
-                damageText.text = _playerAttack.ToString();
-                Instantiate(damageUi, _uiTransform, Quaternion.identity);//ダメージ表示
-                _enemyHp = other.gameObject.GetComponent<EnemyHp>();
-                _enemyHp.Damage(_playerAttack);
-                GameManager.Instance.SkillManager.AddSkillPoint(_enemyHp.Die);
-            }
+            Debug.Log("Attack");
+            //Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
+            _playerAttack = (int)Mathf.Round(GameManager.Instance.Player._playerAttackParam.AttackDamage);
+            damageText.text = _playerAttack.ToString();
+            Instantiate(damageUi, transform.position, Quaternion.identity);//ダメージ表示
+            _enemyHp = other.gameObject.GetComponent<EnemyHp>();
+            _enemyHp.Damage(_playerAttack);
+            GameManager.Instance.SkillManager.AddSkillPoint(_enemyHp.Die);
             if (_enemyHp.Die)
             {
                 _enemyHp = null;
             }
+            transform.position = _Itransform;
             gameObject.SetActive(false);
         }
+    }
+    public void TransformMove(Vector3 pos)
+    {
+        _Itransform = transform.position;
+        transform.position = pos;
     }
 }
