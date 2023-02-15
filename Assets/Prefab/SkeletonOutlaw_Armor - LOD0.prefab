@@ -187,7 +187,6 @@ GameObject:
   - component: {fileID: 3663479512687058247}
   - component: {fileID: 3688431338430124767}
   - component: {fileID: 1380339922}
-  - component: {fileID: 1380339921}
   m_Layer: 0
   m_Name: Axe00_Right
   m_TagString: Untagged
@@ -333,18 +332,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.57464486, y: 1.1019129, z: 0.12571822}
   m_Center: {x: -0.5301255, y: -2.1636615, z: -1.4270551}
---- !u!114 &1380339921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3657133118713139247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dac2375160769f45a8b87e5b3fd5c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3657204446969650869
 GameObject:
   m_ObjectHideFlags: 0
@@ -942,7 +929,6 @@ GameObject:
   - component: {fileID: 3652493747564775645}
   - component: {fileID: 3645119149178398517}
   - component: {fileID: 1912190375}
-  - component: {fileID: 1912190374}
   m_Layer: 0
   m_Name: Axe00_Left
   m_TagString: Untagged
@@ -1028,18 +1014,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.957741, y: 0.1768842, z: 1.833371}
   m_Center: {x: 0.10685537, y: -0.0000014699708, z: 0.6867802}
---- !u!114 &1912190374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3657340073523175941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dac2375160769f45a8b87e5b3fd5c8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3657340678718422919
 GameObject:
   m_ObjectHideFlags: 0
