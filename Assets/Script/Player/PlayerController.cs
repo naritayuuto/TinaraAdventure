@@ -50,28 +50,42 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
 
     void Update()
     {
-        float v = Input.GetAxisRaw("Vertical");
-        float h = Input.GetAxisRaw("Horizontal");
-        // 入力方向のベクトル計算
-        Vector3 dir = Vector3.forward * v + Vector3.right * h;
-
-        if (dir == Vector3.zero)
+        if (!_playerAnimAndcollider.Anim.GetCurrentAnimatorStateInfo(0).IsTag("Damage"))
         {
-            // 方向の入力がない時は、y 軸方向の速度を保持
-            _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
+            float v = Input.GetAxisRaw("Vertical");
+            float h = Input.GetAxisRaw("Horizontal");
+            // 入力方向のベクトル計算
+            Vector3 dir = Vector3.forward * v + Vector3.right * h;
+
+            if (dir == Vector3.zero)
+            {
+                // 方向の入力がない時は、y 軸方向の速度を保持
+                _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
+            }
+            else
+            {
+                // カメラを基準にする
+                dir = Camera.main.transform.TransformDirection(dir);
+                dir.y = 0;
+
+                //移動の処理             
+                Quaternion targetRotation = Quaternion.LookRotation(dir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
+                Vector3 velo = dir.normalized * _moveSpeed;
+                velo.y = _rb.velocity.y;
+                _rb.velocity = velo;
+            }
         }
-        else
+    }
+    private void LateUpdate()
+    {
+        if (_playerAnimAndcollider.Anim)
         {
-            // カメラを基準にする
-            dir = Camera.main.transform.TransformDirection(dir);
-            dir.y = 0;
-
-            //移動の処理
-            Vector3 velo = dir.normalized * _moveSpeed;
-            velo.y = _rb.velocity.y;
-            _rb.velocity = velo;
-            Quaternion targetRotation = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
+            Vector3 walkSpeed = _rb.velocity;
+            walkSpeed.y = 0;
+            _playerAnimAndcollider.Anim.SetFloat("Speed", walkSpeed.magnitude);
+            //_anim.SetBool("Guard",guard);//ガード用
+            //_anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
         }
     }
 }
