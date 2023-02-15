@@ -39,17 +39,7 @@ public class PlayerAnim : MonoBehaviour
             _anim.Play("NormalAttack");
         }
     }
-    private void LateUpdate()
-    {
-        if (_anim)
-        {
-            Vector3 walkSpeed = GameManager.Instance.Player.Rb.velocity;
-            walkSpeed.y = 0;
-            _anim.SetFloat("Speed", walkSpeed.magnitude);
-            //_anim.SetBool("Guard",guard);//ガード用
-            //_anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
-        }
-    }
+    
     private void AttackColliderActive()//武器の当たり判定を出す、animationイベント専用関数
     {
         _attackCollider.enabled = true;
@@ -89,6 +79,6 @@ public class PlayerAnim : MonoBehaviour
 
     public void DamageAnimation()
     {
-        //animatoinの記述
+        _anim.Play("Damage");
     }
 }
