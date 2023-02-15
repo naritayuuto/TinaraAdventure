@@ -6,19 +6,17 @@ public class Attackjudge : MonoBehaviour//武器に付ける
 {
     [SerializeField, Tooltip("ダメージ表示用のUI")]
     GameObject damageUi = null;
-    [SerializeField, Header("player"), Tooltip("プレイヤー")]
-    PlayerController _player = null;
     [Tooltip("damageUiのText")]
     TextMeshProUGUI damageText = null;
-    [Tooltip("攻撃が当たったEnemy")]
-    EnemyHp _enemyHp = null;
     [Tooltip("playerのAttackDamageの値を入れる変数")]
     int _playerAttack = 0;
     [Tooltip("定期的に当たり判定を消す処理を行うためのタイマー")]
     float _timer = 0;
-    [Tooltip("当たり判定内にモンスターが入っていない場合に当たり判定を消す秒数")]
+    [Tooltip("当たり判定内に標的が入っていない場合に当たり判定を消す秒数")]
     float _colliderActiveTime = 0.5f;
-    public Vector3 _Itransform;
+    [Tooltip("当たり判定")]
+    Collider _collider = default;
+    public Vector3 _iTransform;
     private void Start()
     {
         if (!damageUi)
@@ -26,43 +24,42 @@ public class Attackjudge : MonoBehaviour//武器に付ける
             Debug.LogError("damageUIがありません");
         }
         damageText = damageUi.GetComponentInChildren<TextMeshProUGUI>();
-        gameObject.SetActive(false);
+        _collider = GetComponent<Collider>();
+        _collider.enabled = false;
     }
     private void Update()
     {
-        if (gameObject.activeSelf)
+        if (_collider.enabled == true)
         {
             _timer += Time.deltaTime;
             if (_timer >= _colliderActiveTime)
             {
-                gameObject.SetActive(false);
+                _collider.enabled = false;
                 _timer = 0;
             }
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.TryGetComponent<EnemyHp>(out EnemyHp enemyHp))
         {
-            Debug.Log("Attack");
-            //Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
             _playerAttack = (int)Mathf.Round(GameManager.Instance.Player._playerAttackParam.AttackDamage);
             damageText.text = _playerAttack.ToString();
             Instantiate(damageUi, transform.position, Quaternion.identity);//ダメージ表示
-            _enemyHp = other.gameObject.GetComponent<EnemyHp>();
-            _enemyHp.Damage(_playerAttack);
-            GameManager.Instance.SkillManager.AddSkillPoint(_enemyHp.Die);
-            if (_enemyHp.Die)
-            {
-                _enemyHp = null;
-            }
-            transform.position = _Itransform;
-            gameObject.SetActive(false);
+            enemyHp.Damage(_playerAttack);
+            GameManager.Instance.SkillManager.AddSkillPoint(enemyHp.Die);
+            transform.position = _iTransform;
+            _collider.enabled = false;
         }
     }
     public void TransformMove(Vector3 pos)
     {
-        _Itransform = transform.position;
+        _iTransform = transform.position;
         transform.position = pos;
+    }
+
+    public void ColliderActive()
+    {
+        _collider.enabled = true;
     }
 }
