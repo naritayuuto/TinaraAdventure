@@ -51,6 +51,6 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
     public void AddSkillPoint(bool enemyDie)
     {
         _skillPoint = enemyDie == true ? _skillPoint + _defeatSkillPoint : _skillPoint + _attackSkillPoint;
-        _skillPointText.text = "スキルポイント : " + _skillPoint.ToString("F0");
+        _skillPointText.text = "スキルポイント : " + _skillPoint.ToString();
     }
 }
