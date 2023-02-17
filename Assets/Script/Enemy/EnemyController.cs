@@ -18,6 +18,10 @@ public class EnemyController : MonoBehaviour
     float _attackDis = 2.5f;
     [SerializeField, Header("X軸とＺ軸の移動範囲"), Tooltip("EnemyのX軸とＺ軸の移動範囲")]
     float _xz = 10f;
+    [SerializeField, Header("左側武器の当たり判定"), Tooltip("左側武器の当たり判定")]
+    Collider _weaponL;
+    [SerializeField, Header("右側武器の当たり判定"), Tooltip("右側武器の当たり判定")]
+    Collider _weaponR;
     [Tooltip("目的地のX座標")]
     float _enemyPosX;
     [Tooltip("目的地のZ座標")]
@@ -143,5 +147,22 @@ public class EnemyController : MonoBehaviour
             _anim.SetFloat("Speed", _agent.velocity.magnitude);
         }
         //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
+    }
+
+    public void LWeaponActive()
+    {
+        _weaponL.enabled = true;
+    }
+    public void RWeaponActive()
+    {
+        _weaponR.enabled = true;
+    }
+    public void LWeaponNotActive()
+    {
+        _weaponL.enabled = false;
+    }
+    public void RWeaponNotActive()
+    {
+        _weaponR.enabled = false;
     }
 }
