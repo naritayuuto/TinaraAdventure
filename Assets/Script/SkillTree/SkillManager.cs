@@ -22,11 +22,13 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
     float _attackSkillPoint = 0.5f;
     [Tooltip("敵を倒したときに加算する値")]
     float _defeatSkillPoint = 5f;
+    PlayerUseSkill _playerUseSkill = null;
     public float SkillPoint { get => _skillPoint; set => _skillPoint = value; }
     public bool[] SkillActive { get => _skillActive; set => _skillActive = value; }
 
     void Start()
     {
+        _playerUseSkill = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerUseSkill>();
         _skillCanvas.SetActive(true);
         _skillPointText.text = "スキルポイント : " + _skillPoint.ToString();
         GameObject[] obj = GameObject.FindGameObjectsWithTag("Skilltree");
@@ -52,5 +54,10 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
     {
         _skillPoint = enemyDie == true ? _skillPoint + _defeatSkillPoint : _skillPoint + _attackSkillPoint;
         _skillPointText.text = "スキルポイント : " + _skillPoint.ToString();
+    }
+
+    public void AddSkill(ISkill skill)
+    {
+        _playerUseSkill.AddSkill(skill);
     }
 }

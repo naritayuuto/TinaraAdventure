@@ -14,6 +14,6 @@ public class ContinuousAttack : ISkill
     public void Action(PlayerController player)
     {
         int addDamage = (int)(player._playerAttackParam.AttackDamage * _magnification);
-        player._playerAnimAndcollider.AttackDamageAdd(addDamage);
+        player._playerAnim.AttackDamageAdd(addDamage);
     }
 }

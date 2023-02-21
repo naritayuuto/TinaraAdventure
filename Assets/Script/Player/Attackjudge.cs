@@ -12,6 +12,8 @@ public class Attackjudge : MonoBehaviour//武器に付ける
     int _playerAttack = 0;
     [Tooltip("当たり判定")]
     Collider _collider = default;
+    [SerializeField]
+    PlayerController _player = null;
     private void Start()
     {
         if (!damageUi)
@@ -27,7 +29,7 @@ public class Attackjudge : MonoBehaviour//武器に付ける
         if (other.TryGetComponent<EnemyHp>(out EnemyHp enemyHp))
         {
             Vector3 hitPos = other.ClosestPointOnBounds(transform.position);
-            _playerAttack = (int)Mathf.Round(GameManager.Instance.Player._playerAttackParam.AttackDamage);
+            _playerAttack = (int)Mathf.Round(_player._playerAttackParam.AttackDamage);
             damageText.text = _playerAttack.ToString();
             Instantiate(damageUi, hitPos, Quaternion.identity);//ダメージ表示
             enemyHp.Damage(_playerAttack);

@@ -17,8 +17,8 @@ public class PlayerAnim : MonoBehaviour
     Animator _anim = default;
     [Tooltip("アニメーション再生中かどうか")]
     bool animPlay = false;
+    PlayerController _player = null;
     Rigidbody2D _rb = null;
-    PlayerAttackParam _attackParam;
     public Animator Anim { get => _anim; set => _anim = value; }
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,7 @@ public class PlayerAnim : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         if (!_weapon) Debug.LogError("武器がありません");
         _attackCollider = _weapon.GetComponent<BoxCollider>();
-        _attackParam = GetComponent<PlayerAttackParam>();
+        _player = GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -60,25 +60,41 @@ public class PlayerAnim : MonoBehaviour
 
     public void AttackDamageDecision()//攻撃アニメーションとセットで使う
     {
-        _attackParam.AttackDamage = Random.Range(_attackParam.MinAttackDamage, _attackParam.MaxAttackDamage);
+        _player._playerAttackParam.AttackDamage = Random.Range(_player._playerAttackParam.MinAttackDamage, _player._playerAttackParam.MaxAttackDamage);
     }
 
     public void AttackDamageAdd(int damage)//Attackスキルを使用したときに攻撃力を変えている。
     {
         AttackDamageDecision();
-        _attackParam.AttackDamage += damage;
+        _player._playerAttackParam.AttackDamage += damage;
     }
     public void AttackDamageKeep()//レベルアップ時使用。
     {
-        _attackParam.KeepAttackDamage = _attackParam.AttackDamage;
+        _player._playerAttackParam.KeepAttackDamage = _player._playerAttackParam.AttackDamage;
     }
     public void ReturnAttackDamage()//攻撃スキルをしていない時に呼ぶ
     {
-        _attackParam.AttackDamage = _attackParam.KeepAttackDamage;
+        _player._playerAttackParam.AttackDamage = _player._playerAttackParam.KeepAttackDamage;
     }
 
     public void DamageAnimation()
     {
         _anim.Play("Damage");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="invalid">攻撃無効バフが切れた場合Trueが渡される</param>
+    public void InvalidBuffAnimation(bool invalid)
+    {
+        if (!invalid)
+        {
+            //_anim.Play("攻撃を無効にした時に使うアニメーションの名前");
+        }
+        else
+        {
+            //_anim.Play("攻撃を無効にするバフが切れたときに使うアニメーションの名前");
+        }
     }
 }

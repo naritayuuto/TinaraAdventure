@@ -11,21 +11,26 @@ public class PlayerUseSkill : MonoBehaviour
     ISkill _skill = null;
     [Tooltip("_skillsの要素番号")]
     int _skillnum = 0;
+    [Tooltip("攻撃無効バフを使った場合に攻撃を無効にする回数")]
+    int _invalidCount = 0;
     [SerializeField,Tooltip("プレイヤーが使用するスキル名のText")]
     TextMeshProUGUI _skillText = null;
-    PlayerAttackParam _attackParam;
-    [Tooltip("バフスキルを使っている場合true")]
-    bool _buffUse = false;
-    [Tooltip("バフスキルを使ったらtrue")]
-    public bool _buffCool = false;
     [SerializeField, Tooltip("バフが続く時間")]
     public float _buffTimer = 0f;
     [SerializeField, Tooltip("バフスキルのクールタイム")]
     float _buffCoolTime = 0;
+    [Tooltip("バフスキルを使っている場合true")]
+    bool _buffUse = false;
+    [Tooltip("バフスキルの効果時間が切れたらtrue")]
+    bool _buffCool = false;
+    [Tooltip("攻撃無効バフを使った場合true")]
+    public bool _invalidBuff = false;
+    public int InvalidCount { get => _invalidCount;}
 
+    PlayerController _player = null;
     private void Start()
     {
-        _attackParam = GameManager.Instance.Player._playerAttackParam;
+        _player = GetComponent<PlayerController>();
     }
     private void Update()
     {
@@ -35,7 +40,6 @@ public class PlayerUseSkill : MonoBehaviour
             if (_buffTimer <= 0)
             {
                 _buffUse = false;
-                _buffCool = true;
             }
         }
         if (_buffCool)
@@ -76,35 +80,45 @@ public class PlayerUseSkill : MonoBehaviour
     {
         if (_skill != null)
         {
-            _skill.Action(GameManager.Instance.Player);
-            GameManager.Instance.Player._playerAnimAndcollider.Anim.Play(_skill.Name);
+            _skill.Action(_player);
+            _player._playerAnim.Anim.Play(_skill.Name);
         }
     }
 
-    public void BuffUse(float buff, float actionTime, float coolTime, int jobNum)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="buff">バフの倍率</param>
+    /// <param name="actionTime">効果時間</param>
+    /// <param name="coolTime">クールタイム</param>
+    /// <param name="invalidCount">攻撃無効回数</param>
+    /// <param name="jobNum">バフの種類</param>
+    /// <returns>buff = バフの倍率 actionTime = 効果時間 coolTime = クールタイム invalidCount = 攻撃無効回数 jobNum = バフの種類</returns>
+    public void BuffUse(float buff, float actionTime, float coolTime,int invalidCount, int jobNum)
     {
         if (!_buffCool)
         {
             _buffTimer = actionTime;
             _buffCoolTime = coolTime;
+            _buffUse = true;
+            _buffCool = true;
             switch (jobNum)
             {
                 case 1:
                     {
-                        _attackParam.MinAttackDamage *= buff;
-                        _attackParam.MaxAttackDamage *= buff;
-                        _buffUse = true;
+                        _player._playerAttackParam.MinAttackDamage *= buff;
+                        _player._playerAttackParam.MaxAttackDamage *= buff;
                         break;
                     }
                 case 2:
                     {
-                        GameManager.Instance.Player.MoveSpeed *= buff;
-                        _buffUse = true;
+                        _player.MoveSpeed *= buff;
                         break;
                     }
                 case 3:
                     {
-
+                        _invalidBuff = true;
+                        _invalidCount = invalidCount;
                         break;
                     }
             }

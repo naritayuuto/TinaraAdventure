@@ -19,6 +19,6 @@ public class BuffSpeed : ISkill
 
     public void Action(PlayerController player)
     {
-        player._playerSkill.BuffUse(_magnification, _buffTime, _coolTime, _buffJobNum);
+        player._playerUseSkill.BuffUse(_magnification, _buffTime, _coolTime,0, _buffJobNum);
     }
 }

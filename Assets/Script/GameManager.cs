@@ -12,11 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("スキルマネージャー")]
     SkillManager _skillManager = null;
 
-    [SerializeField,Header("Player"),Tooltip("プレイヤー")]
-    PlayerController _player = null;
+    [SerializeField,Header("PlayerPrefab"),Tooltip("プレイヤーのオブジェクト")]
+    GameObject _player = null;
 
-    public PlayerController Player { get => _player; }
-    public SkillManager SkillManager { get => _skillManager;}
+    public SkillManager SkillManager { get => _skillManager; }
+    public GameObject Player { get => _player; }
 
     private void Awake()
     {
@@ -29,5 +29,6 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 }

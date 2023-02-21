@@ -12,6 +12,6 @@ public class RotarySlash : ISkill//ƒXƒLƒ‹‚²‚Æ‚Éƒ_ƒ[ƒW‚ğ•Ï‚¦‚½‚¢‚½‚ßƒXƒLƒ‹•ª‚ÌŠ
     public void Action(PlayerController player)
     {
         int addDamage = (int)(player._playerAttackParam.AttackDamage * _magnification);
-        player._playerAnimAndcollider.AttackDamageAdd(addDamage);
+        player._playerAnim.AttackDamageAdd(addDamage);
     }
 }

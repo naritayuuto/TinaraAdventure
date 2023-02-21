@@ -25,11 +25,12 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
     bool guard = false;
     /// <summary>パリィ判定用</summary>
     bool parrysuccess = false;
-    public PlayerHp _playerHp = null;
-    public PlayerAnim _playerAnimAndcollider = null;
-    public PlayerUseSkill _playerSkill = null;
+    public PlayerAnim _playerAnim = null;
     public PlayerAttackParam _playerAttackParam = null;
+    public PlayerHp _playerHp = null;
+    public PlayerUseSkill _playerUseSkill = null;
     Rigidbody _rb = default;
+    Animator _anim = null;
     public bool Guard { get => guard; set => guard = value; }
     public float MoveSpeed { get => _moveSpeed; set => _moveSpeed = value; }
     public Rigidbody Rb { get => _rb;}
@@ -38,19 +39,18 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
 
     void Start()
     {
-        _playerAnimAndcollider = GetComponent<PlayerAnim>();
-        _playerSkill = GetComponent<PlayerUseSkill>();
         if (!_button) Debug.LogError("ボタンをセットしてください");
-        _rb = GetComponent<Rigidbody>(); 
-        _playerHp = GetComponent<PlayerHp>();
-        _playerAnimAndcollider = GetComponent<PlayerAnim>();
-        _playerSkill = GetComponent<PlayerUseSkill>();
+        _anim = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody>();
+        _playerAnim = GetComponent<PlayerAnim>();
         _playerAttackParam = GetComponent<PlayerAttackParam>();
+        _playerHp = GetComponent<PlayerHp>();
+        _playerUseSkill = GetComponent<PlayerUseSkill>();
     }
 
     void Update()
     {
-        if (!_playerAnimAndcollider.Anim.GetCurrentAnimatorStateInfo(0).IsTag("Damage"))
+        if (!_anim.GetCurrentAnimatorStateInfo(0).IsTag("Damage"))
         {
             float v = Input.GetAxisRaw("Vertical");
             float h = Input.GetAxisRaw("Horizontal");
@@ -79,11 +79,11 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
     }
     private void LateUpdate()
     {
-        if (_playerAnimAndcollider.Anim)
+        if (_anim)
         {
             Vector3 walkSpeed = _rb.velocity;
             walkSpeed.y = 0;
-            _playerAnimAndcollider.Anim.SetFloat("Speed", walkSpeed.magnitude);
+            _anim.SetFloat("Speed", walkSpeed.magnitude);
             //_anim.SetBool("Guard",guard);//ガード用
             //_anim.SetBool("Parrysuccess", parrysuccess);//パリィ成功時true
         }

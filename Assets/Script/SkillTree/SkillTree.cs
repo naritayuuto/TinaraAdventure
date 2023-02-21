@@ -39,7 +39,7 @@ public class SkillTree : MonoBehaviour
         {
             _skillManager.SkillPoint -= removeSkillpoint;
             _skillManager.SkillActive[arraynumber] = true;
-            SkillAdd();
+            _skillManager.AddSkill(_skill);
             button.interactable = false;
             Debug.Log("‰ğ•úo—ˆ‚Ü‚µ‚½");
         }
@@ -49,10 +49,6 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    public void SkillAdd()
-    {
-        GameManager.Instance.Player._playerSkill.AddSkill(_skill);
-    }
     public void ChildAdd(SkillTree child)
     {
         if(_parent)
