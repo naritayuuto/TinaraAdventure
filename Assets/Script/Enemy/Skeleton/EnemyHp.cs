@@ -23,13 +23,14 @@ public class EnemyHp : MonoBehaviour
     // Update is called once per frame
     public void Damage(int damage)
     {
-        _enemyDamageHp -= damage;
+        _enemyDamageHp = _enemyDamageHp <= damage ? 0 : _enemyDamageHp - damage;
         hpSlider.value = _enemyDamageHp / _enemyHp;
-        if (_enemyHp <= 0)
+        if (_enemyDamageHp <= 0)
         {
             _die = true;
             //アニメーションを流す、当たり判定となっているコライダーのリストを作っておき、当たり判定を消す。
             Debug.Log("敵が死んだ");
+            Destroy(gameObject);
         }
     }
 }

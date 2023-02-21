@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyController : MonoBehaviour
+public class SkeletonController : MonoBehaviour
 {
     [SerializeField, Tooltip("Enemyの速さ")]
     float _moveSpeed = 3.0f;
@@ -16,34 +16,34 @@ public class EnemyController : MonoBehaviour
     float _changeDis = 5f;
     [SerializeField, Header("プレイヤーに攻撃する距離"), Tooltip("プレイヤーに攻撃する距離")]
     float _attackDis = 2.5f;
-    [SerializeField, Header("X軸とＺ軸の移動範囲"), Tooltip("EnemyのX軸とＺ軸の移動範囲")]
-    float _xz = 10f;
-    [SerializeField, Header("左側武器の当たり判定"), Tooltip("左側武器の当たり判定")]
-    Collider _weaponL;
-    [SerializeField, Header("右側武器の当たり判定"), Tooltip("右側武器の当たり判定")]
-    Collider _weaponR;
-    [Tooltip("目的地のX座標")]
-    float _enemyPosX;
-    [Tooltip("目的地のZ座標")]
-    float _enemyPosZ;
-    //[Header("攻撃アニメーションの数"), Tooltip("ランダムで決める、値は攻撃アニメーションの個数")]
-    //int _attackPattern;
-    [SerializeField,Header("攻撃アニメーションの個数＋１の値")]
-    int _attackMaxNum = 3;
-    [Tooltip("1の時 = player以外を目的地とする。2の時 = Playerを目標にし、攻撃まで行う")]
-    int _pattern = 0;
     [SerializeField, Header("次の攻撃までの待機時間")]
     float _coolActionTime = 3f;
     [Header("カウント用"), Tooltip("攻撃用のタイマー")]
     float _timer = 0f;
-    GameObject _player = null;
-    NavMeshAgent _agent = null;
+    [SerializeField, Header("X軸とＺ軸の移動範囲"), Tooltip("EnemyのX軸とＺ軸の移動範囲")]
+    float _xz = 10f;
+    [Tooltip("目的地のX座標")]
+    float _enemyPosX;
+    [Tooltip("目的地のZ座標")]
+    float _enemyPosZ;
+    [SerializeField, Header("左側武器の当たり判定"), Tooltip("左側武器の当たり判定")]
+    Collider _weaponL;
+    [SerializeField, Header("右側武器の当たり判定"), Tooltip("右側武器の当たり判定")]
+    Collider _weaponR;
+    //[Header("攻撃アニメーションの数"), Tooltip("ランダムで決める、値は攻撃アニメーションの個数")]
+    //int _attackPattern;
+    [SerializeField,Header("攻撃アニメーションの個数-1の値")]
+    int _attackMaxNum = 2;
+    [Tooltip("1の時 = player以外のランダムな座標を目的地とする。2の時 = Playerを目標にし、攻撃まで行う")]
+    int _movePattern = 0;
     [Tooltip("Enemyの生成された初期地点")]
     Vector3 _enemypos;
-    [Tooltip("プレイヤーの地点、または移動目的地")]
+    [Tooltip("プレイヤーの座標")]
     Vector3 _targetpos;
     [Tooltip("行先")]
     Vector3 _destination = default;
+    GameObject _player = null;
+    NavMeshAgent _agent = null;
     Animator _anim = null;
     [Tooltip("プレイヤーを見つけているかどうか")]
     bool _playerFound = false;
@@ -54,10 +54,11 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _player = GameObject.FindGameObjectWithTag("Player");
+        _player = GameManager.Instance.Player;
         _anim = GetComponent<Animator>();
         _enemypos = transform.position;
-        _destination = transform.position;
+        //移動場所を決める。
+        MovePosition(_enemypos);
         //Debug.Log(Vector3.Distance(transform.position, targetpos));
     }
 
@@ -68,12 +69,12 @@ public class EnemyController : MonoBehaviour
         var distance = Vector3.Distance(transform.position, _targetpos);
         if (distance >= _playerSensedis)//プレイヤー索敵範囲外
         {
-            _pattern = 1;
+            _movePattern = 1;
         }
         if (distance <= _playerSensedis)//プレイヤー索敵範囲内
         {
             _playerFound = true;
-            _pattern = 2;
+            _movePattern = 2;
         }
         if (_attack)
         {
@@ -88,7 +89,7 @@ public class EnemyController : MonoBehaviour
                 _anim.SetInteger("AttackPattern", _attackMaxNum);
             }
         }
-        switch (_pattern)
+        switch (_movePattern)
         {
             case 1:
                 if (_playerFound)//プレイヤーを見失った時、自分が生成された場所へ戻る
@@ -102,8 +103,8 @@ public class EnemyController : MonoBehaviour
                     _moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
                     if (_moveTime >= _timer)//時間が来たら
                     {
-                        MovePosition(transform.position);//自分を中心とした一定範囲の中からランダムで座標計算
-                        _moveTime -= _moveTime;
+                        MovePosition(_enemypos);//生成初期地を中心とした一定範囲の中からランダムで座標計算(動きすぎて変なところに行かないように)
+                        _moveTime = 0;
                     }
                 }
                 break;
@@ -116,6 +117,7 @@ public class EnemyController : MonoBehaviour
                 else
                 {
                     _attack = true;
+                    //プレイヤーの方向を向く
                     transform.rotation = Quaternion.LookRotation(_targetpos - transform.position);
                 }
                 break;
@@ -149,6 +151,7 @@ public class EnemyController : MonoBehaviour
         //anim.SetFloat("Pos", Vector3.Distance(transform.position, targetpos));
     }
 
+    //アニメーションイベント用関数↓
     public void LWeaponActive()
     {
         _weaponL.enabled = true;
