@@ -10,6 +10,8 @@ public enum SkillType
 }
 public interface ISkill
 {
+    public SkillType SkillType { get; }
+
     public string Name { get; }
 
     void Action(PlayerController player);

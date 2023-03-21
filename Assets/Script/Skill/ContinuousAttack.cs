@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ContinuousAttack : ISkill
 {
-    public SkillType skillType => SkillType.attack;
+    public SkillType SkillType => SkillType.attack;
 
     string name = typeof(ContinuousAttack).Name;
 
