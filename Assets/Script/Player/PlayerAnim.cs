@@ -6,8 +6,6 @@ using TMPro;
 
 public class PlayerAnim : MonoBehaviour
 {
-    [Tooltip("アニメーション再生中かどうか")]
-    bool animPlay = false;
     [SerializeField,Tooltip("ガード判定用コライダー")]
     GameObject _guardCollider = null;
     [SerializeField, Tooltip("playerの武器"), Header("LongSwordMesh")]
@@ -38,14 +36,17 @@ public class PlayerAnim : MonoBehaviour
         if (Input.GetButtonDown("Fire2"))
         {
             AttackDamageDecision();
-            _anim.Play("NormalAttack");
+            _anim.SetBool("Attack", true);
         }
         if(!_anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && _trailRenderer.emitting)
         {
             _trailRenderer.emitting = false;
         }
     }
-    
+    private void LateUpdate()
+    {
+        _anim.SetBool("Attack", false);
+    }
     private void AttackColliderActive()//武器の当たり判定を出す、animationイベント専用関数
     {
         _attackCollider.enabled = true;
