@@ -32,14 +32,14 @@ public class PlayerHp : MonoBehaviour
     }
     public void Damage(int damage)
     {
-        if (_player._playerUseSkill._invalidBuff)
+        if (_player._playerUseSkill._invalid)
         {
             _invalidCount++;
             if (_player._playerUseSkill.InvalidCount <= _invalidCount)
             {
-                _player._playerUseSkill._invalidBuff = false;
+                _player._playerUseSkill._invalid = false;
             }
-            _player._playerAnim.InvalidBuffAnimation(_player._playerUseSkill._invalidBuff);
+            _player._playerAnim.InvalidBuffAnimation(_player._playerUseSkill._invalid);
         }
         else
         {

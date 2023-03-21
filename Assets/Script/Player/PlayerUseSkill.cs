@@ -9,11 +9,14 @@ public class PlayerUseSkill : MonoBehaviour
     List<ISkill> _skills = new List<ISkill>();
     [Tooltip("プレイヤーが使用しようとしているスキル")]
     ISkill _skill = null;
+    const int _attackBuff = 1;
+    const int _speedBuff = 2;
+    const int _invalidBuff = 3;
     [Tooltip("_skillsの要素番号")]
     int _skillnum = 0;
     [Tooltip("攻撃無効バフを使った場合に攻撃を無効にする回数")]
     int _invalidCount = 0;
-    [SerializeField,Tooltip("プレイヤーが使用するスキル名のText")]
+    [SerializeField, Tooltip("プレイヤーが使用するスキル名のText")]
     TextMeshProUGUI _skillText = null;
     [SerializeField, Tooltip("バフが続く時間")]
     public float _buffTimer = 0f;
@@ -24,8 +27,8 @@ public class PlayerUseSkill : MonoBehaviour
     [Tooltip("バフスキルの効果時間が切れたらtrue")]
     bool _buffCool = false;
     [Tooltip("攻撃無効バフを使った場合true")]
-    public bool _invalidBuff = false;
-    public int InvalidCount { get => _invalidCount;}
+    public bool _invalid = false;
+    public int InvalidCount { get => _invalidCount; }
 
     PlayerController _player = null;
     private void Start()
@@ -45,7 +48,7 @@ public class PlayerUseSkill : MonoBehaviour
         if (_buffCool)
         {
             _buffCoolTime -= Time.deltaTime;
-            if(_buffCoolTime <= 0)
+            if (_buffCoolTime <= 0)
             {
                 _buffCool = false;
             }
@@ -80,11 +83,25 @@ public class PlayerUseSkill : MonoBehaviour
     {
         if (_skill != null)
         {
+            SkillAnimPlay(_skill);
             _skill.Action(_player);
-            _player._playerAnim.Anim.Play(_skill.Name);
         }
     }
 
+    void SkillAnimPlay(ISkill skill)
+    {
+        if (skill.SkillType == SkillType.attack)
+        {
+            _player._playerAnim.Anim.Play(_skill.Name);
+        }
+        else
+        {
+            if (!_buffCool)
+            {
+                _player._playerAnim.Anim.Play(_skill.Name);
+            }
+        }
+    }
     /// <summary>
     /// 
     /// </summary>
@@ -94,7 +111,7 @@ public class PlayerUseSkill : MonoBehaviour
     /// <param name="invalidCount">攻撃無効回数</param>
     /// <param name="jobNum">バフの種類</param>
     /// <returns>buff = バフの倍率 actionTime = 効果時間 coolTime = クールタイム invalidCount = 攻撃無効回数 jobNum = バフの種類</returns>
-    public void BuffUse(float buff, float actionTime, float coolTime,int invalidCount, int jobNum)
+    public void BuffUse(float buff, float actionTime, float coolTime, int invalidCount, int jobNum)
     {
         if (!_buffCool)
         {
@@ -104,20 +121,20 @@ public class PlayerUseSkill : MonoBehaviour
             _buffCool = true;
             switch (jobNum)
             {
-                case 1:
+                case _attackBuff:
                     {
                         _player._playerAttackParam.MinAttackDamage *= buff;
                         _player._playerAttackParam.MaxAttackDamage *= buff;
                         break;
                     }
-                case 2:
+                case _speedBuff:
                     {
                         _player.MoveSpeed *= buff;
                         break;
                     }
-                case 3:
+                case _invalidBuff:
                     {
-                        _invalidBuff = true;
+                        _invalid = true;
                         _invalidCount = invalidCount;
                         break;
                     }
