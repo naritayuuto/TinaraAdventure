@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour//player‚É•t‚¢‚Ä‚¢‚éscript‘S‚Ä‚ðpub
 
     void Update()
     {
-        if (!_anim.GetCurrentAnimatorStateInfo(0).IsTag("Damage"))
+        if (!_anim.GetCurrentAnimatorStateInfo(0).IsTag("Damage") && !_anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             float v = Input.GetAxisRaw("Vertical");
             float h = Input.GetAxisRaw("Horizontal");
