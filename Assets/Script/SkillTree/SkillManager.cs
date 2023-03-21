@@ -59,5 +59,6 @@ public class SkillManager : MonoBehaviour//skillを管理する。目次のようなもので何
     public void AddSkill(ISkill skill)
     {
         _playerUseSkill.AddSkill(skill);
+        _skillPointText.text = "スキルポイント : " + _skillPoint.ToString();
     }
 }
