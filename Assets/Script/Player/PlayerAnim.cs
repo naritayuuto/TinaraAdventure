@@ -6,17 +6,18 @@ using TMPro;
 
 public class PlayerAnim : MonoBehaviour
 {
-    /// <summary>ガード判定用コライダー</summary>
-    [SerializeField]
+    [Tooltip("アニメーション再生中かどうか")]
+    bool animPlay = false;
+    [SerializeField,Tooltip("ガード判定用コライダー")]
     GameObject _guardCollider = null;
     [SerializeField, Tooltip("playerの武器"), Header("LongSwordMesh")]
     GameObject _weapon = null;
-    /// <summary>weaponの判定用コライダー</summary>
+    [Tooltip("weaponの判定用コライダー")]
     Collider _attackCollider = null;
     [Tooltip("Playerのanimator")]
     Animator _anim = default;
-    [Tooltip("アニメーション再生中かどうか")]
-    bool animPlay = false;
+    [Tooltip("武器のエフェクトを出している")]
+    TrailRenderer _trailRenderer = null;
     PlayerController _player = null;
     Rigidbody2D _rb = null;
     public Animator Anim { get => _anim; set => _anim = value; }
@@ -27,6 +28,7 @@ public class PlayerAnim : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         if (!_weapon) Debug.LogError("武器がありません");
         _attackCollider = _weapon.GetComponent<BoxCollider>();
+        _trailRenderer = _weapon.GetComponentInChildren<TrailRenderer>();
         _player = GetComponent<PlayerController>();
     }
 
@@ -38,11 +40,16 @@ public class PlayerAnim : MonoBehaviour
             AttackDamageDecision();
             _anim.Play("NormalAttack");
         }
+        if(!_anim.GetCurrentAnimatorStateInfo(0).IsTag("Attack") && _trailRenderer.emitting)
+        {
+            _trailRenderer.emitting = false;
+        }
     }
     
     private void AttackColliderActive()//武器の当たり判定を出す、animationイベント専用関数
     {
         _attackCollider.enabled = true;
+        _trailRenderer.emitting = true;
     }
 
     private void AttackColliderNotActive()//武器の当たり判定を出す、animationイベント専用関数
