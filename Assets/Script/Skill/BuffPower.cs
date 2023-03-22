@@ -17,8 +17,8 @@ public class BuffPower : ISkill
     int _buffJobNum = 1;
     string ISkill.Name => name;
 
-    public void Action(PlayerController player)
+    public void Action()
     {
-        player._playerUseSkill.BuffUse(_magnification, _buffTime, _coolTime,0,_buffJobNum);
+        GameManager.Instance.PlayerUseSkill.BuffUse(_magnification, _buffTime, _coolTime,0,_buffJobNum);
     }
 }

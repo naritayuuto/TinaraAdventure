@@ -28,12 +28,15 @@ public class PlayerUseSkill : MonoBehaviour
     bool _buffCool = false;
     [Tooltip("UŒ‚–³Œøƒoƒt‚ðŽg‚Á‚½ê‡true")]
     public bool _invalid = false;
+    PlayerAnim _playerAnim = null;
+    PlayerAttackParam _playerAttackParam = null;
     public int InvalidCount { get => _invalidCount; }
 
     PlayerController _player = null;
     private void Start()
     {
-        _player = GetComponent<PlayerController>();
+        _playerAnim = GameManager.Instance.PlayerAnim;
+        _playerAttackParam = GameManager.Instance.PlayerAttackParam;
     }
     private void Update()
     {
@@ -84,7 +87,7 @@ public class PlayerUseSkill : MonoBehaviour
         if (_skill != null)
         {
             SkillAnimPlay(_skill);
-            _skill.Action(_player);
+            _skill.Action();
         }
     }
 
@@ -92,13 +95,13 @@ public class PlayerUseSkill : MonoBehaviour
     {
         if (skill.SkillType == SkillType.attack)
         {
-            _player._playerAnim.Anim.Play(_skill.Name);
+            _playerAnim.Anim.Play(_skill.Name);
         }
         else
         {
             if (!_buffCool)
             {
-                _player._playerAnim.Anim.Play(_skill.Name);
+                _playerAnim.Anim.Play(_skill.Name);
             }
         }
     }
@@ -123,8 +126,8 @@ public class PlayerUseSkill : MonoBehaviour
             {
                 case _attackBuff:
                     {
-                        _player._playerAttackParam.MinAttackDamage *= buff;
-                        _player._playerAttackParam.MaxAttackDamage *= buff;
+                        _playerAttackParam.MinAttackDamage *= buff;
+                        _playerAttackParam.MaxAttackDamage *= buff;
                         break;
                     }
                 case _speedBuff:

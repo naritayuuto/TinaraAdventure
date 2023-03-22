@@ -16,7 +16,8 @@ public class PlayerHp : MonoBehaviour
     Text playerHpText = null;
     [SerializeField]
     Slider hpSlider = null;
-    PlayerController _player = null;
+    PlayerUseSkill _playerUseSkill = null;
+    PlayerAnim _playerAnim = null;
     /// <summary> player‚Ì‘Œ¸‚·‚é‘Ì—Í</summary>
     public float PlayerDamageHp { get => _playerDamageHp; set => _playerDamageHp = value; }
     /// <summary> player‚Ì‘Ì—Í‚ÌÅ‘å’l</summary>
@@ -24,7 +25,8 @@ public class PlayerHp : MonoBehaviour
     void Start()
     {
         _playerDamageHp = _playerHp;
-        _player = GetComponent<PlayerController>();
+        _playerUseSkill = GameManager.Instance.PlayerUseSkill;
+        _playerAnim = GameManager.Instance.PlayerAnim;
     }
     void Update()
     {
@@ -32,20 +34,20 @@ public class PlayerHp : MonoBehaviour
     }
     public void Damage(int damage)
     {
-        if (_player._playerUseSkill._invalid)
+        if (_playerUseSkill._invalid)
         {
             _invalidCount++;
-            if (_player._playerUseSkill.InvalidCount <= _invalidCount)
+            if (_playerUseSkill.InvalidCount <= _invalidCount)
             {
-                _player._playerUseSkill._invalid = false;
+                _playerUseSkill._invalid = false;
             }
-            _player._playerAnim.InvalidBuffAnimation(_player._playerUseSkill._invalid);
+            _playerAnim.InvalidBuffAnimation(_playerUseSkill._invalid);
         }
         else
         {
             _playerDamageHp = _playerDamageHp > damage ? _playerDamageHp - damage : 0;
             hpSlider.value = _playerDamageHp / _playerHp;
-            _player._playerAnim.DamageAnimation();
+            _playerAnim.DamageAnimation();
             Debug.Log(_playerDamageHp);
         }
     }

@@ -15,8 +15,8 @@ public class BuffDamageCat : ISkill
     int _buffJobNum = 2;
     string ISkill.Name => name;
 
-    public void Action(PlayerController player)
+    public void Action()
     {
-        player._playerUseSkill.BuffUse(0, 0, _coolTime, _invalidCount, _buffJobNum);
+        GameManager.Instance.PlayerUseSkill.BuffUse(0, 0, _coolTime, _invalidCount, _buffJobNum);
     }
 }

@@ -25,10 +25,6 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
     bool guard = false;
     /// <summary>パリィ判定用</summary>
     bool parrysuccess = false;
-    public PlayerAnim _playerAnim = null;
-    public PlayerAttackParam _playerAttackParam = null;
-    public PlayerHp _playerHp = null;
-    public PlayerUseSkill _playerUseSkill = null;
     Rigidbody _rb = default;
     Animator _anim = null;
     public bool Guard { get => guard; set => guard = value; }
@@ -42,10 +38,6 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
         if (!_button) Debug.LogError("ボタンをセットしてください");
         _anim = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody>();
-        _playerAnim = GetComponent<PlayerAnim>();
-        _playerAttackParam = GetComponent<PlayerAttackParam>();
-        _playerHp = GetComponent<PlayerHp>();
-        _playerUseSkill = GetComponent<PlayerUseSkill>();
     }
 
     void Update()

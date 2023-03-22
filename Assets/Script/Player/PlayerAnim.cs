@@ -17,6 +17,7 @@ public class PlayerAnim : MonoBehaviour
     [Tooltip("武器のエフェクトを出している")]
     TrailRenderer _trailRenderer = null;
     PlayerController _player = null;
+    PlayerAttackParam _playerAttackParam = null;
     Rigidbody2D _rb = null;
     public Animator Anim { get => _anim; set => _anim = value; }
     // Start is called before the first frame update
@@ -27,7 +28,8 @@ public class PlayerAnim : MonoBehaviour
         if (!_weapon) Debug.LogError("武器がありません");
         _attackCollider = _weapon.GetComponent<BoxCollider>();
         _trailRenderer = _weapon.GetComponentInChildren<TrailRenderer>();
-        _player = GetComponent<PlayerController>();
+        _player = GameManager.Instance.PlayerController;
+        _playerAttackParam = GameManager.Instance.PlayerAttackParam;
     }
 
     // Update is called once per frame
@@ -61,28 +63,23 @@ public class PlayerAnim : MonoBehaviour
     {
         _guardCollider.SetActive(true);//パリィと連動するように
     }
-    private void NormalAttackPlay()//animationイベント用
-    {
-        //normalAttack = true;
-    }
-
     public void AttackDamageDecision()//攻撃アニメーションとセットで使う
     {
-        _player._playerAttackParam.AttackDamage = Random.Range(_player._playerAttackParam.MinAttackDamage, _player._playerAttackParam.MaxAttackDamage);
+        _playerAttackParam.AttackDamage = Random.Range(_playerAttackParam.MinAttackDamage,_playerAttackParam.MaxAttackDamage);
     }
 
     public void AttackDamageAdd(int damage)//Attackスキルを使用したときに攻撃力を変えている。
     {
         AttackDamageDecision();
-        _player._playerAttackParam.AttackDamage += damage;
+        _playerAttackParam.AttackDamage += damage;
     }
     public void AttackDamageKeep()//レベルアップ時使用。
     {
-        _player._playerAttackParam.KeepAttackDamage = _player._playerAttackParam.AttackDamage;
+        _playerAttackParam.KeepAttackDamage = _playerAttackParam.AttackDamage;
     }
     public void ReturnAttackDamage()//攻撃スキルをしていない時に呼ぶ
     {
-        _player._playerAttackParam.AttackDamage = _player._playerAttackParam.KeepAttackDamage;
+        _playerAttackParam.AttackDamage = _playerAttackParam.KeepAttackDamage;
     }
 
     public void DamageAnimation()
@@ -105,4 +102,5 @@ public class PlayerAnim : MonoBehaviour
             //_anim.Play("攻撃を無効にするバフが切れたときに使うアニメーションの名前");
         }
     }
+
 }

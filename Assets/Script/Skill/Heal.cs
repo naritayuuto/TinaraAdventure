@@ -10,15 +10,15 @@ public class Heal : ISkill
     string ISkill.Name => name;
 
     int recoveryAmount = 500;
-    public void Action(PlayerController player)
+    public void Action()
     {
-        if (player._playerHp.PlayerDamageHp + recoveryAmount > player._playerHp.PlayerMaxHp)
+        if (GameManager.Instance.PlayerHp.PlayerDamageHp + recoveryAmount > GameManager.Instance.PlayerHp.PlayerMaxHp)
         {
-            player._playerHp.PlayerDamageHp = player._playerHp.PlayerMaxHp;
+            GameManager.Instance.PlayerHp.PlayerDamageHp = GameManager.Instance.PlayerHp.PlayerMaxHp;
         }
         else
         {
-            player._playerHp.PlayerDamageHp += recoveryAmount;
+            GameManager.Instance.PlayerHp.PlayerDamageHp += recoveryAmount;
         }
     }
 }
