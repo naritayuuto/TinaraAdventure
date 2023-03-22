@@ -13,8 +13,8 @@ public class PlayerAttackParam : MonoBehaviour
     float _minAttackDamage;
 
     float _maxAttackDamage;
-    [Tooltip("UŒ‚‚ÌÅ’á’l‚ÆÅ‘å’l‚ðŒˆ‚ß‚é‚½‚ß‚ÉA_attackDamage‚É‚©‚¯‚é”{—¦")]
-    float _attackMagnification = 0.5f;
+    [SerializeField,Header("UŒ‚”{—¦"),Tooltip("UŒ‚‚ÌÅ’á’l‚ÆÅ‘å’l‚ðŒˆ‚ß‚é‚½‚ß‚ÉA_attackDamage‚É‚©‚¯‚é”{—¦")]
+    float _attackMagnification = 0.3f;
 
     public float AttackDamage { get => _attackDamage; set => _attackDamage = value; }
     public float KeepAttackDamage { get => _keepAttackDamage; set => _keepAttackDamage = value; }
