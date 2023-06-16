@@ -208,7 +208,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -709,7 +709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6e8abc309249c4db0dd1f71e70d85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrayNumber: 0
 --- !u!114 &4810589864979195247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,6 +722,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 4810589865693304987}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
@@ -929,6 +929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 0}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
@@ -1086,7 +1087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6e8abc309249c4db0dd1f71e70d85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrayNumber: 0
 --- !u!114 &4810589865497299210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,6 +1100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 4810589865693304987}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
@@ -1257,7 +1258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6e8abc309249c4db0dd1f71e70d85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrayNumber: 0
 --- !u!114 &4810589865514123692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1271,6 +1271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 4810589865783680632}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
@@ -1320,7 +1321,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 251, y: -187.6}
+  m_AnchoredPosition: {x: 251, y: -125}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4810589865526505386
@@ -1538,7 +1539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -187.6}
+  m_AnchoredPosition: {x: 0, y: -125}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4810589865669047242
@@ -1731,7 +1732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6e8abc309249c4db0dd1f71e70d85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrayNumber: 0
 --- !u!114 &4810589865693304987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,15 +1745,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parent: {fileID: 4810589865300932985}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
-    rid: -2
+    rid: 4045681921044774919
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 4045681921044774919
+      type: {class: BuffSpeed, ns: , asm: Assembly-CSharp}
 --- !u!1 &4810589865783680626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1902,7 +1903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6e8abc309249c4db0dd1f71e70d85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrayNumber: 0
 --- !u!114 &4810589865783680632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1915,7 +1915,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1933a2d3d1b3dd468e32661a4c51069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parent: {fileID: 4810589865300932985}
+  _parent: {fileID: 0}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
@@ -2041,7 +2042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 150, y: -187.6}
+  m_AnchoredPosition: {x: 150, y: -125}
   m_SizeDelta: {x: 100, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4810589865946848601
@@ -2656,7 +2657,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6e8abc309249c4db0dd1f71e70d85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrayNumber: 0
 --- !u!114 &4810589866412740643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2669,7 +2669,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1933a2d3d1b3dd468e32661a4c51069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parent: {fileID: 4810589865300932985}
+  _parent: {fileID: 0}
+  _arrayNumber: 0
   _openSkillPoint: 1
   _addPoint: 2
   _skill:
