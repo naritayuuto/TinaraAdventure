@@ -24,10 +24,12 @@ public class SceneLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        #if UNITY_EDITOR
         _sceneNames = EditorBuildSettings.scenes
                                   .Where(scene => scene.enabled)
                                   .Select(scene => Path.GetFileNameWithoutExtension(scene.path))
                                   .ToList();
+        #endif
     }
 
     // Update is called once per frame
@@ -52,13 +54,18 @@ public class SceneLoader : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         _sceneName = sceneName;
-        foreach(var name in _sceneNames)
+#if UNITY_EDITOR
+        foreach (var name in _sceneNames)
         {
             _isLoaded = name == _sceneName ? true : false;
         }
-        if(!_isLoaded)
+#else
+        _isLoaded = true;
+#endif
+        if (!_isLoaded)
         {
             Debug.LogError("遷移不可能なシーン名が指定されています、BuildSettingsを確認してください");
         }
     }
 }
+
