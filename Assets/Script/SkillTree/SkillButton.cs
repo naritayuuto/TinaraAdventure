@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class SkillButton : MonoBehaviour
 {
-    /// <summary>”z—ñ”Ô†</summary>
-    [SerializeField]
-    int arrayNumber = 0;
-
     SkillTree skilltree = null;
 
     Button button = null;
@@ -16,7 +12,6 @@ public class SkillButton : MonoBehaviour
     ///// <summary>ƒXƒLƒ‹‚ª‰ğ•ú‚³‚ê‚Ä‚¢‚é‚©</summary>
     //bool skillcheck = false;
     //public int Skillnumber { get => skillnumber; set => skillnumber = value; }
-    public int ArrayNumber { get => arrayNumber; set => arrayNumber = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +22,6 @@ public class SkillButton : MonoBehaviour
 
     public void OnCllik()
     {
-        skilltree.SkillPointJudge(skilltree.OpenSkillPoint,arrayNumber,button);
+        skilltree.SkillPointJudge(skilltree.OpenSkillPoint,skilltree._arrayNumber,button);
     }
 }
