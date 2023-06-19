@@ -46,27 +46,36 @@ public class PlayerController : MonoBehaviour//playerに付いているscript全てをpub
         {
             float v = Input.GetAxisRaw("Vertical");
             float h = Input.GetAxisRaw("Horizontal");
-            // 入力方向のベクトル計算
-            Vector3 dir = Vector3.forward * v + Vector3.right * h;
+            MoveState(v, h);
+            // 入力方向のベクトル計算           
+        }
+        else
+        {
+            MoveState(0, 0);
+        }
+    }
 
-            if (dir == Vector3.zero)
-            {
-                // 方向の入力がない時は、y 軸方向の速度を保持
-                _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
-            }
-            else
-            {
-                // カメラを基準にする
-                dir = Camera.main.transform.TransformDirection(dir);
-                dir.y = 0;
+    void MoveState(float v,float h)
+    {
+        Vector3 dir = Vector3.forward * v + Vector3.right * h;
 
-                //移動の処理             
-                Quaternion targetRotation = Quaternion.LookRotation(dir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
-                Vector3 velo = dir.normalized * _moveSpeed;
-                velo.y = _rb.velocity.y;
-                _rb.velocity = velo;
-            }
+        if (dir == Vector3.zero)
+        {
+            // 方向の入力がない時は、y 軸方向の速度を保持
+            _rb.velocity = new Vector3(0f, _rb.velocity.y, 0f);
+        }
+        else
+        {
+            // カメラを基準にする
+            dir = Camera.main.transform.TransformDirection(dir);
+            dir.y = 0;
+
+            //移動の処理             
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _turnSpeed);
+            Vector3 velo = dir.normalized * _moveSpeed;
+            velo.y = _rb.velocity.y;
+            _rb.velocity = velo;
         }
     }
     private void LateUpdate()
