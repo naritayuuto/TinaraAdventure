@@ -38,10 +38,10 @@ public class SkillManager : MonoBehaviour//skill‚ğŠÇ—‚·‚éB–ÚŸ‚Ì‚æ‚¤‚È‚à‚Ì‚Å‰½
             _skillTree.Add(buttons.GetComponent<SkillTree>());
             buttons.GetComponent<SkillTree>().SkillManager = this;
         }
-        _skillActive = new bool[_skillButtons.Count];
-        for (int i = 0; i < _skillButtons.Count; i++)
+        _skillActive = new bool[_skillTree.Count];
+        for (int i = 0; i < _skillTree.Count; i++)
         {
-            _skillButtons[i].ArrayNumber = i;
+            _skillTree[i]._arrayNumber = i;
         }
         //Å‰‚©‚çfalse‚¾‚Æ—v‘f”Ô†‚ªU‚ç‚ê‚È‚¢‚½‚ß
         _skillCanvas.SetActive(false);

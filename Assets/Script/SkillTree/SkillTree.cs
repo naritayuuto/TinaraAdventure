@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+[RequireComponent(typeof(SkillLine))]
 public class SkillTree : MonoBehaviour
 {
     [SerializeField]
@@ -10,7 +11,11 @@ public class SkillTree : MonoBehaviour
     List<SkillTree> _childs = new List<SkillTree>();//自分自身の下に付いている子供たち
 
     SkillManager _skillManager = null;
+    [Tooltip("スキル解放時に半透明にする為に使用")]
+    SkillLine _skillLine = null;
 
+    public int _arrayNumber = 0;
+    
     /// <summary>解放するために必要なポイント</summary>
     [SerializeField]
     int _openSkillPoint = 1;
@@ -27,21 +32,32 @@ public class SkillTree : MonoBehaviour
     private void Awake()
     {
         ChildAdd(this);//親がセットされていたら子供として親のListに追加する。
-        if (_parent != null)
+        if (_parent)
         {
-            if(_parent.Skill != null)
             _openSkillPoint = _parent.OpenSkillPoint + _addPoint;
         }
     }
+    private void Start()
+    {
+        _skillLine = GetComponent<SkillLine>();
+    }
     public void SkillPointJudge(float removeSkillpoint,int arraynumber,Button button)//ポイントが足りているか、skillの配列順番
     {
-        if(_skillManager.SkillPoint >= removeSkillpoint)
+        if (!_parent || SkillManager.SkillActive[_parent._arrayNumber] == true)
         {
-            _skillManager.SkillPoint -= removeSkillpoint;
-            _skillManager.SkillActive[arraynumber] = true;
-            _skillManager.AddSkill(_skill);
-            button.interactable = false;
-            Debug.Log("解放出来ました");
+            if (_skillManager.SkillPoint >= removeSkillpoint)
+            {
+                _skillManager.SkillPoint -= removeSkillpoint;
+                _skillManager.SkillActive[arraynumber] = true;
+                _skillManager.AddSkill(_skill);
+                button.interactable = false;
+                _skillLine.LineNotActive();
+                Debug.Log("解放出来ました");
+            }
+            else
+            {
+                Debug.Log("解放出来ません");
+            }
         }
         else
         {
