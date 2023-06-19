@@ -35,6 +35,7 @@ public class PlayerUseSkill : MonoBehaviour
     PlayerController _player = null;
     private void Start()
     {
+        _player = GameManager.Instance.PlayerController;
         _playerAnim = GameManager.Instance.PlayerAnim;
         _playerAttackParam = GameManager.Instance.PlayerAttackParam;
     }
