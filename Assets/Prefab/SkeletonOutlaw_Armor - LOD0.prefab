@@ -1521,7 +1521,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3663276169636917299
 Transform:
   m_ObjectHideFlags: 0
@@ -1599,11 +1599,11 @@ MonoBehaviour:
   _moveTime: 5
   _changeDis: 5
   _attackDis: 3
+  _coolActionTime: 3
   _xz: 30
   _weaponL: {fileID: 1912190375}
   _weaponR: {fileID: 1380339922}
   _attackMaxNum: 3
-  _coolActionTime: 3
 --- !u!95 &1317020001
 Animator:
   serializedVersion: 4
@@ -3680,11 +3680,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 857635470783613855, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 857635470783613855, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3443311198377476511, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
       propertyPath: m_Pivot.x
@@ -3780,6 +3780,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3443311198377476511, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6800355202883698926, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
+      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6800355202883698926, guid: cde91494da12c1748b1eaf39868fe00c, type: 3}
