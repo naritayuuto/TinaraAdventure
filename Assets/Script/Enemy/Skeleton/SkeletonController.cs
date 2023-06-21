@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class SkeletonController : MonoBehaviour
+public class SkeletonController : MonoBehaviour,IEnemy
 {
     [SerializeField, Tooltip("Enemyの速さ")]
     float _moveSpeed = 3.0f;
@@ -17,7 +17,7 @@ public class SkeletonController : MonoBehaviour
     [SerializeField, Header("プレイヤーに攻撃する距離"), Tooltip("プレイヤーに攻撃する距離")]
     float _attackDis = 2.5f;
     [SerializeField, Header("次の攻撃までの待機時間")]
-    float _coolActionTime = 3f;
+    float _coolActionTime = 1.5f;
     [Header("カウント用"), Tooltip("攻撃用のタイマー")]
     float _timer = 0f;
     [SerializeField, Header("X軸とＺ軸の移動範囲"), Tooltip("EnemyのX軸とＺ軸の移動範囲")]
@@ -49,6 +49,12 @@ public class SkeletonController : MonoBehaviour
     bool _playerFound = false;
     [Tooltip("プレイヤーを攻撃出来る距離の場合true")]
     bool _attack = false;
+    [Tooltip("死んでいたらTrue")]
+    bool _die = false;
+    [Tooltip("動きのパターンのための定数")]
+    const int _one = 1;
+    [Tooltip("動きのパターンのための定数")]
+    const int _two = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -65,62 +71,65 @@ public class SkeletonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _targetpos = _player.transform.position;
-        var distance = Vector3.Distance(transform.position, _targetpos);
-        if (distance >= _playerSensedis)//プレイヤー索敵範囲外
+        if (!_die)
         {
-            _movePattern = 1;
-        }
-        if (distance <= _playerSensedis)//プレイヤー索敵範囲内
-        {
-            _playerFound = true;
-            _movePattern = 2;
-        }
-        if (_attack)
-        {
-            _timer += Time.deltaTime;
-            if (_timer >= _coolActionTime)
+            _targetpos = _player.transform.position;
+            var distance = Vector3.Distance(transform.position, _targetpos);
+            if (distance >= _playerSensedis)//プレイヤー索敵範囲外
             {
-                _anim.SetInteger("AttackPattern", Random.Range(0, _attackMaxNum));
-                _timer = 0;
+                _movePattern = _one;
             }
-            else
+            if (distance <= _playerSensedis)//プレイヤー索敵範囲内
             {
-                _anim.SetInteger("AttackPattern", _attackMaxNum);
+                _playerFound = true;
+                _movePattern = _two;
             }
-        }
-        switch (_movePattern)
-        {
-            case 1:
-                if (_playerFound)//プレイヤーを見失った時、自分が生成された場所へ戻る
+            if (_attack)
+            {
+                _timer += Time.deltaTime;
+                if (_timer >= _coolActionTime)
                 {
-                    _destination = _enemypos;
-                    _agent.SetDestination(_destination);
-                    _playerFound = false;
-                }
-                else if (Vector3.Distance(transform.position, _destination) <= _changeDis)//目的地周辺に来たら
-                {
-                    _moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
-                    if (_moveTime >= _timer)//時間が来たら
-                    {
-                        MovePosition(_enemypos);//生成初期地を中心とした一定範囲の中からランダムで座標計算(動きすぎて変なところに行かないように)
-                        _moveTime = 0;
-                    }
-                }
-                break;
-            case 2:
-                if (Vector3.Distance(transform.position, _targetpos) > _attackDis)//見つけているが攻撃が届かない部分の処理
-                {
-                    _attack = false;
-                    _agent.SetDestination(_targetpos);//目的地を常にプレイヤーに変更
+                    _anim.SetInteger("AttackPattern", Random.Range(0, _attackMaxNum));
+                    _timer = 0;
                 }
                 else
                 {
-                    _attack = true;
-                    //プレイヤーの方向を向く
-                    transform.rotation = Quaternion.LookRotation(_targetpos - transform.position);
+                    _anim.SetInteger("AttackPattern", _attackMaxNum);
                 }
-                break;
+            }
+            switch (_movePattern)
+            {
+                case _one:
+                    if (_playerFound)//プレイヤーを見失った時、自分が生成された場所へ戻る
+                    {
+                        _destination = _enemypos;
+                        _agent.SetDestination(_destination);
+                        _playerFound = false;
+                    }
+                    else if (Vector3.Distance(transform.position, _destination) <= _changeDis)//目的地周辺に来たら
+                    {
+                        _moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
+                        if (_moveTime >= _timer)//時間が来たら
+                        {
+                            MovePosition(_enemypos);//生成初期地を中心とした一定範囲の中からランダムで座標計算(動きすぎて変なところに行かないように)
+                            _moveTime = 0;
+                        }
+                    }
+                    break;
+                case _two:
+                    if (Vector3.Distance(transform.position, _targetpos) > _attackDis)//見つけているが攻撃が届かない部分の処理
+                    {
+                        _attack = false;
+                        _agent.SetDestination(_targetpos);//目的地を常にプレイヤーに変更
+                    }
+                    else
+                    {
+                        _attack = true;
+                        //プレイヤーの方向を向く
+                        transform.rotation = Quaternion.LookRotation(_targetpos - transform.position);
+                    }
+                    break;
+            }
         }
     }
 
@@ -128,10 +137,8 @@ public class SkeletonController : MonoBehaviour
     {
         _enemyPosX = Random.Range(enemyPos.x - _xz, enemyPos.x + _xz);
         _enemyPosZ = Random.Range(enemyPos.z - _xz, enemyPos.z + _xz);
-        if (_enemyPosX > _enemypos.x + _xz ||
-             _enemyPosX < _enemypos.x - _xz &&
-             _enemyPosZ > _enemypos.z + _xz ||
-             _enemyPosZ < _enemypos.z - _xz)
+        if (_enemyPosX > _enemypos.x + _xz || _enemyPosX < _enemypos.x - _xz &&
+            _enemyPosZ > _enemypos.z + _xz || _enemyPosZ < _enemypos.z - _xz)
         {
             MovePosition(enemyPos);//やり直し
         }
@@ -167,5 +174,9 @@ public class SkeletonController : MonoBehaviour
     public void RWeaponNotActive()
     {
         _weaponR.enabled = false;
+    }
+    public void Die()
+    {
+        _die = true;
     }
 }
