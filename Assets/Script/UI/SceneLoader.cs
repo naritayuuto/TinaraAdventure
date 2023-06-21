@@ -10,7 +10,7 @@ using System.IO;
 
 public class SceneLoader : MonoBehaviour
 {
-    [SerializeField,Header("暗転に利用するパネル")]
+    [SerializeField, Header("暗転に利用するパネル")]
     Image _fadePanel = null;
     [SerializeField, Header("暗転する速度"), Tooltip("暗転する速度")]
     float _fadeSpeed = 1f;
@@ -24,12 +24,12 @@ public class SceneLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         _sceneNames = EditorBuildSettings.scenes
                                   .Where(scene => scene.enabled)
                                   .Select(scene => Path.GetFileNameWithoutExtension(scene.path))
                                   .ToList();
-        #endif
+#endif
     }
 
     // Update is called once per frame
@@ -60,12 +60,20 @@ public class SceneLoader : MonoBehaviour
             _isLoaded = name == _sceneName ? true : false;
         }
 #else
-        _isLoaded = true;
+                _isLoaded = true;
 #endif
         if (!_isLoaded)
         {
             Debug.LogError("遷移不可能なシーン名が指定されています、BuildSettingsを確認してください");
         }
+        _isLoaded = true;
+    }
+
+    public void TitleLoad()
+    {
+        SceneManager.LoadScene("TitleScene");
+        _isLoaded = false;
+        Debug.Log("パネルなし、遷移完了");
     }
 }
 
