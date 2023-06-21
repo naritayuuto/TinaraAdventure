@@ -20,5 +20,6 @@ public class Heal : ISkill
         {
             GameManager.Instance.PlayerHp.PlayerDamageHp += recoveryAmount;
         }
+        GameManager.Instance.PlayerHp.HpSlider.value = GameManager.Instance.PlayerHp.PlayerDamageHp / GameManager.Instance.PlayerHp.PlayerMaxHp;
     }
 }
