@@ -6,9 +6,11 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     static GameManager _instance = default;
-
     public static GameManager Instance { get => _instance;}
-
+    [SerializeField, Tooltip("リザルトキャンバス")]
+    GameObject _canvas = null;
+    [SerializeField, Tooltip("ゲーム終了時にかけるフェードアウトアニメーション")]
+    Animator _anim = null;
     [SerializeField, Header("スキルマネージャー")]
     SkillManager _skillManager = null;
 
@@ -30,20 +32,22 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        _instance = this;
         _player = GameObject.FindGameObjectWithTag("Player");
         _playerController = _player.GetComponent<PlayerController>();
         _playerAnim = _player.GetComponent<PlayerAnim>();
         _playerAttackParam = _player.GetComponent<PlayerAttackParam>();
         _playerHp = _player.GetComponent<PlayerHp>();
         _playerUseSkill = _player.GetComponent<PlayerUseSkill>();
+    }
+
+    public void FadeOUT()
+    {
+        _anim.enabled = true;
+        _anim.Play("Panel");
+    }
+    public void Clear()
+    {
+        _canvas.SetActive(true);
     }
 }
