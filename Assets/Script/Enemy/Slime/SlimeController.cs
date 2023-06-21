@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SlimeController : MonoBehaviour
+public class SlimeController : MonoBehaviour,IEnemy
 {
     [SerializeField, Tooltip("Enemyの速さ")]
     float _moveSpeed = 3.0f;
@@ -42,7 +42,7 @@ public class SlimeController : MonoBehaviour
     GameObject _player = null;
     [SerializeField,Header("攻撃判定用collider")]
     Collider _collider = null;
-
+    bool _die = false;
 
     // Start is called before the first frame update
     void Start()
@@ -57,51 +57,54 @@ public class SlimeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_playerFound)
+        if (!_die)
         {
-            _targetpos = _player.transform.position;
-            _movePattern = 2;
-        }
-        else
-        {
-            _movePattern = 1;
-        }
-        if (_attack)
-        {
-            _timer += Time.deltaTime;
-            if (_timer >= _coolActionTime)
+            if (_playerFound)
             {
-                _anim.SetInteger("AttackPattern", Random.Range(0, _attackMaxNum));
-                _timer = 0;
+                _targetpos = _player.transform.position;
+                _movePattern = 2;
             }
-        }
-        switch (_movePattern)
-        {
-            case 1:
-                if (Vector3.Distance(transform.position, _destination) <= _changeDis)//目的地周辺に来たら
+            else
+            {
+                _movePattern = 1;
+            }
+            if (_attack)
+            {
+                _timer += Time.deltaTime;
+                if (_timer >= _coolActionTime)
                 {
-                    _moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
-                    if (_moveTime >= _timer)//時間が来たら
+                    _anim.SetInteger("AttackPattern", Random.Range(0, _attackMaxNum));
+                    _timer = 0;
+                }
+            }
+            switch (_movePattern)
+            {
+                case 1:
+                    if (Vector3.Distance(transform.position, _destination) <= _changeDis)//目的地周辺に来たら
                     {
-                        MovePosition(_enemypos);//生成初期地を中心とした一定範囲の中からランダムで座標計算
-                        _moveTime = 0;
+                        _moveTime += Time.deltaTime;//立ち止まる時間を作りたいため
+                        if (_moveTime >= _timer)//時間が来たら
+                        {
+                            MovePosition(_enemypos);//生成初期地を中心とした一定範囲の中からランダムで座標計算
+                            _moveTime = 0;
+                        }
                     }
-                }
-                break;
-            case 2:
-                if (Vector3.Distance(transform.position, _targetpos) > _attackDis)//見つけているが攻撃が届かない部分の処理
-                {
-                    _attack = false;
-                    _agent.SetDestination(_targetpos);//目的地を常にプレイヤーに変更
-                }
-                else
-                {
-                    _attack = true;
-                    _agent.SetDestination(transform.position);
-                    //プレイヤーの方向を向く
-                    transform.rotation = Quaternion.LookRotation(_targetpos - transform.position);
-                }
-                break;
+                    break;
+                case 2:
+                    if (Vector3.Distance(transform.position, _targetpos) > _attackDis)//見つけているが攻撃が届かない部分の処理
+                    {
+                        _attack = false;
+                        _agent.SetDestination(_targetpos);//目的地を常にプレイヤーに変更
+                    }
+                    else
+                    {
+                        _attack = true;
+                        _agent.SetDestination(transform.position);
+                        //プレイヤーの方向を向く
+                        transform.rotation = Quaternion.LookRotation(_targetpos - transform.position);
+                    }
+                    break;
+            }
         }
     }
     private void LateUpdate()
@@ -131,5 +134,10 @@ public class SlimeController : MonoBehaviour
     public void ColliderActive()
     {
         _collider.enabled = true;
+    }
+
+    public void Die()
+    {
+        _die = true;
     }
 }
