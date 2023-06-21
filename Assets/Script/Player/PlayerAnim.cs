@@ -86,7 +86,11 @@ public class PlayerAnim : MonoBehaviour
     {
         _anim.Play("Damage");
     }
-
+    
+    public void Die()
+    {
+        _anim.Play("Die");
+    }
     /// <summary>
     /// 
     /// </summary>
